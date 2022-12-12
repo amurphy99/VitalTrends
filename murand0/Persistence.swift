@@ -13,6 +13,7 @@ struct PersistenceController {
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
+        
         for _ in 0..<10 {
             let newItem = Item(context: viewContext)
             newItem.timestamp = Date()
@@ -25,6 +26,104 @@ struct PersistenceController {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
+        
+        
+        
+        // my data test
+        // -------------
+        let newEvent0 = UserEvent(context: viewContext)
+        newEvent0.timestamp = Date()
+        newEvent0.type      = "Supplement"
+        newEvent0.name      = "Caffiene"
+        newEvent0.quantity  = 200
+        newEvent0.units     = "mg"
+        
+        let newEvent1 = UserEvent(context: viewContext)
+        newEvent1.timestamp = Date()
+        newEvent1.type      = "Supplement"
+        newEvent1.name      = "L-Tyrosine"
+        newEvent1.quantity  = 750
+        newEvent1.units     = "mg"
+        
+        let newEvent2 = UserEvent(context: viewContext)
+        newEvent2.timestamp = Date()
+        newEvent2.type      = "Supplement"
+        newEvent2.name      = "Phenibut"
+        newEvent2.quantity  = 600
+        newEvent2.units     = "mg"
+        
+        let newEvent3 = UserEvent(context: viewContext)
+        newEvent3.timestamp = Date()
+        newEvent3.type      = "Prescription"
+        newEvent3.name      = "Methylphenidate"
+        newEvent3.quantity  = 54
+        newEvent3.units     = "mg"
+        
+        
+        do { try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+        // end of my testing
+        
+        
+        // Creating Sample Presets
+        // ------------------------
+        
+        // entries
+        let entry0 = PresetEntry(context: viewContext)
+        entry0.type     = "Supplement"
+        entry0.name     = "Caffiene"
+        entry0.quantity = 200
+        entry0.units    = "mg"
+        
+        let entry1 = PresetEntry(context: viewContext)
+        entry1.type     = "Supplement"
+        entry1.name     = "L-Tyrosine"
+        entry1.quantity = 750
+        entry1.units    = "mg"
+        
+        let entry2 = PresetEntry(context: viewContext)
+        entry2.type     = "Supplement"
+        entry2.name     = "Phenibut"
+        entry2.quantity = 600
+        entry2.units    = "mg"
+        
+        let entry3 = PresetEntry(context: viewContext)
+        entry3.type     = "Prescription"
+        entry3.name     = "Methylphenidate"
+        entry3.quantity = 54
+        entry3.units    = "mg"
+        
+        // presets
+        let morning = PresetEvent(context: viewContext)
+        morning.name = "morning pills"
+        morning.addToEntries(entry0)
+        morning.addToEntries(entry1)
+        morning.addToEntries(entry2)
+        morning.addToEntries(entry3)
+        
+        let redose0 = PresetEvent(context: viewContext)
+        redose0.name = "phenibut redose - no caffiene"
+        redose0.addToEntries(entry1)
+        redose0.addToEntries(entry2)
+        
+        let redose1 = PresetEvent(context: viewContext)
+        redose1.name = "phenibut redose - with caffiene"
+        redose1.addToEntries(entry0)
+        redose1.addToEntries(entry1)
+        redose1.addToEntries(entry2)
+        
+        
+        do { try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+        // end of sample presets
+        
+        
         return result
     }()
 

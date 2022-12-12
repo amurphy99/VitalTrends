@@ -16,30 +16,50 @@ struct ContentView: View {
         animation: .default)
     private var items: FetchedResults<Item>
 
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \UserEvent.timestamp, ascending: true)],
+        animation: .default)
+    private var user_events: FetchedResults<UserEvent>
+    
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
+        
+        GeometryReader { geo in
+            VStack {
+
+                // Default View
+                // -------------
+                NavigationView {
+                    List {
+                        ForEach(items) { item in
+                            NavigationLink {
+                                Text("Item at \(item.timestamp!, formatter: itemFormatter)")
+                            } label: {
+                                Text(item.timestamp!, formatter: itemFormatter)
+                            }
+                        }
+                        .onDelete(perform: deleteItems)
                     }
-                }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            EditButton()
+                        }
+                        ToolbarItem {
+                            Button(action: addItem) {
+                                Label("Add Item", systemImage: "plus")
+                            }
+                        }
                     }
+                    Text("Select an item")
                 }
+                
+                
+                // end parent VStack
             }
-            Text("Select an item")
+            // end parent geo
         }
+
+        
+        
     }
 
     private func addItem() {
@@ -77,9 +97,31 @@ struct ContentView: View {
 private let itemFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateStyle = .short
-    formatter.timeStyle = .medium
+    formatter.timeStyle = .short
     return formatter
 }()
+
+
+// my custom formatters
+// ---------------------
+private let myNumberFormatter: Formatter = {
+    let formatter = NumberFormatter()
+    formatter.maximumFractionDigits = 2
+    formatter.minimumFractionDigits = 0
+    //formatter.currencyCode = "USD"
+    //formatter.numberStyle = .currency
+    return formatter
+}()
+
+private let myDateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .short
+    //formatter.timeStyle = .none
+    formatter.timeStyle = .short
+    return formatter
+}()
+
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
