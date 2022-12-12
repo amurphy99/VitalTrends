@@ -46,28 +46,31 @@ struct AddUserEventView: View {
                 // ------------------
                 VStack{
                     // Date
+                    // -----
                     DatePicker("Event Date", selection: $date, displayedComponents: [.date, .hourAndMinute])
                     
                     // Select Event Type
+                    // ------------------
                     Picker("Select Event Type", selection: $selectedEvent) {
-                        Text("Single Event" ).tag(0)
-                        Text("Preset Event" ).tag(1)
-                        Text("Text Event"   ).tag(2)
+                        Text("Single Entry" ).tag(0)
+                        Text("Preset Entry" ).tag(1)
+                        Text("Text Entry"   ).tag(2)
                     }
                     .pickerStyle(.segmented)
                     
+                    
                     // Display form for selected type
+                    // -------------------------------
                     VStack {
                         Text("(\(selectedEvent))  ").frame(width: geo.size.width * 0.9, alignment: .trailing)
-                        
                         
                         
                         // Single Event Form
                         // ------------------
                         if selectedEvent == 0 {
-                            
+                    
                             VStack(spacing: 10) {
-                                Text("Single Event Form:").frame(width: geo.size.width * 0.8, alignment: .leading)
+                                Text("Single Entry Form:").frame(width: geo.size.width * 0.8, alignment: .leading)
                                 Divider().frame(width: geo.size.width * 0.8)
                                 
                                 VStack(alignment: .center) {
@@ -92,7 +95,7 @@ struct AddUserEventView: View {
                                     // Quantity
                                     HStack(spacing: 0) {
                                         Text("Quantity:").frame(width: geo.size.width * 0.20, alignment: .leading)
-                                        TextField("Quantity", text: $new_name)
+                                        TextField("Quantity", value: $new_quantity, format: .number)
                                             .frame(width: geo.size.width * 0.6, alignment: .leading)
                                             .padding(2)
                                             .border(Color.gray, width: 1)
@@ -107,14 +110,8 @@ struct AddUserEventView: View {
                                             .border(Color.gray, width: 1)
                                     }
                                     .frame(width: geo.size.width * 0.9)
-        
-                                    
                                 }
-                                
-    
-                                
                             }
-
                         }
                         
                         
@@ -137,14 +134,50 @@ struct AddUserEventView: View {
                         // Text Event Form
                         // ----------------
                         else if selectedEvent == 2 {
-                            Text("Text Event Form")
+                            Text("Text Entry Form")
                         }
                         
-                     
+                        
                     }
                     .frame(width: geo.size.width * 0.9)
                     .padding(.vertical, 10)
                     .background(.yellow)
+                    
+                    
+                    // Submit Button
+                    // --------------
+                    Button("Save Entry") {
+                        // use the selectedEvent variable to know what form info to use
+                        if selectedEvent == 0 {
+                            //create and save event
+                            let newEvent = UserEvent(context: viewContext)
+                            newEvent.timestamp = date
+                            newEvent.type      = new_type
+                            newEvent.name      = new_name
+                            newEvent.quantity  = new_quantity
+                            newEvent.units     = new_units
+                            
+                            do { try viewContext.save()
+                            } catch {
+                                let nsError = error as NSError
+                                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                            }
+                            // reset form data
+                            date            = Date()
+                            new_type        = ""
+                            new_name        = ""
+                            new_quantity    = 0
+                            new_units       = ""
+                            
+                        }
+                        
+                        
+                    }
+                        .padding(5)
+                        .frame(width: geo.size.width * 0.9)
+                        .background(.cyan)
+                        .foregroundColor(.white)
+                    
                     
                 }
                 .frame(width: geo.size.width * 0.9)

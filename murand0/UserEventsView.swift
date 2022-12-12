@@ -12,15 +12,15 @@ import CoreData
 struct UserEventsView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)], animation: .default)
     private var items: FetchedResults<Item>
 
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \UserEvent.timestamp, ascending: true)],
-        animation: .default)
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \UserEvent.timestamp, ascending: true)], animation: .default)
     private var user_events: FetchedResults<UserEvent>
+    
+    // other stuff
+    @State private var showAddEventForm = false
+    
     
     var body: some View {
         
@@ -82,13 +82,20 @@ struct UserEventsView: View {
                     
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) { EditButton() }
-                        ToolbarItem{Button(action: addItem) { Label("Add Item", systemImage: "plus") }}
+                        ToolbarItem{
+                            Button(action: { showAddEventForm = true }) { Label("Add Item", systemImage: "plus") }}
                     }
                     Text("Select an item")
                 }
                 
                 
             // end parent VStack
+            }
+            .sheet(isPresented: $showAddEventForm) {
+                NavigationView {
+                    AddUserEventView()
+                        .toolbar{ ToolbarItem(placement: .confirmationAction) { Button("Close") { showAddEventForm = false } } }
+                }
             }
         // end parent geo
         }
@@ -97,6 +104,7 @@ struct UserEventsView: View {
         
     }
 
+    
     private func addItem() {
         withAnimation {
             let newEvent3 = UserEvent(context: viewContext)
