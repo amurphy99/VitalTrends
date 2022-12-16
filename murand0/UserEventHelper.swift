@@ -12,7 +12,6 @@ import SwiftUI
 
 
 
-
 /*
  
  receive list of events

@@ -163,7 +163,8 @@ struct UserEventsView: View {
                     header: {
                         VStack(spacing: 3) {
                             // Date
-                            Text(Calendar.current.date(from: key)!, formatter: myDateComponentsFormatter).bold()
+                            //Text(Calendar.current.date(from: key)!, formatter: myDateComponentsFormatter).bold()
+                            header_display_date(given_components: key)
                                 .frame(width: geo.size.width * 0.8, alignment: .leading)
                             // Column Headers
                             HStack(alignment: .center) {
@@ -209,7 +210,23 @@ struct UserEventsView: View {
         
     }
 
-    
+    // header date numbers+text
+    func header_display_date(given_components: DateComponents) -> some View {
+        let header_date: Date = Calendar.current.date(from: given_components)!
+        
+        let dateFormatterPrint = DateFormatter()
+        //dateFormatterPrint.dateFormat = "MMM dd,yyyy"
+        //dateFormatterPrint.dateFormat = "EEEE, MMM dd"
+        dateFormatterPrint.dateFormat = "E MMM dd"
+        
+        let simple_date: String = myDateComponentsFormatter.string(for: header_date)!
+        
+        let text_date: String = dateFormatterPrint.string(from: header_date)
+        
+        return Text("\(simple_date) - \(text_date)")
+        
+        
+    }
     
     
     
