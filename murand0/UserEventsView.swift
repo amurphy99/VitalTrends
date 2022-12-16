@@ -12,10 +12,10 @@ import CoreData
 struct UserEventsView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)], animation: .default)
-    private var items: FetchedResults<Item>
-
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \UserEvent.timestamp, ascending: true)], animation: .default)
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \UserEvent.timestamp, ascending: true)],
+        animation: .default
+    )
     private var user_events: FetchedResults<UserEvent>
     
     // other stuff
@@ -26,84 +26,38 @@ struct UserEventsView: View {
         
         GeometryReader { geo in
             VStack {
-                // timestamp, type, name, quantity, units
+                
+                Text("User Events").font(.title)
                 Spacer().frame(height: 20)
                 
-                // Headers
-                // --------
-                HStack(alignment: .center) {
-                    Text("Date"     ).bold().frame(width: geo.size.width * 0.3, alignment: .leading)
-                    Text("Name"     ).bold().frame(width: geo.size.width * 0.3, alignment: .leading)
-                    Text("Quantity" ).bold().frame(width: geo.size.width * 0.2, alignment: .leading)
-                }
-                .font(.system(size: 14))
-                
-                
-                // Event List
-                // -------------
-                NavigationView {
-                    
-                    VStack {
-                        Text("User Events").font(.title2)
-                        
-                        // would be better to sort by timestamp and separate by day
-                        List {
-                            // Content
-                            // --------
-                            ForEach(user_events) { user_event in
-                                NavigationLink {
-                                    // new page that you are sent to, with edit button perhaps?
-                                    // something generated elswhere with a function
-                                    Text("Item at \(user_event.timestamp!, formatter: myDateFormatter)")
-                                    
-                                } label: {
-                                    // Label = Event Row
-                                    HStack(alignment: .center) {
-                                        // Date
-                                        Text(user_event.timestamp!, formatter: myDateFormatter)
-                                            .frame(width: geo.size.width * 0.3, alignment: .leading)
-                                        // Name
-                                        Text(user_event.name!)
-                                            .frame(width: geo.size.width * 0.3, alignment: .leading)
-                                        // Quantity
-                                        Text("\(myNumberFormatter.string(for: user_event.quantity)!) \(user_event.units!)")
-                                            .frame(width: geo.size.width * 0.15, alignment: .leading)
-                                    }
-                                    .font(.system(size: 12))
-                                }
-                            }
-                            .onDelete(perform: deleteItems)
-                        
-                        // end List
-                        }
-                    }
-                    
 
-                    
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarTrailing) { EditButton() }
-                        ToolbarItem{
-                            Button(action: { showAddEventForm = true }) { Label("Add Item", systemImage: "plus") }}
-                    }
-                    Text("Select an item")
+                // Yolo
+                // -----
+                NavigationView {
+                    display_events_by_day(results: user_events)
+                        .toolbar {
+                            ToolbarItem(placement: .navigationBarTrailing) { EditButton() }
+                            ToolbarItem{Button(action: { showAddEventForm = true }) { Label("Add Item", systemImage: "plus") }}
+                        }
                 }
                 
                 
+        
             // end parent VStack
             }
             .sheet(isPresented: $showAddEventForm) {
                 NavigationView {
-                    AddUserEventView()
+                    AddUserEventView().environment(\.managedObjectContext, viewContext)
                         .toolbar{ ToolbarItem(placement: .confirmationAction) { Button("Close") { showAddEventForm = false } } }
                 }
             }
         // end parent geo
         }
 
-        
-        
     }
 
+    
+    
     
     private func addItem() {
         withAnimation {
@@ -125,7 +79,7 @@ struct UserEventsView: View {
 
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
+            offsets.map { user_events[$0] }.forEach(viewContext.delete)
 
             do {
                 try viewContext.save()
@@ -137,6 +91,143 @@ struct UserEventsView: View {
             }
         }
     }
+    
+    
+    
+    // Testing Functions
+    // ------------------
+    
+    // getting dictionary
+    func get_events_by_day(results: FetchedResults<UserEvent>) -> [DateComponents : [UserEvent]] {
+        // if this day in event days, append to that entry; else, create that entry for that day
+
+        // create return dictionary
+        var events_by_day: [DateComponents : [UserEvent]] = [:]
+        
+        for val in results {
+            // get the date components up to the day only
+            let event_calendar_date = Calendar.current.dateComponents([.day, .year, .month], from: val.timestamp!)
+            
+            // add to the dictionary, create a new key for a day if it is not already in
+            if events_by_day.contains(where: { $0.key == event_calendar_date }) {
+                events_by_day[event_calendar_date]!.append(val)}
+            else { events_by_day[event_calendar_date] = [val] }
+        }
+        return events_by_day
+    }
+    
+    // creating view
+    func display_events_by_day(results: FetchedResults<UserEvent>) -> some View {
+        // get the dict from other function
+        let day_events_dict: [DateComponents : [UserEvent]] = get_events_by_day(results: results)
+        let days: [DateComponents] = Array(day_events_dict.keys)
+        
+        return GeometryReader { geo in
+            List {
+                // for each day in the dictionary
+                ForEach(days, id: \.self) { key in
+                    Section {
+                        // show the entries
+                        ForEach(day_events_dict[key]!) { user_event in
+                            NavigationLink {
+                                
+                                // new page that you are sent to, with edit button perhaps?
+                                // something generated elswhere with a function
+                                //
+                                Text("Item at \(user_event.timestamp!, formatter: myDateFormatter)")
+                                //
+                                // make the view for this, include edits for all fields?
+                                // also add a new text description field to each
+                                // in the list form, show a * for the ones with a decription entered
+                                //
+                                
+                            } label: {
+                                // Label = Event Row
+                                // ------------------
+                                HStack(alignment: .center) {
+                                    // Date
+                                    display_date(given_date: user_event.timestamp!).frame(width: geo.size.width * 0.3, alignment: .leading)
+                                    // Name
+                                    Text(user_event.name!).frame(width: geo.size.width * 0.3, alignment: .leading)
+                                    // Quantity
+                                    Text("\(myNumberFormatter.string(for: user_event.quantity)!) \(user_event.units!)")
+                                        .frame(width: geo.size.width * 0.15, alignment: .leading)
+                                }
+                                .font(.system(size: 12))
+                            }
+                        }
+                        .onDelete(perform: deleteItems)
+                    }
+                    // HEADER
+                    // -------
+                    header: {
+                        VStack(spacing: 3) {
+                            // Date
+                            Text(Calendar.current.date(from: key)!, formatter: myDateComponentsFormatter).bold()
+                                .frame(width: geo.size.width * 0.8, alignment: .leading)
+                            // Column Headers
+                            HStack(alignment: .center) {
+                                Text("Date"     ).frame(width: geo.size.width * 0.3, alignment: .leading)
+                                Text("Name"     ).frame(width: geo.size.width * 0.3, alignment: .leading)
+                                Text("Quantity" ).frame(width: geo.size.width * 0.2, alignment: .leading)
+                            }.font(.system(size: 12))
+                                .frame(width: geo.size.width * 0.8, alignment: .leading)
+                            // Divider Line
+                            Divider().frame(width: geo.size.width * 0.8, alignment: .leading)
+                        }
+                    }
+                    // FOOTER
+                    // -------
+                    footer: { Text("\(day_events_dict[key]!.count) items") }
+                }
+            }
+        }
+    }
+    
+    // func for date column
+    func display_date(given_date: Date)-> some View {
+        let test1 = myDateFormatter.string(for: given_date) ?? "no date"
+        
+        let interval: TimeInterval = given_date.timeIntervalSinceNow
+        //let test2 = myIntervalFormatter.string(for: interval) ?? "no interval"
+        //let test2 = interval.formatted()
+        
+        var test3: String = ""
+        // /60 = seconds, /60 = hours, /24 = days
+        let time_interval = interval as Double
+        let days  = time_interval / (60*60*24)
+        let hours = time_interval / (60*60)
+        let minutes = time_interval / (60)
+        
+        if      time_interval < -(60*60*24) { test3 = "\(myIntervalFormatter.string(for: -days)!)d ago"}
+        else if time_interval < -(60*60)    { test3 = "\(myIntervalFormatter.string(for: -hours)! )h ago" }
+        else if time_interval < -60         { test3 = "\(myIntervalFormatter.string(for: -minutes)! )m ago" }
+        else if time_interval > -5          { test3 = "just now" }
+        else                                { test3 = "\(myIntervalFormatter.string(for: -time_interval)! )s ago" }
+        
+        return Text("\(test1), \(test3)")
+        
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 private let itemFormatter: DateFormatter = {
@@ -160,9 +251,25 @@ private let myNumberFormatter: Formatter = {
 
 private let myDateFormatter: DateFormatter = {
     let formatter = DateFormatter()
+    formatter.dateStyle = .none
+    formatter.timeStyle = .short
+    return formatter
+}()
+
+private let myIntervalFormatter: Formatter = {
+    let formatter = NumberFormatter()
+    formatter.maximumFractionDigits = 0
+    formatter.minimumFractionDigits = 0
+    //formatter.currencyCode = "USD"
+    //formatter.numberStyle = .currency
+    return formatter
+}()
+
+private let myDateComponentsFormatter: DateFormatter = {
+    let formatter = DateFormatter()
     formatter.dateStyle = .short
     //formatter.timeStyle = .none
-    formatter.timeStyle = .short
+    //formatter.timeStyle = .short
     return formatter
 }()
 

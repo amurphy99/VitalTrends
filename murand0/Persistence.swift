@@ -31,33 +31,67 @@ struct PersistenceController {
         
         // my data test
         // -------------
+        let sample_date0: Date = Date()
+        
         let newEvent0 = UserEvent(context: viewContext)
-        newEvent0.timestamp = Date()
+        newEvent0.timestamp = sample_date0
         newEvent0.type      = "Supplement"
         newEvent0.name      = "Caffiene"
         newEvent0.quantity  = 200
         newEvent0.units     = "mg"
         
         let newEvent1 = UserEvent(context: viewContext)
-        newEvent1.timestamp = Date()
+        newEvent1.timestamp = sample_date0
         newEvent1.type      = "Supplement"
         newEvent1.name      = "L-Tyrosine"
         newEvent1.quantity  = 750
         newEvent1.units     = "mg"
         
         let newEvent2 = UserEvent(context: viewContext)
-        newEvent2.timestamp = Date()
+        newEvent2.timestamp = sample_date0
         newEvent2.type      = "Supplement"
         newEvent2.name      = "Phenibut"
         newEvent2.quantity  = 600
         newEvent2.units     = "mg"
         
         let newEvent3 = UserEvent(context: viewContext)
-        newEvent3.timestamp = Date()
+        newEvent3.timestamp = sample_date0
         newEvent3.type      = "Prescription"
         newEvent3.name      = "Methylphenidate"
         newEvent3.quantity  = 54
         newEvent3.units     = "mg"
+        
+        // earlier day
+        // ------------
+        let sample_date1: Date = Calendar.current.date(byAdding: .day, value: -1, to: sample_date0)!
+        
+        let newEvent4 = UserEvent(context: viewContext)
+        newEvent4.timestamp = sample_date1
+        newEvent4.type      = "Supplement"
+        newEvent4.name      = "Caffiene"
+        newEvent4.quantity  = 200
+        newEvent4.units     = "mg"
+        
+        let newEvent5 = UserEvent(context: viewContext)
+        newEvent5.timestamp = sample_date1
+        newEvent5.type      = "Supplement"
+        newEvent5.name      = "L-Tyrosine"
+        newEvent5.quantity  = 750
+        newEvent5.units     = "mg"
+        
+        let newEvent6 = UserEvent(context: viewContext)
+        newEvent6.timestamp = sample_date1
+        newEvent6.type      = "Supplement"
+        newEvent6.name      = "Phenibut"
+        newEvent6.quantity  = 600
+        newEvent6.units     = "mg"
+        
+        let newEvent7 = UserEvent(context: viewContext)
+        newEvent7.timestamp = sample_date1
+        newEvent7.type      = "Prescription"
+        newEvent7.name      = "Methylphenidate"
+        newEvent7.quantity  = 54
+        newEvent7.units     = "mg"
         
         
         do { try viewContext.save()
