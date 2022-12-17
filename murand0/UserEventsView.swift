@@ -19,14 +19,15 @@ struct UserEventsView: View {
     private var user_events: FetchedResults<UserEvent>
     
     // other stuff
-    @State private var showAddEventForm = false
+    @State var showAddEventForm = false
     
     
     var body: some View {
         
         GeometryReader { geo in
             VStack {
-                
+                // Title
+                // -------
                 Text("User Events").font(.title)
                 Spacer().frame(height: 20)
                 
@@ -40,28 +41,24 @@ struct UserEventsView: View {
                             ToolbarItem{Button(action: { showAddEventForm = true }) { Label("Add Item", systemImage: "plus") }}
                         }
                 }
-                
-                
         
+                
             // end parent VStack
             }
-            .sheet(isPresented: $showAddEventForm) {
-                NavigationView {
-                    AddUserEventView().environment(\.managedObjectContext, viewContext)
-                        .toolbar {
-                            ToolbarItem(placement: .confirmationAction) {
-                                Button(action: { self.showAddEventForm.toggle() }, label: { Text("Close") } )
-                            }
-                        }
-                    
-                }
-
-            }
-
-            
         // end parent geo
         }
+        .sheet(isPresented: $showAddEventForm) {
+            NavigationView {
+                AddUserEventView().environment(\.managedObjectContext, viewContext)
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button(action: { self.showAddEventForm.toggle() }, label: {  Label("Close", systemImage: "plus") } )
+                        }
+                    }
+                
+            }
 
+        }
     }
 
     
