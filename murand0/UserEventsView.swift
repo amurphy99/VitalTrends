@@ -48,9 +48,17 @@ struct UserEventsView: View {
             .sheet(isPresented: $showAddEventForm) {
                 NavigationView {
                     AddUserEventView().environment(\.managedObjectContext, viewContext)
-                        .toolbar{ ToolbarItem(placement: .confirmationAction) { Button("Close") { showAddEventForm = false } } }
+                        .toolbar {
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button(action: { self.showAddEventForm.toggle() }, label: { Text("Close") } )
+                            }
+                        }
+                    
                 }
+
             }
+
+            
         // end parent geo
         }
 
