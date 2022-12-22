@@ -21,6 +21,7 @@ struct UserEventsView: View {
     // other stuff
     @State var showAddEventForm = false
     
+    //@State var view: any View = AddUserEventView()
     
     var body: some View {
         
@@ -31,34 +32,30 @@ struct UserEventsView: View {
                 Text("User Events").font(.title)
                 Spacer().frame(height: 20)
                 
+                Text("\(showAddEventForm.description)")
+                
 
                 // Yolo
                 // -----
-                NavigationView {
-                    display_events_by_day(results: user_events)
-                        .toolbar {
-                            ToolbarItem(placement: .navigationBarTrailing) { EditButton() }
-                            ToolbarItem{Button(action: { showAddEventForm = true }) { Label("Add Item", systemImage: "plus") }}
-                        }
+                NavigationView { display_events_by_day(results: user_events)
+                    .toolbar {  ToolbarItem(placement: .navigationBarTrailing) { EditButton() }
+                                ToolbarItem{Button(action: { showAddEventForm = true }) { Label("Add Item", systemImage: "plus") }}
+                    }
                 }
         
-                
             // end parent VStack
             }
+            //Button(action: { self.showAddEventForm.toggle() }, label: {  Label("Close", systemImage: "chevron.down") } ) } }
+            .sheet(isPresented: $showAddEventForm, onDismiss: { showAddEventForm = false }) {
+                NavigationView { AddUserEventView()//.environment(\.managedObjectContext, viewContext)
+                        .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { showAddEventForm = false } } }
+                }
+            }
+            
         // end parent geo
         }
-        .sheet(isPresented: $showAddEventForm) {
-            NavigationView {
-                AddUserEventView().environment(\.managedObjectContext, viewContext)
-                    .toolbar {
-                        ToolbarItem(placement: .confirmationAction) {
-                            Button(action: { self.showAddEventForm.toggle() }, label: {  Label("Close", systemImage: "plus") } )
-                        }
-                    }
-                
-            }
 
-        }
+    // end View body
     }
 
     
@@ -128,66 +125,62 @@ struct UserEventsView: View {
         let days: [DateComponents] = Array(day_events_dict.keys)
         
         return GeometryReader { geo in
-            List {
-                // for each day in the dictionary
-                ForEach(days, id: \.self) { key in
-                    Section {
-                        // show the entries
-                        ForEach(day_events_dict[key]!) { user_event in
-                            NavigationLink {
-                                
-                                // new page that you are sent to, with edit button perhaps?
-                                // something generated elswhere with a function
-                                //
-                                Text("Item at \(user_event.timestamp!, formatter: myDateFormatter)")
-                                //
-                                // make the view for this, include edits for all fields?
-                                // also add a new text description field to each
-                                // in the list form, show a * for the ones with a decription entered
-                                //
-                                
-                            } label: {
-                                // Label = Event Row
-                                // ------------------
-                                HStack(alignment: .center) {
-                                    // Date
-                                    display_date(given_date: user_event.timestamp!).frame(width: geo.size.width * 0.3, alignment: .leading)
-                                    // Name
-                                    Text(user_event.name!).frame(width: geo.size.width * 0.3, alignment: .leading)
-                                    // Quantity
-                                    Text("\(myNumberFormatter.string(for: user_event.quantity)!) \(user_event.units!)")
-                                        .frame(width: geo.size.width * 0.15, alignment: .leading)
+            ScrollView {
+                LazyVStack {
+                    List {
+                        // for each day in the dictionary
+                        ForEach(days, id: \.self) { key in
+                            Section {
+                                // show the entries
+                                ForEach(day_events_dict[key]!) { user_event in
+                                    NavigationLink {
+                                        // new page that you are sent to, with edit button perhaps?
+                                        Text("Item at \(user_event.timestamp!, formatter: myDateFormatter)")
+                                        // include edits for all fields? also add a new text description field to each
+                                        // in the list form, show a * for the ones with a decription entered
+                                    } label: {
+                                        // Label = Event Row
+                                        // ------------------
+                                        HStack(alignment: .center) {
+                                            // Date
+                                            display_date(given_date: user_event.timestamp!).frame(width: geo.size.width * 0.3, alignment: .leading)
+                                            // Name
+                                            Text(user_event.name!).frame(width: geo.size.width * 0.3, alignment: .leading)
+                                            // Quantity
+                                            Text("\(myNumberFormatter.string(for: user_event.quantity)!) \(user_event.units!)")
+                                                .frame(width: geo.size.width * 0.15, alignment: .leading)
+                                        }
+                                        .font(.system(size: 12))
+                                    }
                                 }
-                                .font(.system(size: 12))
+                                .onDelete(perform: deleteItems)
                             }
+                            // HEADER
+                            // -------
+                            header: { VStack(spacing: 3) {
+                                    // Date
+                                    header_display_date(given_components: key)
+                                        .frame(width: geo.size.width * 0.8, alignment: .leading)
+                                    // Column Headers
+                                    HStack(alignment: .center) {
+                                        Text("Date"     ).frame(width: geo.size.width * 0.3, alignment: .leading)
+                                        Text("Name"     ).frame(width: geo.size.width * 0.3, alignment: .leading)
+                                        Text("Quantity" ).frame(width: geo.size.width * 0.2, alignment: .leading)
+                                    }.font(.system(size: 12))
+                                        .frame(width: geo.size.width * 0.8, alignment: .leading)
+                                    // Divider Line
+                                    Divider().frame(width: geo.size.width * 0.8, alignment: .leading)
+                                }
+                            }
+                            // FOOTER
+                            // -------
+                            footer: { Text("\(day_events_dict[key]!.count) items") }
                         }
-                        .onDelete(perform: deleteItems)
-                    }
-                    // HEADER
-                    // -------
-                    header: {
-                        VStack(spacing: 3) {
-                            // Date
-                            //Text(Calendar.current.date(from: key)!, formatter: myDateComponentsFormatter).bold()
-                            header_display_date(given_components: key)
-                                .frame(width: geo.size.width * 0.8, alignment: .leading)
-                            // Column Headers
-                            HStack(alignment: .center) {
-                                Text("Date"     ).frame(width: geo.size.width * 0.3, alignment: .leading)
-                                Text("Name"     ).frame(width: geo.size.width * 0.3, alignment: .leading)
-                                Text("Quantity" ).frame(width: geo.size.width * 0.2, alignment: .leading)
-                            }.font(.system(size: 12))
-                                .frame(width: geo.size.width * 0.8, alignment: .leading)
-                            // Divider Line
-                            Divider().frame(width: geo.size.width * 0.8, alignment: .leading)
-                        }
-                    }
-                    // FOOTER
-                    // -------
-                    footer: { Text("\(day_events_dict[key]!.count) items") }
-                }
-            }
-        }
+                    }.frame(height: geo.size.height * 0.9)
+                }.frame(height: geo.size.height * 0.9)
+                
+            }.background(.yellow)
+        }.background(.gray)
     }
     
     // func for date column

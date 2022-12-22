@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct AddUserEventView: View {
-    @Environment(\.managedObjectContext) private var viewContext
+    //@Environment(\.managedObjectContext) private var viewContext
     
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \PresetEvent.name, ascending: true)], animation: .default)
-    private var preset_events:  FetchedResults<PresetEvent>
+    //@FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \PresetEvent.name, ascending: true)], animation: .default)
+    //private var preset_events:  FetchedResults<PresetEvent>
     
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \PresetEntry.name, ascending: true)], animation: .default)
-    private var preset_entries: FetchedResults<PresetEntry>
+    //@FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \PresetEntry.name, ascending: true)], animation: .default)
+    //private var preset_entries: FetchedResults<PresetEntry>
     
     
     // Form Variables
@@ -118,6 +118,7 @@ struct AddUserEventView: View {
                         // Preset Event Form
                         // ------------------
                         else if selectedEvent == 1 {
+                            /*
                             Picker("Preset Picker", selection: $selectedPreset) {
                                 ForEach(preset_events, id: \.self) { preset_event in Text(preset_event.name!).tag(preset_event) }
                             }
@@ -128,6 +129,7 @@ struct AddUserEventView: View {
                                 get_preset_card(preset_event: selectedPreset!)
                             }
                             else { Text("Selected Preset is nil") }
+                             */
                         }
                         
 
@@ -149,6 +151,8 @@ struct AddUserEventView: View {
                     Button("Save Entry") {
                         // use the selectedEvent variable to know what form info to use
                         if selectedEvent == 0 {
+                            /*
+                             
                             //create and save event
                             let newEvent = UserEvent(context: viewContext)
                             newEvent.timestamp = date
@@ -169,6 +173,7 @@ struct AddUserEventView: View {
                             new_quantity    = 0
                             new_units       = ""
                             
+                             */
                         }
                         
                         
