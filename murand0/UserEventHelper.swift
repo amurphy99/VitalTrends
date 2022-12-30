@@ -11,6 +11,98 @@ import SwiftUI
 
 
 
+// func for date column
+func display_date(given_date: Date)-> some View {
+    let test1 = myDateFormatter.string(for: given_date) ?? "no date"
+    
+    let interval: TimeInterval = given_date.timeIntervalSinceNow
+    //let test2 = myIntervalFormatter.string(for: interval) ?? "no interval"
+    //let test2 = interval.formatted()
+    
+    var test3: String = ""
+    // /60 = seconds, /60 = hours, /24 = days
+    let time_interval = interval as Double
+    let days  = time_interval / (60*60*24)
+    let hours = time_interval / (60*60)
+    let minutes = time_interval / (60)
+    
+    if      time_interval < -(60*60*24) { test3 = "\(myIntervalFormatter.string(for: -days)!)d ago"}
+    else if time_interval < -(60*60)    { test3 = "\(myIntervalFormatter.string(for: -hours)! )h ago" }
+    else if time_interval < -60         { test3 = "\(myIntervalFormatter.string(for: -minutes)! )m ago" }
+    else if time_interval > -5          { test3 = "just now" }
+    else                                { test3 = "\(myIntervalFormatter.string(for: -time_interval)! )s ago" }
+    
+    return Text("\(test1), \(test3)")
+    
+}
+
+// header date numbers+text
+func header_display_date(given_components: DateComponents) -> some View {
+    let header_date: Date = Calendar.current.date(from: given_components)!
+    
+    let dateFormatterPrint = DateFormatter()
+    //dateFormatterPrint.dateFormat = "MMM dd,yyyy"
+    //dateFormatterPrint.dateFormat = "EEEE, MMM dd"
+    dateFormatterPrint.dateFormat = "E MMM dd"
+    
+    let simple_date: String = myDateComponentsFormatter.string(for: header_date)!
+    
+    let text_date: String = dateFormatterPrint.string(from: header_date)
+    
+    return Text("\(simple_date) - \(text_date)")
+    
+    
+}
+
+
+
+
+
+private let itemFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .short
+    formatter.timeStyle = .short
+    return formatter
+}()
+
+
+// my custom formatters
+// ---------------------
+let myNumberFormatter: Formatter = {
+    let formatter = NumberFormatter()
+    formatter.maximumFractionDigits = 2
+    formatter.minimumFractionDigits = 0
+    //formatter.currencyCode = "USD"
+    //formatter.numberStyle = .currency
+    return formatter
+}()
+
+let myDateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .none
+    formatter.timeStyle = .short
+    return formatter
+}()
+
+private let myIntervalFormatter: Formatter = {
+    let formatter = NumberFormatter()
+    formatter.maximumFractionDigits = 0
+    formatter.minimumFractionDigits = 0
+    //formatter.currencyCode = "USD"
+    //formatter.numberStyle = .currency
+    return formatter
+}()
+
+private let myDateComponentsFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .short
+    //formatter.timeStyle = .none
+    //formatter.timeStyle = .short
+    return formatter
+}()
+
+
+
 
 /*
  
