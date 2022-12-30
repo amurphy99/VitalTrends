@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct AddUserEventView: View {
-    //@Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.managedObjectContext) private var viewContext
     
-    //@FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \PresetEvent.name, ascending: true)], animation: .default)
-    //private var preset_events:  FetchedResults<PresetEvent>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \PresetEvent.name, ascending: true)], animation: .default)
+    private var preset_events:  FetchedResults<PresetEvent>
     
-    //@FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \PresetEntry.name, ascending: true)], animation: .default)
-    //private var preset_entries: FetchedResults<PresetEntry>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \PresetEntry.name, ascending: true)], animation: .default)
+    private var preset_entries: FetchedResults<PresetEntry>
     
     
     // Form Variables
@@ -68,57 +68,17 @@ struct AddUserEventView: View {
                         // Single Event Form
                         // ------------------
                         if selectedEvent == 0 {
-                    
-                            VStack(spacing: 10) {
-                                Text("Single Entry Form:").frame(width: geo.size.width * 0.8, alignment: .leading)
-                                Divider().frame(width: geo.size.width * 0.8)
-                                
-                                VStack(alignment: .center) {
-                                    // Type
-                                    HStack(spacing: 0) {
-                                        Text("Type:").frame(width: geo.size.width * 0.20, alignment: .leading)
-                                        TextField("Type", text: $new_type)
-                                            .frame(width: geo.size.width * 0.6, alignment: .leading)
-                                            .padding(2)
-                                            .border(Color.gray, width: 1)
-                                    }
-                                    .frame(width: geo.size.width * 0.9)
-                                    // Name
-                                    HStack(spacing: 0) {
-                                        Text("Name:").frame(width: geo.size.width * 0.20, alignment: .leading)
-                                        TextField("Name", text: $new_name)
-                                            .frame(width: geo.size.width * 0.6, alignment: .leading)
-                                            .padding(2)
-                                            .border(Color.gray, width: 1)
-                                    }
-                                    .frame(width: geo.size.width * 0.9)
-                                    // Quantity
-                                    HStack(spacing: 0) {
-                                        Text("Quantity:").frame(width: geo.size.width * 0.20, alignment: .leading)
-                                        TextField("Quantity", value: $new_quantity, format: .number)
-                                            .frame(width: geo.size.width * 0.6, alignment: .leading)
-                                            .padding(2)
-                                            .border(Color.gray, width: 1)
-                                    }
-                                    .frame(width: geo.size.width * 0.9)
-                                    // Units
-                                    HStack(spacing: 0) {
-                                        Text("Units:").frame(width: geo.size.width * 0.20, alignment: .leading)
-                                        TextField("Units", text: $new_units)
-                                            .frame(width: geo.size.width * 0.6, alignment: .leading)
-                                            .padding(2)
-                                            .border(Color.gray, width: 1)
-                                    }
-                                    .frame(width: geo.size.width * 0.9)
-                                }
-                            }
+                            NewEventView(new_type:      $new_type,
+                                         new_name:      $new_name,
+                                         new_quantity:  $new_quantity,
+                                         new_units:     $new_units)
                         }
                         
                         
                         // Preset Event Form
                         // ------------------
                         else if selectedEvent == 1 {
-                            /*
+                            
                             Picker("Preset Picker", selection: $selectedPreset) {
                                 ForEach(preset_events, id: \.self) { preset_event in Text(preset_event.name!).tag(preset_event) }
                             }
@@ -129,7 +89,7 @@ struct AddUserEventView: View {
                                 get_preset_card(preset_event: selectedPreset!)
                             }
                             else { Text("Selected Preset is nil") }
-                             */
+                        
                         }
                         
 
@@ -151,8 +111,7 @@ struct AddUserEventView: View {
                     Button("Save Entry") {
                         // use the selectedEvent variable to know what form info to use
                         if selectedEvent == 0 {
-                            /*
-                             
+                            
                             //create and save event
                             let newEvent = UserEvent(context: viewContext)
                             newEvent.timestamp = date
@@ -172,8 +131,7 @@ struct AddUserEventView: View {
                             new_name        = ""
                             new_quantity    = 0
                             new_units       = ""
-                            
-                             */
+                             
                         }
                         
                         
