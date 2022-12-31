@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A11DB632948007B00E9A73B /* UserEventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11DB622948007B00E9A73B /* UserEventHelper.swift */; };
 		0A9E8576295F7C0800D47378 /* MultiplePresetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9E8575295F7C0800D47378 /* MultiplePresetView.swift */; };
+		0A9E85782960D76000D47378 /* NewMultiplePresetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9E85772960D76000D47378 /* NewMultiplePresetView.swift */; };
 		0AA644CB294653C400904668 /* murand0App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA644CA294653C400904668 /* murand0App.swift */; };
 		0AA644CD294653C400904668 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA644CC294653C400904668 /* ContentView.swift */; };
 		0AA644CF294653C600904668 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AA644CE294653C600904668 /* Assets.xcassets */; };
@@ -26,6 +27,7 @@
 /* Begin PBXFileReference section */
 		0A11DB622948007B00E9A73B /* UserEventHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEventHelper.swift; sourceTree = "<group>"; };
 		0A9E8575295F7C0800D47378 /* MultiplePresetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplePresetView.swift; sourceTree = "<group>"; };
+		0A9E85772960D76000D47378 /* NewMultiplePresetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMultiplePresetView.swift; sourceTree = "<group>"; };
 		0AA644C7294653C400904668 /* murand0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = murand0.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AA644CA294653C400904668 /* murand0App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = murand0App.swift; sourceTree = "<group>"; };
 		0AA644CC294653C400904668 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 				0A11DB622948007B00E9A73B /* UserEventHelper.swift */,
 				0AD7EC34295E5EF3007FBFCA /* SinglePresetView.swift */,
 				0A9E8575295F7C0800D47378 /* MultiplePresetView.swift */,
+				0A9E85772960D76000D47378 /* NewMultiplePresetView.swift */,
 			);
 			path = murand0;
 			sourceTree = "<group>";
@@ -171,6 +174,7 @@
 				0AA644E429465C5A00904668 /* UserEvent+CoreDataProperties.swift in Sources */,
 				0A11DB632948007B00E9A73B /* UserEventHelper.swift in Sources */,
 				0AA644E329465C5A00904668 /* UserEvent+CoreDataClass.swift in Sources */,
+				0A9E85782960D76000D47378 /* NewMultiplePresetView.swift in Sources */,
 				0AA644E629466BEA00904668 /* UserEventsView.swift in Sources */,
 				0AA644CD294653C400904668 /* ContentView.swift in Sources */,
 				0AA644CB294653C400904668 /* murand0App.swift in Sources */,

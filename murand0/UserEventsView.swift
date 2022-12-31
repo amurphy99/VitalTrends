@@ -21,7 +21,6 @@ struct UserEventsView: View {
     // other stuff
     @State var showAddEventForm = false
     
-    //@State var view: any View = AddUserEventView()
     
     var body: some View {
         
@@ -255,22 +254,6 @@ private let itemFormatter: DateFormatter = {
 
 // my custom formatters
 // ---------------------
-private let myNumberFormatter: Formatter = {
-    let formatter = NumberFormatter()
-    formatter.maximumFractionDigits = 2
-    formatter.minimumFractionDigits = 0
-    //formatter.currencyCode = "USD"
-    //formatter.numberStyle = .currency
-    return formatter
-}()
-
-private let myDateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .none
-    formatter.timeStyle = .short
-    return formatter
-}()
-
 private let myIntervalFormatter: Formatter = {
     let formatter = NumberFormatter()
     formatter.maximumFractionDigits = 0

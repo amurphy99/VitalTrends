@@ -130,5 +130,6 @@ struct NewEventView: View {
 struct NewEventView_Previews: PreviewProvider {
     static var previews: some View {
         NewEventView( new_date: .constant(Date()) )
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

@@ -27,7 +27,7 @@ struct SinglePresetView: View {
                 
                 // Title
                 // ------
-                Text("Single Preset:").frame(width: geo.size.width * 0.8, alignment: .leading)
+                Text("Single Preset: (\(preset_entries.count))").frame(width: geo.size.width * 0.8, alignment: .leading)
                 Divider().frame(width: geo.size.width * 0.8)
                 
                 
@@ -37,9 +37,12 @@ struct SinglePresetView: View {
                     ForEach(preset_entries, id: \.self) { preset_entry in Text(preset_entry.name!) }
                 }
                 .pickerStyle(MenuPickerStyle())
+                //.pickerStyle(.menu)
                 .onChange(of: selectedPreset) { _ in
                     if selectedPreset != nil { new_quantity = selectedPreset!.quantity }
                 }
+                .frame(width: geo.size.width * 0.8, height: geo.size.height * 0.1)
+                .background(.yellow)
                 
                 // Entry Information
                 // ------------------
@@ -130,5 +133,6 @@ struct SinglePresetView: View {
 struct SinglePresetView_Previews: PreviewProvider {
     static var previews: some View {
         SinglePresetView( new_date: .constant(Date()) )
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

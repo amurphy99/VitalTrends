@@ -33,8 +33,12 @@ struct MultiplePresetView: View {
                 // Picker
                 // -------
                 Picker("Multiple Preset Picker", selection: $selectedPreset) {
+                    // None option
+                    Text("None").tag(PresetEvent?.none)
+                    // Other options
                     ForEach(preset_events, id: \.self) { preset_event in
                         Text("\(preset_event.name!) (\(preset_event.entries!.count))")
+                            .tag( PresetEvent?.some(preset_event) )
                     }
                 }
                 .pickerStyle(MenuPickerStyle())
@@ -134,5 +138,6 @@ struct MultiplePresetView: View {
 struct MultiplePresetView_Previews: PreviewProvider {
     static var previews: some View {
         MultiplePresetView( new_date: .constant(Date()) )
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

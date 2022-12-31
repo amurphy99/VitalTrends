@@ -102,24 +102,6 @@ private let itemFormatter: DateFormatter = {
 }()
 
 
-// my custom formatters
-// ---------------------
-private let myNumberFormatter: Formatter = {
-    let formatter = NumberFormatter()
-    formatter.maximumFractionDigits = 2
-    formatter.minimumFractionDigits = 0
-    //formatter.currencyCode = "USD"
-    //formatter.numberStyle = .currency
-    return formatter
-}()
-
-private let myDateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    //formatter.timeStyle = .none
-    formatter.timeStyle = .short
-    return formatter
-}()
 
 
 
