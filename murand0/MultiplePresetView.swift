@@ -53,34 +53,26 @@ struct MultiplePresetView: View {
                 // Selected Items
                 // ---------------
                 Text("\(selectedPreset?.name! ?? "No Selection")").bold()
-                List {
-                    Section{
-                        ForEach(selectedPresetEntries) { preset_entry in
-                            HStack {
-                                // Type
-                                Text("\(preset_entry.type!)")
-                                // Name
-                                Text("\(preset_entry.name!)")
-                                // Quantity
-                                Text("\(myNumberFormatter.string(for: preset_entry.quantity)!) \(preset_entry.units!)")
-                                    .frame(width: geo.size.width * 0.15, alignment: .leading)
-                            }
+                NavigationView{
+                    List {
+                        Section{
+                            ForEach(selectedPresetEntries) { preset_entry in entry_row(entry: preset_entry) }
                         }
-                    }
-                    // HEADER
+                        // HEADER
                     header: { VStack(spacing: 3) {
-                            // Column Headers
-                            HStack(alignment: .center) {
-                                Text("Type"     ).frame(width: geo.size.width * 0.3, alignment: .leading)
-                                Text("Name"     ).frame(width: geo.size.width * 0.3, alignment: .leading)
-                                Text("Quantity" ).frame(width: geo.size.width * 0.2, alignment: .leading)
-                            }.font(.system(size: 12))
+                        // Column Headers
+                        HStack(alignment: .center) {
+                            Text("Type"     ).frame(width: geo.size.width * 0.3, alignment: .leading)
+                            Text("Name"     ).frame(width: geo.size.width * 0.3, alignment: .leading)
+                            Text("Quantity" ).frame(width: geo.size.width * 0.2, alignment: .leading)
+                        }.font(.system(size: 12))
                             .frame(width: geo.size.width * 0.8, alignment: .leading)
-                            Divider().frame(width: geo.size.width * 0.8, alignment: .leading)
-                        }
+                        Divider().frame(width: geo.size.width * 0.8, alignment: .leading)
                     }
-                    // FOOTER
+                    }
+                        // FOOTER
                     footer: { Text("\(selectedPresetEntries.count) items") }
+                    }
                 }
                 Divider().frame(width: geo.size.width * 0.8)
                 
@@ -103,6 +95,7 @@ struct MultiplePresetView: View {
                 
             // end of VStack
             }
+            .frame(width: geo.size.width)
         // end of geo
         }
     // end of body

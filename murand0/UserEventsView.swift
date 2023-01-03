@@ -170,7 +170,9 @@ struct UserEventsView: View {
                                     // Divider Line
                                     Divider().frame(width: geo.size.width * 0.8, alignment: .leading)
                                 }
+                            .frame(width: geo.size.width * 1.0)
                             }
+                            
                             // FOOTER
                             // -------
                             footer: { Text("\(day_events_dict[key]!.count) items") }

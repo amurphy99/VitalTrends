@@ -37,7 +37,6 @@ struct SinglePresetView: View {
                     ForEach(preset_entries, id: \.self) { preset_entry in Text(preset_entry.name!) }
                 }
                 .pickerStyle(MenuPickerStyle())
-                //.pickerStyle(.menu)
                 .onChange(of: selectedPreset) { _ in
                     if selectedPreset != nil { new_quantity = selectedPreset!.quantity }
                 }
@@ -63,7 +62,7 @@ struct SinglePresetView: View {
                     HStack(spacing: 0) {
                         Text("Quantity:").frame(width: geo.size.width * 0.20, alignment: .leading)
                         TextField("Quantity", value: $new_quantity, format: .number)
-                            .frame(width: geo.size.width * 0.6, alignment: .leading).padding(2).border(Color.gray, width: 1)
+                            .frame(width: geo.size.width * 0.6, alignment: .leading).padding(3).border(Color.gray, width: 1)
                     }
                     .frame(width: geo.size.width * 0.9)
                     
@@ -98,6 +97,7 @@ struct SinglePresetView: View {
                 
             // end of VStack
             }
+            .frame(width: geo.size.width)
         // end of geo
         }
     // end of body

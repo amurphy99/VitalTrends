@@ -23,7 +23,7 @@ struct NewEventView: View {
     var body: some View {
         
         GeometryReader { geo in
-            VStack(spacing: 10) {
+            VStack(alignment: .center, spacing: 10) {
                 
                 // Title
                 // ------
@@ -38,28 +38,28 @@ struct NewEventView: View {
                     HStack(spacing: 0) {
                         Text("Type:").frame(width: geo.size.width * 0.20, alignment: .leading)
                         TextField("Type", text: $new_type)
-                            .frame(width: geo.size.width * 0.6, alignment: .leading).padding(2).border(Color.gray, width: 1)
+                            .frame(width: geo.size.width * 0.6, alignment: .leading).padding(3).border(Color.gray, width: 1)
                     }.frame(width: geo.size.width * 0.9)
                     
                     // Name
                     HStack(spacing: 0) {
                         Text("Name:").frame(width: geo.size.width * 0.20, alignment: .leading)
                         TextField("Name", text: $new_name)
-                            .frame(width: geo.size.width * 0.6, alignment: .leading).padding(2).border(Color.gray, width: 1)
+                            .frame(width: geo.size.width * 0.6, alignment: .leading).padding(3).border(Color.gray, width: 1)
                     }.frame(width: geo.size.width * 0.9)
                     
                     // Quantity
                     HStack(spacing: 0) {
                         Text("Quantity:").frame(width: geo.size.width * 0.20, alignment: .leading)
                         TextField("Quantity", value: $new_quantity, format: .number)
-                            .frame(width: geo.size.width * 0.6, alignment: .leading).padding(2).border(Color.gray, width: 1)
+                            .frame(width: geo.size.width * 0.6, alignment: .leading).padding(3).border(Color.gray, width: 1)
                     }.frame(width: geo.size.width * 0.9)
                     
                     // Units
                     HStack(spacing: 0) {
                         Text("Units:").frame(width: geo.size.width * 0.20, alignment: .leading)
                         TextField("Units", text: $new_units)
-                            .frame(width: geo.size.width * 0.6, alignment: .leading).padding(2).border(Color.gray, width: 1)
+                            .frame(width: geo.size.width * 0.6, alignment: .leading).padding(3).border(Color.gray, width: 1)
                     }.frame(width: geo.size.width * 0.9)
                     
                     Divider().frame(width: geo.size.width * 0.8)
@@ -88,6 +88,7 @@ struct NewEventView: View {
                 
             // end of VStack
             }
+            .frame(width: geo.size.width)
         // end of geo
         }
     // end of body

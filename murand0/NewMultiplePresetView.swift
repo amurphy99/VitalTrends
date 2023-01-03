@@ -8,15 +8,24 @@
 import SwiftUI
 
 struct NewMultiplePresetView: View {
+    // Core Data
+    // ----------
     @Environment(\.managedObjectContext) private var viewContext
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \PresetEntry.name, ascending: true)], animation: .default)
     private var preset_entries: FetchedResults<PresetEntry>
     
+    // For View
+    // ---------
+    @State var editMode = EditMode.inactive
+    
     @State var selected_presets: Set<PresetEntry> = []
     
     // from parent
     @Binding var new_date: Date
+    
+    @State var new_name: String = ""
+
     
     
     var body: some View {
@@ -24,66 +33,84 @@ struct NewMultiplePresetView: View {
         GeometryReader { geo in
             VStack(alignment: .center, spacing: 10) {
                 
-                // List the single entries
-                // ------------------------
-                ScrollView {
-                    LazyVStack {
-                        List(selection: $selected_presets) {
-                            Section {
-                                ForEach(preset_entries, id: \.self) { preset_entry in
-                                    HStack {
-                                        // Type
-                                        Text("\(preset_entry.type!)")
-                                            .frame(width: geo.size.width * 0.25, alignment: .leading)
-                                        // Name
-                                        Text("\(preset_entry.name!)")
-                                            .frame(width: geo.size.width * 0.35, alignment: .leading)
-                                        // Quantity
-                                        Text("\(myNumberFormatter.string(for: preset_entry.quantity)!) \(preset_entry.units!)")
-                                            .frame(width: geo.size.width * 0.2, alignment: .leading)
-                                    }
+                // Title
+                // ------
+                Text("New Multiple Preset:").frame(width: geo.size.width * 0.90, alignment: .leading)
+                Divider().frame(width: geo.size.width * 0.90)
+                
+                
+                // Enter Name
+                // -----------
+                HStack(spacing: 0) {
+                    Text("Name:").frame(width: geo.size.width * 0.15, alignment: .leading)
+                    TextField("Name", text: $new_name)
+                        .padding(3)
+                        .frame(width: geo.size.width * 0.75, alignment: .leading)
+                        .border(Color.gray, width: 1)
+                }.frame(width: geo.size.width * 0.90)
+
+
+                NavigationView {
+                    VStack {
+                        
+                        // Select Entries to Include
+                        // --------------------------
+                        HStack(spacing: 0) {
+                            Text("Select Entries to Include:")
+                            Spacer()
+                            EditButton()
+                            //Button("Test") { editMode = EditMode.active }
+                        }.frame(width: geo.size.width * 0.90)
+                        
+                        
+                        // List the single entries
+                        // ------------------------
+                        ScrollView {
+                            LazyVStack {
+                                List(selection: $selected_presets) {
+                                    Section (
+                                        header: entry_header().frame(width: geo.size.width * 0.85),
+                                        footer: Text("\(preset_entries.count) items, \(selected_presets.count) selected").frame(width: geo.size.width * 0.85, alignment: .leading)
+                                    ) { ForEach(preset_entries, id: \.self) { entry in entry_row(entry: entry) } }
                                 }
-                            }
-                            // HEADER
-                            header: {
-                                VStack(spacing: 3) {
-                                    HStack(alignment: .center) {
-                                        Text("Type"     ).frame(width: geo.size.width * 0.25, alignment: .leading)
-                                        Text("Name"     ).frame(width: geo.size.width * 0.35, alignment: .leading)
-                                        Text("Quantity" ).frame(width: geo.size.width * 0.2, alignment: .leading)
-                                    }.font(.system(size: 12))
-                                        .frame(width: geo.size.width * 0.8, alignment: .leading)
-                                    Divider().frame(width: geo.size.width * 0.8, alignment: .leading)
-                                }
-                            }
-                            // FOOTER
-                            footer: {
-                                VStack(spacing: 3) {
-                                    Text("\(preset_entries.count) items"        )
-                                    Text("\(selected_presets.count) selected"   )
-                                }
+                                //.environment(\.editMode, $editMode)
+                                .frame(width: geo.size.width, height: geo.size.height * 0.5)
                             }
                         }
-                        .frame(width: geo.size.width, height: geo.size.height * 0.6)
-                        // TOOLBAR
-                        .toolbar { EditButton() }
                     }
                 }
-                Divider().frame(width: geo.size.width * 0.8)
+                .frame(height: geo.size.height * 0.5)
+
+                Divider().frame(width: geo.size.width * 0.9)
                 
                 
+                // Finish Button
+                // --------------
+                Button("Save Entry"){ }
+                    .padding(5)
+                    .frame(width: geo.size.width * 0.9)
+                    .background(.cyan).foregroundColor(.white)
                 
-                
+                Spacer()
                 
                 
                 
             // end of VStack
             }
+            .frame(width: geo.size.width, height: geo.size.height)
         // end of geo
         }
     // end of body
     }
 }
+
+
+
+
+
+
+
+
 
 
 

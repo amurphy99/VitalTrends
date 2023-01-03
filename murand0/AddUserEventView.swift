@@ -38,21 +38,23 @@ struct AddUserEventView: View {
                     // Select Event Type
                     // ------------------
                     Picker("Select Event Type", selection: $selectedEvent) {
-                        Text("New Event"        ).tag(0)
-                        Text("Single Preset"    ).tag(1)
-                        Text("Multiple Preset"  ).tag(2)
+                        Text("Single"       ).tag(1)
+                        Text("Multiple"     ).tag(2)
+                        Text("New Single"   ).tag(0)
+                        Text("New Multiple" ).tag(3)
                     }
                     .pickerStyle(.segmented)
                     
                     
                     // Display form for selected type
                     // -------------------------------
-                    VStack {
-                        Text("(\(selectedEvent))  ").frame(width: geo.size.width * 0.9, alignment: .trailing)
+                    VStack(alignment: .center) {
+                        //Text("(\(selectedEvent))  ").frame(width: geo.size.width * 0.9, alignment: .trailing)
                         
-                        if      selectedEvent == 0 { NewEventView       (new_date: $new_date) }
-                        else if selectedEvent == 1 { SinglePresetView   (new_date: $new_date) }
-                        else if selectedEvent == 2 { MultiplePresetView (new_date: $new_date) }
+                        if      selectedEvent == 0 { NewEventView           (new_date: $new_date) }
+                        else if selectedEvent == 1 { SinglePresetView       (new_date: $new_date) }
+                        else if selectedEvent == 2 { MultiplePresetView     (new_date: $new_date) }
+                        else if selectedEvent == 3 { NewMultiplePresetView  (new_date: $new_date) }
                         
                     }
                     .frame(width: geo.size.width * 0.9)

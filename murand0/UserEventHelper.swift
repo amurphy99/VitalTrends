@@ -10,8 +10,63 @@ import Foundation
 import SwiftUI
 
 
+// ROW FOR SINGLE ENTRY
+// ---------------------
+func entry_row(entry: PresetEntry)-> some View {
+    NavigationLink {
+        // new page that you are sent to, with edit button perhaps?
+        Text("Item at ")
+        // include edits for all fields? also add a new text description field to each
+        // in the list form, show a * for the ones with a decription entered
+    } label: {
+        GeometryReader { geo in
+            HStack(spacing: geo.size.width * 0.01) {
+                // Type
+                Text("\(entry.type!)")
+                    .frame(width: geo.size.width * 0.33, alignment: .leading)
+                // Name
+                Text("\(entry.name!)")
+                    .frame(width: geo.size.width * 0.42, alignment: .leading)
+                // Quantity
+                Text("\(myNumberFormatter.string(for: entry.quantity)!) \(entry.units!)")
+                    .frame(width: geo.size.width * 0.23, alignment: .trailing)
+            }
+            .font(.system(size: 14))
+            .truncationMode(.tail)
+            .lineLimit(1)
+            .frame(width: geo.size.width, height: geo.size.height)
+        }
+    }
+}
+
+
+// entry header
+// -------------
+func entry_header()-> some View {
+    GeometryReader { geo in
+        VStack(spacing: 3) {
+            
+            HStack(spacing: geo.size.width * 0.01) {
+                Text("Type"     ).frame(width: geo.size.width * 0.33, alignment: .leading)
+                Text("Name"     ).frame(width: geo.size.width * 0.42, alignment: .leading)
+                Text("Quantity" ).frame(width: geo.size.width * 0.23, alignment: .leading)
+            }
+            .font(.system(size: 12))
+            
+            
+            Divider().frame(width: geo.size.width * 1.0, alignment: .leading)
+            Spacer().frame(height: 3)
+        }
+        .frame(width: geo.size.width, height: geo.size.height)
+    }
+}
+
+
+
+
 
 // func for date column
+// ---------------------
 func display_date(given_date: Date)-> some View {
     let test1 = myDateFormatter.string(for: given_date) ?? "no date"
     
@@ -36,7 +91,10 @@ func display_date(given_date: Date)-> some View {
     
 }
 
+
+
 // header date numbers+text
+// -------------------------
 func header_display_date(given_components: DateComponents) -> some View {
     let header_date: Date = Calendar.current.date(from: given_components)!
     
