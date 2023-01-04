@@ -57,9 +57,8 @@ struct AddUserEventView: View {
                         else if selectedEvent == 3 { NewMultiplePresetView  (new_date: $new_date) }
                         
                     }
-                    .frame(width: geo.size.width * 0.9)
+                    .frame(width: geo.size.width * 1.0)
                     .padding(.vertical, 10)
-                    .background(.yellow)
                     
                 }
                 .frame(width: geo.size.width * 0.9)

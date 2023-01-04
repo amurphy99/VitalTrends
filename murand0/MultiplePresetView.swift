@@ -26,54 +26,48 @@ struct MultiplePresetView: View {
                 
                 // Title
                 // ------
-                Text("Multiple Preset:").frame(width: geo.size.width * 0.8, alignment: .leading)
-                Divider().frame(width: geo.size.width * 0.8)
+                Text("Multiple Preset:").frame(width: geo.size.width * 0.90, alignment: .leading)
+                Divider().frame(width: geo.size.width * 0.90)
                 
                 
-                // Picker
-                // -------
-                Picker("Multiple Preset Picker", selection: $selectedPreset) {
-                    // None option
-                    Text("None").tag(PresetEvent?.none)
-                    // Other options
-                    ForEach(preset_events, id: \.self) { preset_event in
-                        Text("\(preset_event.name!) (\(preset_event.entries!.count))")
-                            .tag( PresetEvent?.some(preset_event) )
+                // Picker Section
+                // ---------------
+                VStack {
+                    
+                    Text("Select a Preset:").bold().frame(width: geo.size.width * 0.90, alignment: .leading)
+                    
+                    // Picker
+                    Picker("Multiple Preset Picker", selection: $selectedPreset) {
+                        // None option
+                        Text("None").tag(PresetEvent?.none)
+                        // Other options
+                        ForEach(preset_events, id: \.self) { preset_event in
+                            Text("\(preset_event.name!) (\(preset_event.entries!.count))")
+                                //.frame(width: geo.size.width * 0.90, alignment: .leading)
+                                .tag( PresetEvent?.some(preset_event) )
+                        }
                     }
-                }
-                .pickerStyle(MenuPickerStyle())
-                .onChange(of: selectedPreset) { _ in
-                    if selectedPreset != nil {
-                        selectedPresetEntries = selectedPreset!.entries!.allObjects as! [PresetEntry]
+                    .pickerStyle(MenuPickerStyle())
+                    .onChange(of: selectedPreset) { _ in
+                        if selectedPreset != nil {
+                            selectedPresetEntries = selectedPreset!.entries!.allObjects as! [PresetEntry]
+                        } else { selectedPresetEntries = [] }
                     }
+                    
                 }
-                Divider().frame(width: geo.size.width * 0.8)
-                
+                                
                 
                 // Selected Items
                 // ---------------
-                Text("\(selectedPreset?.name! ?? "No Selection")").bold()
-                NavigationView{
+                //Text("\(selectedPreset?.name! ?? "No Selection")").bold()
+                NavigationView { ScrollView { LazyVStack {
                     List {
-                        Section{
-                            ForEach(selectedPresetEntries) { preset_entry in entry_row(entry: preset_entry) }
-                        }
-                        // HEADER
-                    header: { VStack(spacing: 3) {
-                        // Column Headers
-                        HStack(alignment: .center) {
-                            Text("Type"     ).frame(width: geo.size.width * 0.3, alignment: .leading)
-                            Text("Name"     ).frame(width: geo.size.width * 0.3, alignment: .leading)
-                            Text("Quantity" ).frame(width: geo.size.width * 0.2, alignment: .leading)
-                        }.font(.system(size: 12))
-                            .frame(width: geo.size.width * 0.8, alignment: .leading)
-                        Divider().frame(width: geo.size.width * 0.8, alignment: .leading)
-                    }
-                    }
-                        // FOOTER
-                    footer: { Text("\(selectedPresetEntries.count) items") }
-                    }
-                }
+                        Section ( header: entry_header() .frame(width: geo.size.width * 0.85),
+                                  footer: Text("\(selectedPresetEntries.count) items").frame(width: geo.size.width * 0.85, alignment: .leading)
+                        ) { ForEach(selectedPresetEntries) { preset_entry in entry_row(entry: preset_entry) } }
+                    }.frame(width: geo.size.width, height: geo.size.height * 0.5)
+                }}}.frame(height: geo.size.height * 0.5)
+                
                 Divider().frame(width: geo.size.width * 0.8)
                 
                 
@@ -92,6 +86,8 @@ struct MultiplePresetView: View {
                 .background(.cyan).foregroundColor(.white)
                 
                 
+                Spacer()
+                
                 
             // end of VStack
             }
@@ -100,6 +96,8 @@ struct MultiplePresetView: View {
         }
     // end of body
     }
+    
+    
     
     // Function for saving
     // --------------------
@@ -127,6 +125,8 @@ struct MultiplePresetView: View {
     
 // end of view struct
 }
+
+
 
 struct MultiplePresetView_Previews: PreviewProvider {
     static var previews: some View {
