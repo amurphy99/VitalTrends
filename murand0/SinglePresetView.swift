@@ -14,11 +14,13 @@ struct SinglePresetView: View {
     private var preset_entries: FetchedResults<PresetEntry>
 
     @State var selectedPreset: PresetEntry?
+    @State var selectedPresetEntries: [PresetEntry] = []
     
     // for single event
     @Binding    var new_date:      Date
-    @State      var new_quantity:  Float = 0
-
+    
+    
+    
     
     var body: some View {
         
@@ -27,72 +29,66 @@ struct SinglePresetView: View {
                 
                 // Title
                 // ------
-                Text("Single Preset: (\(preset_entries.count))").frame(width: geo.size.width * 0.8, alignment: .leading)
-                Divider().frame(width: geo.size.width * 0.8)
+                //Text("Single Preset:").frame(width: geo.size.width * 0.90, alignment: .leading)
+                Divider().frame(width: geo.size.width * 0.90)
                 
                 
-                // Picker
-                // -------
-                Picker("Single Preset Picker", selection: $selectedPreset) {
-                    ForEach(preset_entries, id: \.self) { preset_entry in Text(preset_entry.name!) }
-                }
-                .pickerStyle(MenuPickerStyle())
-                .onChange(of: selectedPreset) { _ in
-                    if selectedPreset != nil { new_quantity = selectedPreset!.quantity }
-                }
-                .frame(width: geo.size.width * 0.8, height: geo.size.height * 0.1)
-                .background(.yellow)
-                
-                // Entry Information
-                // ------------------
-                VStack(alignment: .center) {
-                    // Type
-                    HStack(spacing: 0) {
-                        Text("Type:").frame(width: geo.size.width * 0.20, alignment: .leading)
-                        Text("\(selectedPreset?.type! ?? "--" )").frame(width: geo.size.width * 0.6, alignment: .leading)
-                    }.frame(width: geo.size.width * 0.9)
+                // Picker Section
+                // ---------------
+                VStack {
                     
-                    // Name
-                    HStack(spacing: 0) {
-                        Text("Name:").frame(width: geo.size.width * 0.20, alignment: .leading)
-                        Text("\(selectedPreset?.name! ?? "--" )").frame(width: geo.size.width * 0.6, alignment: .leading)
-                    }.frame(width: geo.size.width * 0.9)
+                    Text("Select a Preset:").bold().frame(width: geo.size.width * 0.90, alignment: .leading)
                     
-                    // Quantity
-                    HStack(spacing: 0) {
-                        Text("Quantity:").frame(width: geo.size.width * 0.20, alignment: .leading)
-                        TextField("Quantity", value: $new_quantity, format: .number)
-                            .frame(width: geo.size.width * 0.6, alignment: .leading).padding(3).border(Color.gray, width: 1)
+                    // Picker
+                    Picker("Multiple Preset Picker", selection: $selectedPreset) {
+                        // None option
+                        Text("None").tag(PresetEntry?.none)
+                        // Other options
+                        ForEach(preset_entries, id: \.self) { preset_entry in
+                            Text("\(preset_entry.name!)")
+                                //.frame(width: geo.size.width * 0.90, alignment: .leading)
+                                .tag( PresetEntry?.some(preset_entry) )
+                        }
                     }
-                    .frame(width: geo.size.width * 0.9)
+                    .pickerStyle(MenuPickerStyle())
+                    .onChange(of: selectedPreset) { _ in
+                        if selectedPreset != nil {
+                            selectedPresetEntries = [selectedPreset] as! [PresetEntry]
+                        } else { selectedPresetEntries = [] }
+                    }
                     
-                    // Units
-                    HStack(spacing: 0) {
-                        Text("Units:").frame(width: geo.size.width * 0.20, alignment: .leading)
-                        Text("\(selectedPreset?.units! ?? "--" )").frame(width: geo.size.width * 0.6, alignment: .leading)
-                    }.frame(width: geo.size.width * 0.9)
-                    
-                    Divider().frame(width: geo.size.width * 0.8)
                 }
-
+                                
+                
+                // Selected Items
+                // ---------------
+                NavigationView { ScrollView { LazyVStack {
+                    List {
+                        Section ( header: entry_header() .frame(width: geo.size.width * 0.85),
+                                  footer: Text("\(selectedPresetEntries.count) items").frame(width: geo.size.width * 0.85, alignment: .leading)
+                        ) { ForEach(selectedPresetEntries) { preset_entry in entry_row(entry: preset_entry) } }
+                    }.frame(width: geo.size.width, height: geo.size.height * 0.5)
+                }}}.frame(height: geo.size.height * 0.5)
+                
+                Divider().frame(width: geo.size.width * 0.9)
+                
                 
                 // Submit Button
                 // --------------
                 Button("Save Entry") {
-                    //create and save event
-                    if (selectedPreset != nil) {
-                        save_single_preset(preset_entry:    selectedPreset!,
-                                           new_date:        new_date,
-                                           new_quantity:    new_quantity)
+                    if selectedPresetEntries.count > 0 {
+                        // save entries
+                        save_single_preset()
+                        // clear form data
+                        //selectedPresetEntries = []
                     }
-                    // reset form data
-                    new_date        = Date()
-                    new_quantity    = 0
                 }
                 .padding(5)
                 .frame(width: geo.size.width * 0.9)
                 .background(.cyan).foregroundColor(.white)
                 
+                
+                Spacer()
                 
                 
             // end of VStack
@@ -106,15 +102,15 @@ struct SinglePresetView: View {
     
     // Function for saving
     // --------------------
-    func save_single_preset(preset_entry: PresetEntry, new_date: Date, new_quantity: Float) {
+    func save_single_preset() {
         // create the new event
         // ---------------------
         let newEvent = UserEvent(context: viewContext)
         newEvent.timestamp = new_date
-        newEvent.type      = preset_entry.type!
-        newEvent.name      = preset_entry.name!
-        newEvent.quantity  = new_quantity
-        newEvent.units     = preset_entry.units!
+        newEvent.type      = selectedPresetEntries[0].type!
+        newEvent.name      = selectedPresetEntries[0].name!
+        newEvent.quantity  = selectedPresetEntries[0].quantity
+        newEvent.units     = selectedPresetEntries[0].units!
         
         // save it when done
         // ------------------

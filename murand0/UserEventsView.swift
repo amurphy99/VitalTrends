@@ -29,9 +29,8 @@ struct UserEventsView: View {
                 // Title
                 // -------
                 Text("User Events").font(.title)
-                Spacer().frame(height: 20)
-                
-                Text("\(showAddEventForm.description)")
+                Divider()
+                Spacer().frame(height: 5)
                 
 
                 // Yolo
@@ -42,20 +41,16 @@ struct UserEventsView: View {
                     }
                 }
         
-            // end parent VStack
-            }
-            //Button(action: { self.showAddEventForm.toggle() }, label: {  Label("Close", systemImage: "chevron.down") } ) } }
+            
+            } // end parent VStack
             .sheet(isPresented: $showAddEventForm, onDismiss: { showAddEventForm = false }) {
-                NavigationView { AddUserEventView()//.environment(\.managedObjectContext, viewContext)
+                NavigationView { AddUserEventView()
                         .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { showAddEventForm = false } } }
                 }
             }
             
-        // end parent geo
-        }
-
-    // end View body
-    }
+        } // end parent geo
+    } // end View body
 
     
     
@@ -131,28 +126,8 @@ struct UserEventsView: View {
                         ForEach(days, id: \.self) { key in
                             Section {
                                 // show the entries
-                                ForEach(day_events_dict[key]!) { user_event in
-                                    NavigationLink {
-                                        // new page that you are sent to, with edit button perhaps?
-                                        Text("Item at \(user_event.timestamp!, formatter: myDateFormatter)")
-                                        // include edits for all fields? also add a new text description field to each
-                                        // in the list form, show a * for the ones with a decription entered
-                                    } label: {
-                                        // Label = Event Row
-                                        // ------------------
-                                        HStack(alignment: .center) {
-                                            // Date
-                                            display_date(given_date: user_event.timestamp!).frame(width: geo.size.width * 0.3, alignment: .leading)
-                                            // Name
-                                            Text(user_event.name!).frame(width: geo.size.width * 0.3, alignment: .leading)
-                                            // Quantity
-                                            Text("\(myNumberFormatter.string(for: user_event.quantity)!) \(user_event.units!)")
-                                                .frame(width: geo.size.width * 0.15, alignment: .leading)
-                                        }
-                                        .font(.system(size: 12))
-                                    }
-                                }
-                                .onDelete(perform: deleteItems)
+                                ForEach(day_events_dict[key]!) { user_event in user_entries_row(event: user_event) }
+                                    .onDelete(perform: deleteItems)
                             }
                             // HEADER
                             // -------
@@ -180,8 +155,8 @@ struct UserEventsView: View {
                     }.frame(height: geo.size.height * 0.9)
                 }.frame(height: geo.size.height * 0.9)
                 
-            }.background(.yellow)
-        }.background(.gray)
+            }//.background(.yellow)
+        }//.background(.gray)
     }
     
     // func for date column

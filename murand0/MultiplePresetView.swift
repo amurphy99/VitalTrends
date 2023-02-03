@@ -11,7 +11,7 @@ struct MultiplePresetView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \PresetEvent.name, ascending: true)], animation: .default)
-    private var preset_events: FetchedResults<PresetEvent>
+    var preset_events: FetchedResults<PresetEvent>
 
     @State var selectedPreset: PresetEvent?
     @State var selectedPresetEntries: [PresetEntry] = []
@@ -26,20 +26,17 @@ struct MultiplePresetView: View {
                 
                 // Title
                 // ------
-                Text("Multiple Preset:").frame(width: geo.size.width * 0.90, alignment: .leading)
                 Divider().frame(width: geo.size.width * 0.90)
                 
                 
                 // Picker Section
                 // ---------------
                 VStack {
-                    
                     Text("Select a Preset:").bold().frame(width: geo.size.width * 0.90, alignment: .leading)
                     
                     // Picker
                     Picker("Multiple Preset Picker", selection: $selectedPreset) {
-                        // None option
-                        Text("None").tag(PresetEvent?.none)
+                        Text("None").tag(PresetEvent?.none) // None option
                         // Other options
                         ForEach(preset_events, id: \.self) { preset_event in
                             Text("\(preset_event.name!) (\(preset_event.entries!.count))")
@@ -49,8 +46,7 @@ struct MultiplePresetView: View {
                     }
                     .pickerStyle(MenuPickerStyle())
                     .onChange(of: selectedPreset) { _ in
-                        if selectedPreset != nil {
-                            selectedPresetEntries = selectedPreset!.entries!.allObjects as! [PresetEntry]
+                        if selectedPreset != nil { selectedPresetEntries = selectedPreset!.entries!.allObjects as! [PresetEntry]
                         } else { selectedPresetEntries = [] }
                     }
                     
@@ -59,54 +55,60 @@ struct MultiplePresetView: View {
                 
                 // Selected Items
                 // ---------------
-                //Text("\(selectedPreset?.name! ?? "No Selection")").bold()
-                NavigationView { ScrollView { LazyVStack {
-                    List {
-                        Section ( header: entry_header() .frame(width: geo.size.width * 0.85),
-                                  footer: Text("\(selectedPresetEntries.count) items").frame(width: geo.size.width * 0.85, alignment: .leading)
-                        ) { ForEach(selectedPresetEntries) { preset_entry in entry_row(entry: preset_entry) } }
-                    }.frame(width: geo.size.width, height: geo.size.height * 0.5)
-                }}}.frame(height: geo.size.height * 0.5)
-                
-                Divider().frame(width: geo.size.width * 0.8)
-                
-                
-                // Submit Button
-                // --------------
-                Button("Save Entry") {
-                    if selectedPresetEntries.count > 1 {
-                        // save entries
-                        save_multiple_preset(preset_entries: selectedPresetEntries, timestamp: new_date)
-                        // clear form data
-                        selectedPresetEntries = []
+                NavigationView {
+                    VStack {
+                        // Selected Entries List
+                        // ----------------------
+                        ScrollView { LazyVStack {
+                            List {
+                                Section ( header: entry_header() .frame(width: geo.size.width * 0.85),
+                                          footer: Text("\(selectedPresetEntries.count) items").frame(width: geo.size.width * 0.85, alignment: .leading)
+                                ) { ForEach(selectedPresetEntries) { preset_entry in entry_row(entry: preset_entry) } }
+                            }.frame(width: geo.size.width, height: geo.size.height * 0.5)
+                        }}
+
+                        
+                        // Submit Button
+                        // --------------
+                        VStack {
+                            Divider().frame(width: geo.size.width * 0.9)
+                            Button("Save Entry") { if selectedPresetEntries.count > 1 { save_multiple_preset() } }
+                                .padding(5).frame(width: geo.size.width * 0.9)
+                                .background(.cyan).foregroundColor(.white)
+                            Spacer()
+                        }
+                        .frame(height: geo.size.height * 0.1)
                     }
-                }
-                .padding(5)
-                .frame(width: geo.size.width * 0.9)
-                .background(.cyan).foregroundColor(.white)
+                    
+                }.onChange(of: selectedPreset) { _ in
+                    if selectedPreset != nil { selectedPresetEntries = selectedPreset!.entries!.allObjects as! [PresetEntry]
+                    } else { selectedPresetEntries = [] }
+                    
+                }.frame(height: geo.size.height * 0.6) // end NavigationView
                 
                 
                 Spacer()
                 
-                
-            // end of VStack
-            }
-            .frame(width: geo.size.width)
-        // end of geo
-        }
-    // end of body
-    }
+            }.frame(width: geo.size.width) // end of VStack
+        } // end of geo
+    } // end of body
+    
+    
+ 
+
+    
+    
     
     
     
     // Function for saving
     // --------------------
-    func save_multiple_preset(preset_entries: [PresetEntry], timestamp: Date) {
+    private func save_multiple_preset() {
         // create the events
         // ------------------
-        for preset_entry in preset_entries {
+        for preset_entry in selectedPresetEntries {
             let newEvent = UserEvent(context: viewContext)
-            newEvent.timestamp = timestamp
+            newEvent.timestamp = new_date
             newEvent.type      = preset_entry.type!
             newEvent.name      = preset_entry.name!
             newEvent.quantity  = preset_entry.quantity

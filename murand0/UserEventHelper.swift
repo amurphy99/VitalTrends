@@ -10,30 +10,58 @@ import Foundation
 import SwiftUI
 
 
-// ROW FOR SINGLE ENTRY
-// ---------------------
-func entry_row(entry: PresetEntry)-> some View {
+
+
+func user_entries_row(event: UserEvent)-> some View {
     NavigationLink {
         // new page that you are sent to, with edit button perhaps?
-        Text("Item at ")
+        Text("Item at \(event.timestamp!, formatter: myDateFormatter)")
         // include edits for all fields? also add a new text description field to each
         // in the list form, show a * for the ones with a decription entered
     } label: {
         GeometryReader { geo in
             HStack(spacing: geo.size.width * 0.01) {
+                // Date
+                display_date(given_date: event.timestamp!)
+                    .frame(width: geo.size.width * 0.39, alignment: .leading)
                 // Type
-                Text("\(entry.type!)")
-                    .frame(width: geo.size.width * 0.33, alignment: .leading)
+                //Text("\(event.type!)")
+                    //.frame(width: geo.size.width * 0.16, alignment: .leading)
                 // Name
-                Text("\(entry.name!)")
-                    .frame(width: geo.size.width * 0.42, alignment: .leading)
+                Text(event.name!)
+                    .frame(width: geo.size.width * 0.40, alignment: .leading)
                 // Quantity
-                Text("\(myNumberFormatter.string(for: entry.quantity)!) \(entry.units!)")
-                    .frame(width: geo.size.width * 0.23, alignment: .trailing)
+                Text("\(myNumberFormatter.string(for: event.quantity)!) \(event.units!)")
+                    .frame(width: geo.size.width * 0.19, alignment: .leading)
+            }
+            .font(.system(size: 12))
+            .truncationMode(.tail).lineLimit(1)
+            .frame(width: geo.size.width, height: geo.size.height)
+        }
+    }
+}
+
+
+
+
+
+
+// ROW FOR SINGLE ENTRY
+// ---------------------
+func entry_row(entry: PresetEntry)-> some View {
+    NavigationLink { PresetDetailView(entry: entry )
+    } label: {
+        GeometryReader { geo in
+            HStack(spacing: geo.size.width * 0.01) {
+                // Type
+                Text("\(entry.type!)").frame(width: geo.size.width * 0.33, alignment: .leading)
+                // Name
+                Text("\(entry.name!)").frame(width: geo.size.width * 0.42, alignment: .leading)
+                // Quantity
+                Text("\(myNumberFormatter.string(for: entry.quantity)!) \(entry.units!)").frame(width: geo.size.width * 0.23, alignment: .trailing)
             }
             .font(.system(size: 14))
-            .truncationMode(.tail)
-            .lineLimit(1)
+            .truncationMode(.tail).lineLimit(1)
             .frame(width: geo.size.width, height: geo.size.height)
         }
     }
@@ -263,53 +291,6 @@ private let myDateFormatter: DateFormatter = {
 }()
 
 */
-
-
-
-
-/*
- 
- 
-VStack {
-    Text("User Events").font(.title2)
-    
-    // would be better to sort by timestamp and separate by day
-    List {
-        // Content
-        // --------
-        ForEach(user_events) { user_event in
-            NavigationLink {
-                // new page that you are sent to, with edit button perhaps?
-                // something generated elswhere with a function
-                Text("Item at \(user_event.timestamp!, formatter: myDateFormatter)")
-                
-            } label: {
-                // Label = Event Row
-                HStack(alignment: .center) {
-                    // Date
-                    Text(user_event.timestamp!, formatter: myDateFormatter)
-                        .frame(width: geo.size.width * 0.3, alignment: .leading)
-                    // Name
-                    Text(user_event.name!)
-                        .frame(width: geo.size.width * 0.3, alignment: .leading)
-                    // Quantity
-                    Text("\(myNumberFormatter.string(for: user_event.quantity)!) \(user_event.units!)")
-                        .frame(width: geo.size.width * 0.15, alignment: .leading)
-                }
-                .font(.system(size: 12))
-            }
-        }
-        .onDelete(perform: deleteItems)
-    
-    // end List
-    }
-}
-
- 
-*/
-
-
-
 
 
 

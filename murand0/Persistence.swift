@@ -31,7 +31,7 @@ struct PersistenceController {
         
         // my data test
         // -------------
-        let sample_date0: Date = Date()
+        let sample_date0: Date = Calendar.current.date(byAdding: .minute, value: -30, to: Date())!
         
         let newEvent0 = UserEvent(context: viewContext)
         newEvent0.timestamp = sample_date0

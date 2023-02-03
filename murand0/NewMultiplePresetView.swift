@@ -17,7 +17,7 @@ struct NewMultiplePresetView: View {
     
     // For View
     // ---------
-    @State var editMode = EditMode.inactive
+    @State var editMode = EditMode.active
     
     @State var selected_presets: Set<PresetEntry> = []
     
@@ -35,7 +35,7 @@ struct NewMultiplePresetView: View {
                 
                 // Title
                 // ------
-                Text("New Multiple Preset:").frame(width: geo.size.width * 0.90, alignment: .leading)
+                //Text("New Multiple Preset:").frame(width: geo.size.width * 0.90, alignment: .leading)
                 Divider().frame(width: geo.size.width * 0.90)
                 
                 
@@ -58,7 +58,7 @@ struct NewMultiplePresetView: View {
                         HStack(spacing: 0) {
                             Text("Select Entries to Include:")
                             Spacer()
-                            EditButton()
+                            //EditButton()
                             //Button("Test") { editMode = EditMode.active }
                         }.frame(width: geo.size.width * 0.90)
                         
@@ -73,7 +73,7 @@ struct NewMultiplePresetView: View {
                                         footer: Text("\(preset_entries.count) items, \(selected_presets.count) selected").frame(width: geo.size.width * 0.85, alignment: .leading)
                                     ) { ForEach(preset_entries, id: \.self) { entry in entry_row(entry: entry) } }
                                 }
-                                //.environment(\.editMode, $editMode)
+                                .environment(\.editMode, $editMode)
                                 .frame(width: geo.size.width, height: geo.size.height * 0.5)
                             }
                         }
@@ -86,7 +86,7 @@ struct NewMultiplePresetView: View {
                 
                 // Finish Button
                 // --------------
-                Button("Save Entry"){ }
+                Button("Save Entry"){ validate_form() }
                     .padding(5)
                     .frame(width: geo.size.width * 0.9)
                     .background(.cyan).foregroundColor(.white)
@@ -102,6 +102,45 @@ struct NewMultiplePresetView: View {
         }
     // end of body
     }
+    
+    
+    // functions for validating the form data and saving the new entry
+    // ----------------------------------------------------------------
+    private func validate_form() {
+        // check validity
+        if selected_presets.count > 1 {
+            if new_name.count > 1 {
+                // save if valid
+                save_new_multiple_preset()
+                // reset form data
+                selected_presets = []
+                new_name = ""
+            }
+            // flash message saying name is too short
+        }
+        // flash message saying you need to select 2 or more presets
+    }
+    
+    private func save_new_multiple_preset() {
+        // create new multiple preset
+        // ---------------------------
+        let new_multiple_preset  = PresetEvent(context: viewContext)
+        
+        new_multiple_preset.name = new_name // name
+        for preset in selected_presets { new_multiple_preset.addToEntries(preset) } // included single presets
+        
+        // save new preset
+        do { try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+    }
+    
+    
+    
+    
+    
 }
 
 

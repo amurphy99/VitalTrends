@@ -1,34 +1,30 @@
 //
-//  NewEventView.swift
+//  PresetDetailView.swift
 //  murand0
 //
-//  Created by Andrew Murphy on 12/29/22.
+//  Created by Andrew Murphy on 2/2/23.
 //
 
 import SwiftUI
 
-struct NewEventView: View {
+struct PresetDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
-    // from parent view
-    @Binding var new_date: Date
-
-    // for single event
-    @State var new_type:      String    = ""
-    @State var new_name:      String    = ""
-    @State var new_quantity:  Float     = 0
-    @State var new_units:     String    = ""
+    @State var entry: PresetEntry
     
+    @State var new_type:        String  = ""
+    @State var new_name:        String  = ""
+    @State var new_quantity:    Float   = 0
+    @State var new_units:       String  = ""
+    
+    
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         
         GeometryReader { geo in
-            VStack(alignment: .center, spacing: 10) {
-                
-                // Title
-                // ------
-                //Text("New Single Preset:").frame(width: geo.size.width * 0.9, alignment: .leading)
-                Divider().frame(width: geo.size.width * 0.9)
+            VStack(alignment: .center) {
+                // Type, Name, Quantity, Units
                 
                 
                 // Entry Information
@@ -61,23 +57,28 @@ struct NewEventView: View {
                     
                     Divider().frame(width: geo.size.width * 0.9)
                 }
+                .onAppear {
+                    new_type     = entry.type!
+                    new_name     = entry.name!
+                    new_quantity = entry.quantity
+                    new_units    = entry.units!
+                }
                 
                 
                 // Submit Button
                 // --------------
-                Button("Save Entry") { validate_form() }
+                Button("Save Changes") { validate_form() }
                     .padding(5)
                     .frame(width: geo.size.width * 0.9)
                     .background(.cyan).foregroundColor(.white)
                 
                 
-            // end of VStack
-            }
-            .frame(width: geo.size.width)
-        // end of geo
-        }
-    // end of body
-    }
+                
+                
+            }.frame(width: geo.size.width) // end parent VStack
+        } // end geo
+    } // end View body
+    
     
     
     // functions for validating the form data and saving the new entry
@@ -88,39 +89,22 @@ struct NewEventView: View {
                 if new_units.count > 1 {
                     // save new event and preset
                     save_new_preset()
-                    // reset form data
-                    new_date        = Date()
-                    new_type        = ""
-                    new_name        = ""
-                    new_quantity    = 0
-                    new_units       = ""
+                    presentationMode.wrappedValue.dismiss()
                 }
                 // flash message to enter units
             }
             // flash message to enter a name
         }
         // flash message to enter a type
-        
     }
     
-    // Function for saving (saves the actual event AND saves a new preset entry)
     private func save_new_preset() {
-        // create the new EVENT
-        // ---------------------
-        let newEvent = UserEvent(context: viewContext)
-        newEvent.timestamp = new_date
-        newEvent.type      = new_type
-        newEvent.name      = new_name
-        newEvent.quantity  = new_quantity
-        newEvent.units     = new_units
-        
         // create the new PRESET
         // ----------------------
-        let newEntry = PresetEntry(context: viewContext)
-        newEntry.type     = new_type
-        newEntry.name     = new_name
-        newEntry.quantity = new_quantity
-        newEntry.units    = new_units
+        entry.type     = new_type
+        entry.name     = new_name
+        entry.quantity = new_quantity
+        entry.units    = new_units
         
         // save them both when done
         // -------------------------
@@ -129,16 +113,25 @@ struct NewEventView: View {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
+        
     }
-    
-    
     
 }
 
 
-struct NewEventView_Previews: PreviewProvider {
+
+
+
+
+
+
+
+
+/*
+struct PresetDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        NewEventView( new_date: .constant(Date()) )
+        PresetDetailView( entry:  )
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
+*/
