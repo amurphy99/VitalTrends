@@ -29,8 +29,8 @@ struct AddUserEventView: View {
         
             VStack(alignment: .center) {
                 // Title
-                Text("Add New Event").font(.title3)
-                Divider()
+                //Text("Add New Event").font(.title3)
+                //Divider()
                 
                 VStack(alignment: .center) {
                     // Default Form Items

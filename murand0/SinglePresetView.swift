@@ -21,23 +21,16 @@ struct SinglePresetView: View {
     
     
     
-    
     var body: some View {
-        
+    
         GeometryReader { geo in
             VStack(alignment: .center, spacing: 10) {
                 
-                // Title
-                // ------
-                //Text("Single Preset:").frame(width: geo.size.width * 0.90, alignment: .leading)
-                Divider().frame(width: geo.size.width * 0.90)
-                
-                
+
                 // Picker Section
-                // ---------------
-                VStack {
-                    
-                    Text("Select a Preset:").bold().frame(width: geo.size.width * 0.90, alignment: .leading)
+                // ===================================================================
+                HStack {
+                    Text("Select a Preset:").bold().frame(alignment: .leading)
                     
                     // Picker
                     Picker("Multiple Preset Picker", selection: $selectedPreset) {
@@ -45,9 +38,7 @@ struct SinglePresetView: View {
                         Text("None").tag(PresetEntry?.none)
                         // Other options
                         ForEach(preset_entries, id: \.self) { preset_entry in
-                            Text("\(preset_entry.name!)")
-                                //.frame(width: geo.size.width * 0.90, alignment: .leading)
-                                .tag( PresetEntry?.some(preset_entry) )
+                            Text("\(preset_entry.name!)").tag( PresetEntry?.some(preset_entry) )
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
@@ -56,52 +47,64 @@ struct SinglePresetView: View {
                             selectedPresetEntries = [selectedPreset] as! [PresetEntry]
                         } else { selectedPresetEntries = [] }
                     }
-                    
                 }
+                .frame(width: geo.size.width, alignment: .leading)
                                 
-                
+            
                 // Selected Items
-                // ---------------
+                // ===================================================================
                 NavigationView { ScrollView { LazyVStack {
                     List {
-                        Section ( header: entry_header() .frame(width: geo.size.width * 0.85),
+                        Section ( header: entry_header().frame(width: .infinity),
                                   footer: Text("\(selectedPresetEntries.count) items").frame(width: geo.size.width * 0.85, alignment: .leading)
-                        ) { ForEach(selectedPresetEntries) { preset_entry in entry_row(entry: preset_entry) } }
-                    }.frame(width: geo.size.width, height: geo.size.height * 0.5)
-                }}}.frame(height: geo.size.height * 0.5)
+                        ) {
+                            ForEach(selectedPresetEntries) { preset_entry in entry_row(entry: preset_entry) }
+                        }
+                    }
+                    .scrollContentBackground(.hidden)
+                    .frame(width: geo.size.width, height: geo.size.height * 0.5)
+                    .frame(width: geo.size.width, height: geo.size.height * 0.5)
+                    
+                }}}//.frame(height: geo.size.height * 0.5)
                 
-                Divider().frame(width: geo.size.width * 0.9)
+                Divider()//.frame(width: geo.size.width * 0.9)
                 
                 
                 // Submit Button
                 // --------------
-                Button("Save Entry") {
+                Button {
                     if selectedPresetEntries.count > 0 {
                         // save entries
                         save_single_preset()
                         // clear form data
                         //selectedPresetEntries = []
                     }
+                } label: {
+                    Text("Save Entry")
+                        .font(.title3)
+                        .padding(.horizontal)
                 }
-                .padding(5)
-                .frame(width: geo.size.width * 0.9)
-                .background(.cyan).foregroundColor(.white)
+                .buttonStyle(.borderedProminent)
                 
                 
-                Spacer()
+                //Spacer()
                 
                 
             // end of VStack
             }
-            .frame(width: geo.size.width)
+            .padding(.horizontal)
+            //.frame(width: geo.size.width)
         // end of geo
         }
     // end of body
     }
     
+
+    
+
     
     // Function for saving
-    // --------------------
+    // =========================================================
     func save_single_preset() {
         // create the new event
         // ---------------------
@@ -120,6 +123,9 @@ struct SinglePresetView: View {
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
         
+        // clear selected entries
+        // -----------------------
+        selectedPresetEntries = []
     }
     
     

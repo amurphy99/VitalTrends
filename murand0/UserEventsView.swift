@@ -69,7 +69,10 @@ struct UserEventsView: View {
                 } // end parent VStack
                 .sheet(isPresented: $showAddEventForm, onDismiss: { showAddEventForm = false }) {
                     NavigationView { AddUserEventView()
-                            .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { showAddEventForm = false } } }
+                            .toolbar {
+                                ToolbarItem(placement: .navigationBarLeading){ Text("Add New Event").font(.title).fontWeight(.semibold) }
+                                ToolbarItem(placement: .confirmationAction)  { Button("Done") { showAddEventForm = false } }
+                            }
                     }
                 }
                 
@@ -180,7 +183,6 @@ struct UserEventsView: View {
             }
         }
         .scrollContentBackground(.hidden)
-        //.background(.blue)
         .frame(height: geo.size.height * 0.9)
     }
     
