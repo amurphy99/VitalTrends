@@ -51,13 +51,13 @@ struct PersistenceController {
         newEvent2.timestamp = sample_date0
         newEvent2.type      = "Supplement"
         newEvent2.name      = "Phenibut"
-        newEvent2.quantity  = 600
+        newEvent2.quantity  = 200
         newEvent2.units     = "mg"
         
         let newEvent3 = UserEvent(context: viewContext)
         newEvent3.timestamp = sample_date0
         newEvent3.type      = "Prescription"
-        newEvent3.name      = "Methylphenidate"
+        newEvent3.name      = "Concerta"
         newEvent3.quantity  = 54
         newEvent3.units     = "mg"
         
@@ -82,17 +82,50 @@ struct PersistenceController {
         let newEvent6 = UserEvent(context: viewContext)
         newEvent6.timestamp = sample_date1
         newEvent6.type      = "Supplement"
-        newEvent6.name      = "Phenibut"
-        newEvent6.quantity  = 600
+        newEvent6.name      = "L-Theanine"
+        newEvent6.quantity  = 200
         newEvent6.units     = "mg"
         
         let newEvent7 = UserEvent(context: viewContext)
         newEvent7.timestamp = sample_date1
         newEvent7.type      = "Prescription"
-        newEvent7.name      = "Methylphenidate"
+        newEvent7.name      = "Concerta"
         newEvent7.quantity  = 54
         newEvent7.units     = "mg"
         
+        // earlier day 2
+        // --------------
+        /*
+        let sample_date2: Date = Calendar.current.date(byAdding: .day, value: -2, to: sample_date0)!
+        
+        let newEvent8 = UserEvent(context: viewContext)
+        newEvent8.timestamp = sample_date2
+        newEvent8.type      = "Supplement"
+        newEvent8.name      = "Caffiene"
+        newEvent8.quantity  = 200
+        newEvent8.units     = "mg"
+        
+        let newEvent9 = UserEvent(context: viewContext)
+        newEvent9.timestamp = sample_date2
+        newEvent9.type      = "Supplement"
+        newEvent9.name      = "L-Tyrosine"
+        newEvent9.quantity  = 750
+        newEvent9.units     = "mg"
+        
+        let newEventa = UserEvent(context: viewContext)
+        newEventa.timestamp = sample_date2
+        newEventa.type      = "Supplement"
+        newEventa.name      = "L-Theanine"
+        newEventa.quantity  = 200
+        newEventa.units     = "mg"
+        
+        let newEventb = UserEvent(context: viewContext)
+        newEventb.timestamp = sample_date2
+        newEventb.type      = "Prescription"
+        newEventb.name      = "Concerta"
+        newEventb.quantity  = 54
+        newEventb.units     = "mg"
+         */
         
         do { try viewContext.save()
         } catch {
@@ -120,13 +153,13 @@ struct PersistenceController {
         
         let entry2 = PresetEntry(context: viewContext)
         entry2.type     = "Supplement"
-        entry2.name     = "Phenibut"
-        entry2.quantity = 600
+        entry2.name     = "L-Theanine"
+        entry2.quantity = 200
         entry2.units    = "mg"
         
         let entry3 = PresetEntry(context: viewContext)
         entry3.type     = "Prescription"
-        entry3.name     = "Methylphenidate"
+        entry3.name     = "Concerta"
         entry3.quantity = 54
         entry3.units    = "mg"
         
@@ -139,12 +172,12 @@ struct PersistenceController {
         morning.addToEntries(entry3)
         
         let redose0 = PresetEvent(context: viewContext)
-        redose0.name = "phenibut redose - no caffiene"
+        redose0.name = "afternoon supplements - no caffiene"
         redose0.addToEntries(entry1)
         redose0.addToEntries(entry2)
         
         let redose1 = PresetEvent(context: viewContext)
-        redose1.name = "phenibut redose - with caffiene"
+        redose1.name = "afternoon supplements - with caffiene"
         redose1.addToEntries(entry0)
         redose1.addToEntries(entry1)
         redose1.addToEntries(entry2)

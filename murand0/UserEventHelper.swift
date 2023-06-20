@@ -23,13 +23,13 @@ func user_entries_row(event: UserEvent)-> some View {
             HStack(spacing: geo.size.width * 0.01) {
                 // Date
                 display_date(given_date: event.timestamp!)
-                    .frame(width: geo.size.width * 0.39, alignment: .leading)
+                    .frame(width: geo.size.width * 0.42, alignment: .leading)
                 // Type
                 //Text("\(event.type!)")
                     //.frame(width: geo.size.width * 0.16, alignment: .leading)
                 // Name
                 Text(event.name!)
-                    .frame(width: geo.size.width * 0.40, alignment: .leading)
+                    .frame(width: geo.size.width * 0.37, alignment: .leading)
                 // Quantity
                 Text("\(myNumberFormatter.string(for: event.quantity)!) \(event.units!)")
                     .frame(width: geo.size.width * 0.19, alignment: .leading)
