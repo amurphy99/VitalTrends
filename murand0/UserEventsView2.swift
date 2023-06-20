@@ -9,7 +9,7 @@
 import SwiftUI
 import CoreData
 
-struct UserEventsView: View {
+struct UserEventsView2: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
@@ -21,60 +21,41 @@ struct UserEventsView: View {
     // other stuff
     @State var showAddEventForm = false
     
-    // background color
-    let gradient = LinearGradient(colors: [.orange, .green],
-                                  startPoint: .topLeading,
-                                  endPoint: .bottomTrailing)
-    
     
     var body: some View {
-        ZStack {
-            gradient
-                .opacity(0.25)
-                .ignoresSafeArea()
         
-            GeometryReader { geo in
-                VStack {
-                    // Navigation View with list of events
-                    // ======================================================
-                    NavigationView {
-                        ZStack {
-                            gradient // gradient background
-                                .opacity(0.25)
-                                .ignoresSafeArea()
-                        
-                            ScrollView{
-                                LazyVStack{
-                                    display_events_by_day(results: user_events, geo: geo)
-                                        .toolbar {
-                                            
-                                            ToolbarItem(placement: .navigationBarLeading){ Text("User Events").font(.title).fontWeight(.semibold) }
-                                            ToolbarItem(placement: .navigationBarTrailing) { EditButton() }
-                                            ToolbarItem{Button(action: { showAddEventForm = true }) { Label("Add Item", systemImage: "plus") }}
-                                        }
-                                }
-                            }
-                        }
-                    }
-                    .onAppear {
-                        let appearance = UINavigationBarAppearance()
-                        appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
-                        //appearance.backgroundColor = UIColor(Color.orange.opacity(0.1))
-                        
-                        UINavigationBar.appearance().standardAppearance = appearance // Inline appearance (standard height appearance)
-                        UINavigationBar.appearance().scrollEdgeAppearance = appearance // Large Title appearance
-                    }
-                    
-                    
-                } // end parent VStack
-                .sheet(isPresented: $showAddEventForm, onDismiss: { showAddEventForm = false }) {
-                    NavigationView { AddUserEventView()
-                            .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { showAddEventForm = false } } }
+        GeometryReader { geo in
+            VStack {
+                // Title
+                // -------
+                Text("User Events").font(.title)
+                Divider()
+                Spacer().frame(height: 5)
+                
+
+                // Yolo
+                // -----
+                NavigationView {
+                    display_events_by_day(results: user_events)
+                    .toolbar {  ToolbarItem(placement: .navigationBarTrailing) { EditButton() }
+                                ToolbarItem{Button(action: { showAddEventForm = true }) { Label("Add Item", systemImage: "plus") }}
                     }
                 }
+        
+            
                 
-            } // end parent geo
-        }
+                
+                
+                
+                
+                
+            } // end parent VStack
+            .sheet(isPresented: $showAddEventForm, onDismiss: { showAddEventForm = false }) {
+                NavigationView { AddUserEventView()
+                        .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { showAddEventForm = false } } }
+                }
+            }
+        } // end parent geo
     } // end View body
 
     
@@ -138,50 +119,50 @@ struct UserEventsView: View {
     }
     
     // creating view
-    func display_events_by_day(results: FetchedResults<UserEvent>, geo: GeometryProxy) -> some View {
+    func display_events_by_day(results: FetchedResults<UserEvent>) -> some View {
         // get the dict from other function
         let day_events_dict: [DateComponents : [UserEvent]] = get_events_by_day(results: results)
         let days: [DateComponents] = Array(day_events_dict.keys)
         
-        let w = geo.size.width
-        
-        return List {
-            // for each day in the dictionary
-            ForEach(days, id: \.self) { key in
-
-                Section {
-                    // show the entries
-                    ForEach(day_events_dict[key]!) { user_event in user_entries_row(event: user_event) }
-                        .onDelete(perform: deleteItems)
-                }
-                // HEADER
-                // -------
-                header: { VStack(spacing: 3) {
-                        // Date
-                        header_display_date(given_components: key).frame(width: w*0.8, alignment: .leading)
-                    
-                        // Column Headers
-                        HStack(alignment: .center) {
-                            Text("Date"     ).frame(width: w*0.3, alignment: .leading)
-                            Text("Name"     ).frame(width: w*0.3, alignment: .leading)
-                            Text("Quantity" ).frame(width: w*0.2, alignment: .leading)
-                        }.font(.system(size: 12))
-                            .frame(width: w*0.8, alignment: .leading)
-                    
-                        // Divider Line
-                        //Divider().frame(width: w*0.8, alignment: .leading)
-                    }
-                .frame(width: w*1.0)
-                }
+        return GeometryReader { geo in
+            ScrollView {
+                LazyVStack {
+                    List {
+                        // for each day in the dictionary
+                        ForEach(days, id: \.self) { key in
+                            Section {
+                                // show the entries
+                                ForEach(day_events_dict[key]!) { user_event in user_entries_row(event: user_event) }
+                                    .onDelete(perform: deleteItems)
+                            }
+                            // HEADER
+                            // -------
+                            header: { VStack(spacing: 3) {
+                                    // Date
+                                    header_display_date(given_components: key)
+                                        .frame(width: geo.size.width * 0.8, alignment: .leading)
+                                    // Column Headers
+                                    HStack(alignment: .center) {
+                                        Text("Date"     ).frame(width: geo.size.width * 0.3, alignment: .leading)
+                                        Text("Name"     ).frame(width: geo.size.width * 0.3, alignment: .leading)
+                                        Text("Quantity" ).frame(width: geo.size.width * 0.2, alignment: .leading)
+                                    }.font(.system(size: 12))
+                                        .frame(width: geo.size.width * 0.8, alignment: .leading)
+                                    // Divider Line
+                                    Divider().frame(width: geo.size.width * 0.8, alignment: .leading)
+                                }
+                            .frame(width: geo.size.width * 1.0)
+                            }
+                            
+                            // FOOTER
+                            // -------
+                            footer: { Text("\(day_events_dict[key]!.count) items") }
+                        }
+                    }.frame(height: geo.size.height * 0.9)
+                }.frame(height: geo.size.height * 0.9)
                 
-                // FOOTER
-                // -------
-                footer: { Text("\(day_events_dict[key]!.count) items") }
-            }
-        }
-        .scrollContentBackground(.hidden)
-        //.background(.blue)
-        .frame(height: geo.size.height * 0.9)
+            }//.background(.yellow)
+        }//.background(.gray)
     }
     
     // func for date column
@@ -275,8 +256,8 @@ private let myDateComponentsFormatter: DateFormatter = {
 
 
 
-struct UserEventsView_Previews: PreviewProvider {
+struct UserEventsView2_Previews: PreviewProvider {
     static var previews: some View {
-        UserEventsView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        UserEventsView2().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

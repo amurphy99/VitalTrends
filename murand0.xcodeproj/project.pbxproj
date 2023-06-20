@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A11DB632948007B00E9A73B /* UserEventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11DB622948007B00E9A73B /* UserEventHelper.swift */; };
 		0A46D8152A423F6F0035646E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A46D8142A423F6F0035646E /* MainView.swift */; };
+		0A46D8182A4244820035646E /* UserEventsView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A46D8172A4244820035646E /* UserEventsView2.swift */; };
 		0A8AC0C5298C508B00C0AD9F /* PresetDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8AC0C4298C508B00C0AD9F /* PresetDetailView.swift */; };
 		0A8AC0C7298C5F6A00C0AD9F /* viewFormatHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8AC0C6298C5F6A00C0AD9F /* viewFormatHelpers.swift */; };
 		0A9E8576295F7C0800D47378 /* MultiplePresetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9E8575295F7C0800D47378 /* MultiplePresetView.swift */; };
@@ -30,6 +31,7 @@
 /* Begin PBXFileReference section */
 		0A11DB622948007B00E9A73B /* UserEventHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEventHelper.swift; sourceTree = "<group>"; };
 		0A46D8142A423F6F0035646E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		0A46D8172A4244820035646E /* UserEventsView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEventsView2.swift; sourceTree = "<group>"; };
 		0A8AC0C4298C508B00C0AD9F /* PresetDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetDetailView.swift; sourceTree = "<group>"; };
 		0A8AC0C6298C5F6A00C0AD9F /* viewFormatHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viewFormatHelpers.swift; sourceTree = "<group>"; };
 		0A9E8575295F7C0800D47378 /* MultiplePresetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplePresetView.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				0A11DB622948007B00E9A73B /* UserEventHelper.swift */,
 				0A8AC0C4298C508B00C0AD9F /* PresetDetailView.swift */,
 				0A46D8142A423F6F0035646E /* MainView.swift */,
+				0A46D8172A4244820035646E /* UserEventsView2.swift */,
 			);
 			path = murand0;
 			sourceTree = "<group>";
@@ -200,6 +203,7 @@
 				0AA644CB294653C400904668 /* murand0App.swift in Sources */,
 				0AD7EC35295E5EF3007FBFCA /* SinglePresetView.swift in Sources */,
 				0AA644E8294670F500904668 /* AddUserEventView.swift in Sources */,
+				0A46D8182A4244820035646E /* UserEventsView2.swift in Sources */,
 				0A9E8576295F7C0800D47378 /* MultiplePresetView.swift in Sources */,
 				0AD7EC33295E56AC007FBFCA /* NewEventView.swift in Sources */,
 				0AA644D7294653C600904668 /* murand0.xcdatamodeld in Sources */,
