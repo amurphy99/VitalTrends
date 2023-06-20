@@ -15,59 +15,55 @@ struct AddUserEventView: View {
     @State var new_date = Date()
     @State var selectedEvent = 0
     
+    // background color
+    let gradient = LinearGradient(colors: [.orange, .green],
+                                  startPoint: .topLeading,
+                                  endPoint: .bottomTrailing)
     
     var body: some View {
+        ZStack {
+            // background
+            gradient
+                .opacity(0.25)
+                .ignoresSafeArea()
         
-        GeometryReader { geo in
-            VStack(alignment: .center) { HStack{ Spacer() }
-                
+            VStack(alignment: .center) {
                 // Title
-                // ------
                 Text("Add New Event").font(.title3)
-                Divider().frame(width: geo.size.width * 0.9)
+                Divider()
                 
-                
-                // Actual Form Start
-                // ------------------
-                VStack{
+                VStack(alignment: .center) {
+                    // Default Form Items
+                    // ==================================================================================
+                    
                     // Date
-                    // -----
                     DatePicker("Event Date", selection: $new_date, displayedComponents: [.date, .hourAndMinute])
                     
-                    
                     // Select Event Type
-                    // ------------------
                     Picker("Select Event Type", selection: $selectedEvent) {
-                        Text("Single"       ).tag(1)
+                        Text("Single"       ).tag(0)
                         Text("Multiple"     ).tag(2)
-                        Text("New Single"   ).tag(0)
+                        Text("New Single"   ).tag(1)
                         Text("New Multiple" ).tag(3)
                     }
                     .pickerStyle(.segmented)
+                    Divider()
                     
                     
                     // Display form for selected type
-                    // -------------------------------
+                    // ==================================================================================
                     VStack(alignment: .center) {
-                        //Text("(\(selectedEvent))  ").frame(width: geo.size.width * 0.9, alignment: .trailing)
-                        
-                        if      selectedEvent == 0 { NewEventView           (new_date: $new_date) }
-                        else if selectedEvent == 1 { SinglePresetView       (new_date: $new_date) }
+                        if      selectedEvent == 1 { NewEventView           (new_date: $new_date) }
+                        else if selectedEvent == 0 { SinglePresetView       (new_date: $new_date) }
                         else if selectedEvent == 2 { MultiplePresetView     (new_date: $new_date) }
                         else if selectedEvent == 3 { NewMultiplePresetView  (new_date: $new_date) }
-                        
                     }
-                    .frame(width: geo.size.width * 1.0)
                     .padding(.vertical, 10)
-                    
                 }
-                .frame(width: geo.size.width * 0.9)
-
-                
-                        
             // end parent VStack
             }
-        // end geo
+            .padding(10)
+        // end ZStack
         }
     // end view body
     }

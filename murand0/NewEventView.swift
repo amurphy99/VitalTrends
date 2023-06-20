@@ -65,10 +65,13 @@ struct NewEventView: View {
                 
                 // Submit Button
                 // --------------
-                Button("Save Entry") { validate_form() }
-                    .padding(5)
-                    .frame(width: geo.size.width * 0.9)
-                    .background(.cyan).foregroundColor(.white)
+                Button { validate_form()
+                } label: {
+                    Text("Create New Single Preset")
+                        .font(.title3)
+                        .padding(.horizontal)
+                }
+                .buttonStyle(.borderedProminent)
                 
                 
             // end of VStack
