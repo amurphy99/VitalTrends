@@ -124,7 +124,7 @@ struct NewMultiplePresetView: View {
     private func save_new_multiple_preset() {
         // create new multiple preset
         // ---------------------------
-        let new_multiple_preset  = PresetEvent(context: viewContext)
+        let new_multiple_preset  = GroupPreset(context: viewContext)
         
         new_multiple_preset.name = new_name // name
         for preset in selected_presets { new_multiple_preset.addToEntries(preset) } // included single presets

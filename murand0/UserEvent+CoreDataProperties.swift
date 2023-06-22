@@ -2,7 +2,7 @@
 //  UserEvent+CoreDataProperties.swift
 //  murand0
 //
-//  Created by Andrew Murphy on 12/11/22.
+//  Created by Andrew Murphy on 6/22/23.
 //
 //
 
@@ -16,10 +16,10 @@ extension UserEvent {
         return NSFetchRequest<UserEvent>(entityName: "UserEvent")
     }
 
-    @NSManaged public var timestamp: Date?
-    @NSManaged public var type: String?
     @NSManaged public var name: String?
     @NSManaged public var quantity: Float
+    @NSManaged public var timestamp: Date?
+    @NSManaged public var type: String?
     @NSManaged public var units: String?
 
 }

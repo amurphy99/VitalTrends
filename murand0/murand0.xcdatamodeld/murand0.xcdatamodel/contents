@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="21G115" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F66" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="GroupPreset" representedClassName="GroupPreset" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="entries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PresetEntry" inverseName="parent_preset" inverseEntity="PresetEntry"/>
+    </entity>
     <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
-    <entity name="PresetEntry" representedClassName="PresetEntry" syncable="YES" codeGenerationType="class">
+    <entity name="PresetEntry" representedClassName="PresetEntry" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="quantity" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="type" optional="YES" attributeType="String"/>
         <attribute name="units" optional="YES" attributeType="String"/>
-        <relationship name="parent_preset" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PresetEvent" inverseName="entries" inverseEntity="PresetEvent"/>
-    </entity>
-    <entity name="PresetEvent" representedClassName="PresetEvent" syncable="YES" codeGenerationType="class">
-        <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="entries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PresetEntry" inverseName="parent_preset" inverseEntity="PresetEntry"/>
+        <relationship name="parent_preset" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GroupPreset" inverseName="entries" inverseEntity="GroupPreset"/>
+        <fetchedProperty name="fetchedProperty" optional="YES">
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="PresetEntry"/>
+        </fetchedProperty>
     </entity>
     <entity name="UserEvent" representedClassName="UserEvent" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String"/>

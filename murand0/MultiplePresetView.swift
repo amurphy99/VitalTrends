@@ -10,10 +10,10 @@ import SwiftUI
 struct MultiplePresetView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \PresetEvent.name, ascending: true)], animation: .default)
-    var preset_events: FetchedResults<PresetEvent>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \GroupPreset.name, ascending: true)], animation: .default)
+    var preset_events: FetchedResults<GroupPreset>
 
-    @State var selectedPreset: PresetEvent?
+    @State var selectedPreset: GroupPreset?
     @State var selectedPresetEntries: [PresetEntry] = []
     
     @Binding var new_date: Date
@@ -36,12 +36,12 @@ struct MultiplePresetView: View {
                     
                     // Picker
                     Picker("Multiple Preset Picker", selection: $selectedPreset) {
-                        Text("None").tag(PresetEvent?.none) // None option
+                        Text("None").tag(GroupPreset?.none) // None option
                         // Other options
                         ForEach(preset_events, id: \.self) { preset_event in
                             Text("\(preset_event.name!) (\(preset_event.entries!.count))")
                                 //.frame(width: geo.size.width * 0.90, alignment: .leading)
-                                .tag( PresetEvent?.some(preset_event) )
+                                .tag( GroupPreset?.some(preset_event) )
                         }
                     }
                     .pickerStyle(MenuPickerStyle())

@@ -164,19 +164,19 @@ struct PersistenceController {
         entry3.units    = "mg"
         
         // presets
-        let morning = PresetEvent(context: viewContext)
+        let morning = GroupPreset(context: viewContext)
         morning.name = "morning pills"
         morning.addToEntries(entry0)
         morning.addToEntries(entry1)
         morning.addToEntries(entry2)
         morning.addToEntries(entry3)
         
-        let redose0 = PresetEvent(context: viewContext)
+        let redose0 = GroupPreset(context: viewContext)
         redose0.name = "afternoon supplements - no caffiene"
         redose0.addToEntries(entry1)
         redose0.addToEntries(entry2)
         
-        let redose1 = PresetEvent(context: viewContext)
+        let redose1 = GroupPreset(context: viewContext)
         redose1.name = "afternoon supplements - with caffiene"
         redose1.addToEntries(entry0)
         redose1.addToEntries(entry1)

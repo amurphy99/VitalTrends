@@ -2,7 +2,7 @@
 //  UserEvent+CoreDataClass.swift
 //  murand0
 //
-//  Created by Andrew Murphy on 12/11/22.
+//  Created by Andrew Murphy on 6/22/23.
 //
 //
 
