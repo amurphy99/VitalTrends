@@ -16,10 +16,13 @@ struct MainView: View {
             
             UserEventsView()
                 //.frame(alignment: .top)
-                .tabItem { Label("Device Status", systemImage: "iphone.radiowaves.left.and.right") }
+                .tabItem { Label("Entries", systemImage: "iphone.radiowaves.left.and.right") }
             
             ContentView()
                 .tabItem { Label("Log View", systemImage: "chart.xyaxis.line") }
+            
+            PresetInfoView()
+                .tabItem { Label("Presets", systemImage: "chart.xyaxis.line") }
             
             
         }
