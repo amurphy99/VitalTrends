@@ -11,7 +11,7 @@ struct IndividualPresetInfoView: View {
     
     // CoreData
     @Environment(\.managedObjectContext) private var viewContext
-    @State var individualPreset: PresetEntry
+    @State var individualPreset: IndividualPreset
     
     // background color
     let gradient = LinearGradient(colors: [.orange, .cyan],
@@ -116,7 +116,7 @@ struct IndividualPresetInfoView: View {
 
 struct IndividualPresetInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        @State var previewPreset: PresetEntry = PersistenceController.preview.container.viewContext.registeredObjects.first(where: { $0 is PresetEntry }) as! PresetEntry
+        @State var previewPreset: IndividualPreset = PersistenceController.preview.container.viewContext.registeredObjects.first(where: { $0 is IndividualPreset }) as! IndividualPreset
         
         IndividualPresetInfoView( individualPreset: previewPreset)
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)

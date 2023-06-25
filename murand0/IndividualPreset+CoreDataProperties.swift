@@ -1,8 +1,8 @@
 //
-//  PresetEntry+CoreDataProperties.swift
+//  IndividualPreset+CoreDataProperties.swift
 //  murand0
 //
-//  Created by Andrew Murphy on 6/22/23.
+//  Created by Andrew Murphy on 6/24/23.
 //
 //
 
@@ -10,23 +10,22 @@ import Foundation
 import CoreData
 
 
-extension PresetEntry {
+extension IndividualPreset {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<PresetEntry> {
-        return NSFetchRequest<PresetEntry>(entityName: "PresetEntry")
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<IndividualPreset> {
+        return NSFetchRequest<IndividualPreset>(entityName: "IndividualPreset")
     }
 
     @NSManaged public var name: String
     @NSManaged public var quantity: Float
     @NSManaged public var type: String
     @NSManaged public var units: String
-    
     @NSManaged public var parent_preset: NSSet?
 
 }
 
 // MARK: Generated accessors for parent_preset
-extension PresetEntry {
+extension IndividualPreset {
 
     @objc(addParent_presetObject:)
     @NSManaged public func addToParent_preset(_ value: GroupPreset)
@@ -42,6 +41,6 @@ extension PresetEntry {
 
 }
 
-extension PresetEntry : Identifiable {
+extension IndividualPreset : Identifiable {
 
 }

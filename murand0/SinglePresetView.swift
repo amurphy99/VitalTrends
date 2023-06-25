@@ -10,11 +10,11 @@ import SwiftUI
 struct SinglePresetView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \PresetEntry.name, ascending: true)], animation: .default)
-    private var preset_entries: FetchedResults<PresetEntry>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \IndividualPreset.name, ascending: true)], animation: .default)
+    private var preset_entries: FetchedResults<IndividualPreset>
 
-    @State var selectedPreset: PresetEntry?
-    @State var selectedPresetEntries: [PresetEntry] = []
+    @State var selectedPreset: IndividualPreset?
+    @State var selectedPresetEntries: [IndividualPreset] = []
     
     // for single event
     @Binding    var new_date:      Date
@@ -31,16 +31,16 @@ struct SinglePresetView: View {
                 // Picker
                 Picker("Multiple Preset Picker", selection: $selectedPreset) {
                     // None option
-                    Text("None").tag(PresetEntry?.none)
+                    Text("None").tag(IndividualPreset?.none)
                     // Other options
                     ForEach(preset_entries, id: \.self) { preset_entry in
-                        Text("\(preset_entry.name)").tag( PresetEntry?.some(preset_entry) )
+                        Text("\(preset_entry.name)").tag( IndividualPreset?.some(preset_entry) )
                     }
                 }
                 .pickerStyle(MenuPickerStyle())
                 .onChange(of: selectedPreset) { _ in
                     if selectedPreset != nil {
-                        selectedPresetEntries = [selectedPreset] as! [PresetEntry]
+                        selectedPresetEntries = [selectedPreset] as! [IndividualPreset]
                     } else { selectedPresetEntries = [] }
                 }
                 Spacer()

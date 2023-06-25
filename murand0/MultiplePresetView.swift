@@ -14,7 +14,7 @@ struct MultiplePresetView: View {
     var preset_events: FetchedResults<GroupPreset>
 
     @State var selectedPreset: GroupPreset?
-    @State var selectedPresetEntries: [PresetEntry] = []
+    @State var selectedPresetEntries: [IndividualPreset] = []
     
     @Binding var new_date: Date
     
@@ -46,7 +46,7 @@ struct MultiplePresetView: View {
                     }
                     .pickerStyle(MenuPickerStyle())
                     .onChange(of: selectedPreset) { _ in
-                        if selectedPreset != nil { selectedPresetEntries = selectedPreset!.entries!.allObjects as! [PresetEntry]
+                        if selectedPreset != nil { selectedPresetEntries = selectedPreset!.entries!.allObjects as! [IndividualPreset]
                         } else { selectedPresetEntries = [] }
                     }
                     
@@ -81,7 +81,7 @@ struct MultiplePresetView: View {
                     }
                     
                 }.onChange(of: selectedPreset) { _ in
-                    if selectedPreset != nil { selectedPresetEntries = selectedPreset!.entries!.allObjects as! [PresetEntry]
+                    if selectedPreset != nil { selectedPresetEntries = selectedPreset!.entries!.allObjects as! [IndividualPreset]
                     } else { selectedPresetEntries = [] }
                     
                 }.frame(height: geo.size.height * 0.6) // end NavigationView
@@ -109,10 +109,10 @@ struct MultiplePresetView: View {
         for preset_entry in selectedPresetEntries {
             let newEvent = UserEvent(context: viewContext)
             newEvent.timestamp = new_date
-            newEvent.type      = preset_entry.type!
+            newEvent.type      = preset_entry.type
             newEvent.name      = preset_entry.name
             newEvent.quantity  = preset_entry.quantity
-            newEvent.units     = preset_entry.units!
+            newEvent.units     = preset_entry.units
         }
         // save them all when done (are they all saved at once?)
         // ------------------------

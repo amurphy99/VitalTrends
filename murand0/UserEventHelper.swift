@@ -48,7 +48,7 @@ func user_entries_row(event: UserEvent)-> some View {
 
 // ROW FOR SINGLE ENTRY
 // ---------------------
-func entry_row(entry: PresetEntry)-> some View {
+func entry_row(entry: IndividualPreset)-> some View {
     NavigationLink { PresetDetailView(entry: entry )
     } label: {
         GeometryReader { geo in

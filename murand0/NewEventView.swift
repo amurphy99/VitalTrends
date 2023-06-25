@@ -119,7 +119,7 @@ struct NewEventView: View {
         
         // create the new PRESET
         // ----------------------
-        let newEntry = PresetEntry(context: viewContext)
+        let newEntry = IndividualPreset(context: viewContext)
         newEntry.type     = new_type
         newEntry.name     = new_name
         newEntry.quantity = new_quantity

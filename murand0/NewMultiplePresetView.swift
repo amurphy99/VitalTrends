@@ -12,14 +12,14 @@ struct NewMultiplePresetView: View {
     // ----------
     @Environment(\.managedObjectContext) private var viewContext
     
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \PresetEntry.name, ascending: true)], animation: .default)
-    private var preset_entries: FetchedResults<PresetEntry>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \IndividualPreset.name, ascending: true)], animation: .default)
+    private var preset_entries: FetchedResults<IndividualPreset>
     
     // For View
     // ---------
     @State var editMode = EditMode.active
     
-    @State var selected_presets: Set<PresetEntry> = []
+    @State var selected_presets: Set<IndividualPreset> = []
     
     // from parent
     @Binding var new_date: Date

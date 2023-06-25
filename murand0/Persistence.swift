@@ -139,25 +139,25 @@ struct PersistenceController {
         // ------------------------
         
         // entries
-        let entry0 = PresetEntry(context: viewContext)
+        let entry0 = IndividualPreset(context: viewContext)
         entry0.type     = "Supplement"
         entry0.name     = "Caffiene"
         entry0.quantity = 200
         entry0.units    = "mg"
         
-        let entry1 = PresetEntry(context: viewContext)
+        let entry1 = IndividualPreset(context: viewContext)
         entry1.type     = "Supplement"
         entry1.name     = "L-Tyrosine"
         entry1.quantity = 750
         entry1.units    = "mg"
         
-        let entry2 = PresetEntry(context: viewContext)
+        let entry2 = IndividualPreset(context: viewContext)
         entry2.type     = "Supplement"
         entry2.name     = "L-Theanine"
         entry2.quantity = 200
         entry2.units    = "mg"
         
-        let entry3 = PresetEntry(context: viewContext)
+        let entry3 = IndividualPreset(context: viewContext)
         entry3.type     = "Prescription"
         entry3.name     = "Concerta"
         entry3.quantity = 54

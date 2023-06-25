@@ -11,7 +11,7 @@ struct CreateNewPresetView: View {
     
     // CoreData
     @Environment(\.managedObjectContext) private var viewContext
-    @State var userSinglePresets = [PresetEntry]()
+    @State var userSinglePresets = [IndividualPreset]()
     
     @Binding var isPresented: Bool
     
@@ -25,7 +25,7 @@ struct CreateNewPresetView: View {
     
     @State var selectedType: Int = 0
     @State var editMode = EditMode.active
-    @State var selectedPresets: Set<PresetEntry> = []
+    @State var selectedPresets: Set<IndividualPreset> = []
     
     
     @State var name: String = ""
@@ -191,7 +191,7 @@ struct CreateNewPresetView: View {
         loadSinglePresets()
     }
     private func loadSinglePresets() {
-        let request = PresetEntry.fetchRequest()
+        let request = IndividualPreset.fetchRequest()
         let sort = NSSortDescriptor(key: "name", ascending: false)
         request.sortDescriptors = [sort]
         
@@ -214,7 +214,7 @@ struct CreateNewPresetView: View {
         return true
     }
     private func saveNewIndividualPreset() {
-        let newInidividualPreset = PresetEntry(context: viewContext)
+        let newInidividualPreset = IndividualPreset(context: viewContext)
         newInidividualPreset.type     = type
         newInidividualPreset.name     = name
         newInidividualPreset.quantity = quantity

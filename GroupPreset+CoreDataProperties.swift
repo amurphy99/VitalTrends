@@ -25,10 +25,10 @@ extension GroupPreset {
 extension GroupPreset {
 
     @objc(addEntriesObject:)
-    @NSManaged public func addToEntries(_ value: PresetEntry)
+    @NSManaged public func addToEntries(_ value: IndividualPreset)
 
     @objc(removeEntriesObject:)
-    @NSManaged public func removeFromEntries(_ value: PresetEntry)
+    @NSManaged public func removeFromEntries(_ value: IndividualPreset)
 
     @objc(addEntries:)
     @NSManaged public func addToEntries(_ values: NSSet)

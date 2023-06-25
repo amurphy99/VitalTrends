@@ -12,7 +12,7 @@ struct PresetInfoView: View {
     // CoreData
     @Environment(\.managedObjectContext) private var viewContext
     
-    @State var user_SinglePresets = [PresetEntry]()
+    @State var user_SinglePresets = [IndividualPreset]()
     @State var user_GroupPresets  = [GroupPreset]()
     
 
@@ -95,7 +95,7 @@ struct PresetInfoView: View {
         load_GroupPresets()
     }
     private func load_PresetEntries() {
-        let request = PresetEntry.fetchRequest()
+        let request = IndividualPreset.fetchRequest()
         let sort = NSSortDescriptor(key: "name", ascending: false)
         request.sortDescriptors = [sort]
         

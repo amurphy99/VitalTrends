@@ -10,7 +10,7 @@ import SwiftUI
 struct PresetDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
-    @State var entry: PresetEntry
+    @State var entry: IndividualPreset
     
     @State var new_type:        String  = ""
     @State var new_name:        String  = ""
