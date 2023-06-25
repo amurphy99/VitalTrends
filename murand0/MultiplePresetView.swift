@@ -39,14 +39,14 @@ struct MultiplePresetView: View {
                         Text("None").tag(GroupPreset?.none) // None option
                         // Other options
                         ForEach(preset_events, id: \.self) { preset_event in
-                            Text("\(preset_event.name) (\(preset_event.entries!.count))")
+                            Text("\(preset_event.name) (\(preset_event.entries.count))")
                                 //.frame(width: geo.size.width * 0.90, alignment: .leading)
                                 .tag( GroupPreset?.some(preset_event) )
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
                     .onChange(of: selectedPreset) { _ in
-                        if selectedPreset != nil { selectedPresetEntries = selectedPreset!.entries!.allObjects as! [IndividualPreset]
+                        if selectedPreset != nil { selectedPresetEntries = Array(selectedPreset!.entries) as! [IndividualPreset]
                         } else { selectedPresetEntries = [] }
                     }
                     
@@ -81,7 +81,7 @@ struct MultiplePresetView: View {
                     }
                     
                 }.onChange(of: selectedPreset) { _ in
-                    if selectedPreset != nil { selectedPresetEntries = selectedPreset!.entries!.allObjects as! [IndividualPreset]
+                    if selectedPreset != nil { selectedPresetEntries = Array(selectedPreset!.entries) as! [IndividualPreset]
                     } else { selectedPresetEntries = [] }
                     
                 }.frame(height: geo.size.height * 0.6) // end NavigationView

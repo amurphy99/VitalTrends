@@ -19,6 +19,8 @@
 		0A9E13C62A47BF6A00C733FB /* IndividualPreset+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9E13C42A47BF6A00C733FB /* IndividualPreset+CoreDataProperties.swift */; };
 		0A9E13C82A47C2A900C733FB /* IndividualEventLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9E13C72A47C2A900C733FB /* IndividualEventLogView.swift */; };
 		0A9E13CA2A47D66C00C733FB /* CreateNewLogFromPresetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9E13C92A47D66C00C733FB /* CreateNewLogFromPresetsView.swift */; };
+		0A9E13CC2A48EB4000C733FB /* GroupPresetInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9E13CB2A48EB4000C733FB /* GroupPresetInfoView.swift */; };
+		0A9E13CE2A48EF0E00C733FB /* dataLoadingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9E13CD2A48EF0E00C733FB /* dataLoadingHelper.swift */; };
 		0A9E8576295F7C0800D47378 /* MultiplePresetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9E8575295F7C0800D47378 /* MultiplePresetView.swift */; };
 		0A9E85782960D76000D47378 /* NewMultiplePresetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9E85772960D76000D47378 /* NewMultiplePresetView.swift */; };
 		0AA275342A44B6E30067051E /* PresetInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA275332A44B6E30067051E /* PresetInfoView.swift */; };
@@ -51,6 +53,8 @@
 		0A9E13C42A47BF6A00C733FB /* IndividualPreset+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "IndividualPreset+CoreDataProperties.swift"; path = "murand0/IndividualPreset+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0A9E13C72A47C2A900C733FB /* IndividualEventLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualEventLogView.swift; sourceTree = "<group>"; };
 		0A9E13C92A47D66C00C733FB /* CreateNewLogFromPresetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewLogFromPresetsView.swift; sourceTree = "<group>"; wrapsLines = 1; };
+		0A9E13CB2A48EB4000C733FB /* GroupPresetInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupPresetInfoView.swift; sourceTree = "<group>"; };
+		0A9E13CD2A48EF0E00C733FB /* dataLoadingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataLoadingHelper.swift; sourceTree = "<group>"; };
 		0A9E8575295F7C0800D47378 /* MultiplePresetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplePresetView.swift; sourceTree = "<group>"; };
 		0A9E85772960D76000D47378 /* NewMultiplePresetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMultiplePresetView.swift; sourceTree = "<group>"; };
 		0AA275332A44B6E30067051E /* PresetInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetInfoView.swift; sourceTree = "<group>"; };
@@ -100,6 +104,7 @@
 				0AA275332A44B6E30067051E /* PresetInfoView.swift */,
 				0A9E13BB2A4766DB00C733FB /* IndividualPresetInfoView.swift */,
 				0A9E13BD2A47940A00C733FB /* CreateNewPresetView.swift */,
+				0A9E13CB2A48EB4000C733FB /* GroupPresetInfoView.swift */,
 			);
 			name = presetInfo;
 			sourceTree = "<group>";
@@ -154,6 +159,7 @@
 				0A8AC0C4298C508B00C0AD9F /* PresetDetailView.swift */,
 				0A46D8142A423F6F0035646E /* MainView.swift */,
 				0A46D8172A4244820035646E /* UserEventsView2.swift */,
+				0A9E13CD2A48EF0E00C733FB /* dataLoadingHelper.swift */,
 			);
 			path = murand0;
 			sourceTree = "<group>";
@@ -255,10 +261,12 @@
 				0A9E13C52A47BF6A00C733FB /* IndividualPreset+CoreDataClass.swift in Sources */,
 				0A9E13BC2A4766DB00C733FB /* IndividualPresetInfoView.swift in Sources */,
 				0AA644E8294670F500904668 /* AddUserEventView.swift in Sources */,
+				0A9E13CC2A48EB4000C733FB /* GroupPresetInfoView.swift in Sources */,
 				0A46D8182A4244820035646E /* UserEventsView2.swift in Sources */,
 				0A9E8576295F7C0800D47378 /* MultiplePresetView.swift in Sources */,
 				0AD7EC33295E56AC007FBFCA /* NewEventView.swift in Sources */,
 				0AA644D7294653C600904668 /* murand0.xcdatamodeld in Sources */,
+				0A9E13CE2A48EF0E00C733FB /* dataLoadingHelper.swift in Sources */,
 				0A9E13C82A47C2A900C733FB /* IndividualEventLogView.swift in Sources */,
 				0AA275482A44D2730067051E /* UserEvent+CoreDataClass.swift in Sources */,
 				0A9E13CA2A47D66C00C733FB /* CreateNewLogFromPresetsView.swift in Sources */,

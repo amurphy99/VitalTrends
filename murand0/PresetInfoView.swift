@@ -33,7 +33,7 @@ struct PresetInfoView: View {
                     LazyVStack {
                         List{
                             // Single Presets
-                            // --------------------------------------------------
+                            // ======================================================
                             Section (
                                 header: Text("Individual Presets"),
                                 footer: Text("\(user_SinglePresets.count) items")
@@ -42,19 +42,20 @@ struct PresetInfoView: View {
                                     NavigationLink {
                                         IndividualPresetInfoView(individualPreset: preset)
                                             .navigationTitle(Text("\(preset.name)"))
-                                    } label: { Text("\(preset.name)") }
+                                    } label: { Text("\(preset.name)").truncationMode(.tail).lineLimit(1) }
                                 }
                             }
                             // Multiple Presets
-                            // --------------------------------------------------
+                            // ======================================================
                             Section (
                                 header: Text("Group Presets"),
                                 footer: Text("\(user_GroupPresets.count) items")
                             ) {
                                 ForEach(user_GroupPresets, id: \.self) { preset in
-                        
-                                    Text("\(preset.name)")
-                                    
+                                    NavigationLink {
+                                        GroupPresetInfoView(groupPreset: preset)
+                                            .navigationTitle(Text("\(preset.name)"))
+                                    } label: { Text("\(preset.name)").truncationMode(.tail).lineLimit(1) }
                                 }
                             }
                         }

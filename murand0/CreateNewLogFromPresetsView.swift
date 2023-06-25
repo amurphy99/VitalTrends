@@ -102,14 +102,14 @@ struct CreateNewLogFromPresetsView: View {
                                                 Text("None").tag(GroupPreset?.none) // None option
                                                 // Other options
                                                 ForEach(userGroupPresets, id: \.self) { preset_event in
-                                                    Text("\(preset_event.name) (\(preset_event.entries!.count))")
+                                                    Text("\(preset_event.name) (\(preset_event.entries.count))")
                                                         .tag( GroupPreset?.some(preset_event) )
                                                 }
           
                                             }
                                             .pickerStyle(MenuPickerStyle())
                                             .onChange(of: selectedPreset) { _ in
-                                                if selectedPreset != nil { selectedPresetEntries = selectedPreset!.entries!.allObjects as! [IndividualPreset]
+                                                if selectedPreset != nil { selectedPresetEntries = Array(selectedPreset!.entries) as! [IndividualPreset]
                                                 } else { selectedPresetEntries = [] }
                                             }
                                             Spacer()
@@ -132,7 +132,7 @@ struct CreateNewLogFromPresetsView: View {
                                         .frame(height: listHeight)
                                     }
                                     .onChange(of: selectedPreset) { _ in
-                                        if selectedPreset != nil { selectedPresetEntries = selectedPreset!.entries!.allObjects as! [IndividualPreset]
+                                        if selectedPreset != nil { selectedPresetEntries = Array(selectedPreset!.entries) as! [IndividualPreset]
                                         } else { selectedPresetEntries = [] }
                                     }
                                 }

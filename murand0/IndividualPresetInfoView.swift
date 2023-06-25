@@ -21,7 +21,6 @@ struct IndividualPresetInfoView: View {
     // styling variables
     private let StockLabelWidth: CGFloat = 130
     private let InfoLabelWidth: CGFloat = 70
-    private let edgeInsets: EdgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
     
     
     @State private var canDelete: Bool = false
@@ -40,7 +39,7 @@ struct IndividualPresetInfoView: View {
                     Section (header:
                                 Text("Track Stock")
                         .foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
-                        .listRowInsets(edgeInsets)
+                        .listRowInsets(SECTION_EDGE_INSETS)
                         .padding(.top)
                     ) {
                         HStack {
@@ -63,7 +62,7 @@ struct IndividualPresetInfoView: View {
                     Section (header:
                                 Text("Edit Preset Info")
                         .foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
-                        .listRowInsets(edgeInsets)
+                        .listRowInsets(SECTION_EDGE_INSETS)
                     ) {
                         HStack {
                             Text("Name").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
@@ -87,7 +86,7 @@ struct IndividualPresetInfoView: View {
                     Section (header:
                                 Text("Included In (\(Array(individualPreset.parent_preset ?? []).count)) Groups")
                         .foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
-                        .listRowInsets(edgeInsets)
+                        .listRowInsets(SECTION_EDGE_INSETS)
                     ) {
                         ForEach(Array(individualPreset.parent_preset ?? []), id: \.self) { group in
                             Text("\(group.name)")
@@ -157,7 +156,7 @@ struct IndividualPresetInfoView_Previews: PreviewProvider {
     static var previews: some View {
         @State var previewPreset: IndividualPreset = PersistenceController.preview.container.viewContext.registeredObjects.first(where: { $0 is IndividualPreset }) as! IndividualPreset
         
-        IndividualPresetInfoView( individualPreset: previewPreset)
+        IndividualPresetInfoView(individualPreset: previewPreset)
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
