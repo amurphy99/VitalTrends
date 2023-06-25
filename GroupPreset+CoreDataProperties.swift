@@ -16,7 +16,7 @@ extension GroupPreset {
         return NSFetchRequest<GroupPreset>(entityName: "GroupPreset")
     }
 
-    @NSManaged public var name: String?
+    @NSManaged public var name: String
     @NSManaged public var entries: NSSet?
 
 }

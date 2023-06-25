@@ -102,7 +102,7 @@ struct CreateNewLogFromPresetsView: View {
                                                 Text("None").tag(GroupPreset?.none) // None option
                                                 // Other options
                                                 ForEach(userGroupPresets, id: \.self) { preset_event in
-                                                    Text("\(preset_event.name!) (\(preset_event.entries!.count))")
+                                                    Text("\(preset_event.name) (\(preset_event.entries!.count))")
                                                         .tag( GroupPreset?.some(preset_event) )
                                                 }
           
@@ -255,7 +255,7 @@ struct CreateNewLogFromPresetsView: View {
                         Text("\(userGroupPresets.count) items, \(selectedGroupPresets.count) selected")
                 ){
                     ForEach(userGroupPresets, id: \.self) { preset in
-                        Text("\(preset.name ?? "")")
+                        Text("\(preset.name)")
                     }
                 }
             }.navigationBarItems( leading: EditButton() )

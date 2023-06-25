@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 
-let GRADIENT_OPACITY: Double = 0.25
+let GRADIENT_OPACITY: Double = 0.30 // original was 0.25
 
 
 extension View {

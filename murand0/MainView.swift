@@ -14,19 +14,19 @@ struct MainView: View {
     var body: some View {
         TabView {
             
-            UserEventsView()
-                //.frame(alignment: .top)
-                .tabItem { Label("Entries", systemImage: "iphone.radiowaves.left.and.right") }
-            
-            ContentView()
-                .tabItem { Label("Log View", systemImage: "chart.xyaxis.line") }
-            
             EventLogsView()
                 .tabItem { Label("Logs", systemImage: "list.bullet.clipboard.fill") }
             
             PresetInfoView()
                 .tabItem { Label("Presets", systemImage: "folder.fill") }
             
+            
+            UserEventsView()
+                //.frame(alignment: .top)
+                .tabItem { Label("Entries", systemImage: "iphone.radiowaves.left.and.right") }
+            
+            ContentView()
+                .tabItem { Label("Log View", systemImage: "chart.xyaxis.line") }
             
         }
         .onAppear {

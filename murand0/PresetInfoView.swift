@@ -52,8 +52,8 @@ struct PresetInfoView: View {
                                 footer: Text("\(user_GroupPresets.count) items")
                             ) {
                                 ForEach(user_GroupPresets, id: \.self) { preset in
-                                
-                                    Text("\(preset.name ?? " ")")
+                        
+                                    Text("\(preset.name)")
                                     
                                 }
                             }

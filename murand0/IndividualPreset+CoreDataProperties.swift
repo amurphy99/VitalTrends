@@ -20,7 +20,7 @@ extension IndividualPreset {
     @NSManaged public var quantity: Float
     @NSManaged public var type: String
     @NSManaged public var units: String
-    @NSManaged public var parent_preset: NSSet?
+    @NSManaged public var parent_preset: Set<GroupPreset>?  //NSSet?
 
 }
 

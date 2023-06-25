@@ -39,7 +39,7 @@ struct MultiplePresetView: View {
                         Text("None").tag(GroupPreset?.none) // None option
                         // Other options
                         ForEach(preset_events, id: \.self) { preset_event in
-                            Text("\(preset_event.name!) (\(preset_event.entries!.count))")
+                            Text("\(preset_event.name) (\(preset_event.entries!.count))")
                                 //.frame(width: geo.size.width * 0.90, alignment: .leading)
                                 .tag( GroupPreset?.some(preset_event) )
                         }
