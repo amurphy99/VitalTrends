@@ -173,8 +173,8 @@ struct CreateNewPresetView: View {
         } // end Navigation View
         .onAppear {
             loadData()
-            let appearance = UINavigationBarAppearance()
             
+            let appearance = UINavigationBarAppearance()
             appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
             //appearance.backgroundColor = UIColor(Color.orange.opacity(0.1))
             

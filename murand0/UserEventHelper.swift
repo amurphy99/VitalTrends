@@ -15,23 +15,23 @@ import SwiftUI
 func user_entries_row(event: UserEvent)-> some View {
     NavigationLink {
         // new page that you are sent to, with edit button perhaps?
-        Text("Item at \(event.timestamp!, formatter: myDateFormatter)")
+        Text("Item at \(event.timestamp, formatter: myDateFormatter)")
         // include edits for all fields? also add a new text description field to each
         // in the list form, show a * for the ones with a decription entered
     } label: {
         GeometryReader { geo in
             HStack(spacing: geo.size.width * 0.01) {
                 // Date
-                display_date(given_date: event.timestamp!)
+                display_date(given_date: event.timestamp)
                     .frame(width: geo.size.width * 0.42, alignment: .leading)
                 // Type
                 //Text("\(event.type!)")
                     //.frame(width: geo.size.width * 0.16, alignment: .leading)
                 // Name
-                Text(event.name!)
+                Text(event.name)
                     .frame(width: geo.size.width * 0.37, alignment: .leading)
                 // Quantity
-                Text("\(myNumberFormatter.string(for: event.quantity)!) \(event.units!)")
+                Text("\(myNumberFormatter.string(for: event.quantity)!) \(event.units ?? "")")
                     .frame(width: geo.size.width * 0.19, alignment: .leading)
             }
             .font(.system(size: 12))
@@ -116,8 +116,26 @@ func display_date(given_date: Date)-> some View {
     else                                { test3 = "\(myIntervalFormatter.string(for: -time_interval)! )s ago" }
     
     return Text("\(test1), \(test3)")
-    
 }
+func displayTimeAgo(given_date: Date)-> some View {
+    let interval: TimeInterval = given_date.timeIntervalSinceNow
+    
+    var test3: String = ""
+    // /60 = seconds, /60 = hours, /24 = days
+    let time_interval = interval as Double
+    let days  = time_interval / (60*60*24)
+    let hours = time_interval / (60*60)
+    let minutes = time_interval / (60)
+    
+    if      time_interval < -(60*60*24) { test3 = "\(myIntervalFormatter.string(for: -days)!)d ago"}
+    else if time_interval < -(60*60)    { test3 = "\(myIntervalFormatter.string(for: -hours)! )h ago" }
+    else if time_interval < -60         { test3 = "\(myIntervalFormatter.string(for: -minutes)! )m ago" }
+    else if time_interval > -5          { test3 = "just now" }
+    else                                { test3 = "\(myIntervalFormatter.string(for: -time_interval)! )s ago" }
+    
+    return Text("\(test3)")
+}
+
 
 
 

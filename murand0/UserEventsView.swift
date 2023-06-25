@@ -130,7 +130,7 @@ struct UserEventsView: View {
         
         for val in results {
             // get the date components up to the day only
-            let event_calendar_date = Calendar.current.dateComponents([.day, .year, .month], from: val.timestamp!)
+            let event_calendar_date = Calendar.current.dateComponents([.day, .year, .month], from: val.timestamp)
             
             // add to the dictionary, create a new key for a day if it is not already in
             if events_by_day.contains(where: { $0.key == event_calendar_date }) {

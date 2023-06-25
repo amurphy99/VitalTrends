@@ -67,7 +67,7 @@ struct EventLogsView: View {
         var eventsByDay: [DateComponents : [UserEvent]] = [:]
         for val in results {
             // get the date components up to the day only
-            let eventDate = Calendar.current.dateComponents([.day, .year, .month], from: val.timestamp!)
+            let eventDate = Calendar.current.dateComponents([.day, .year, .month], from: val.timestamp)
             
             // add to the dictionary, create a new key for a day if it is not already in
             if eventsByDay.contains(where: { $0.key == eventDate }) {eventsByDay[eventDate]!.append(val)}
@@ -78,9 +78,16 @@ struct EventLogsView: View {
     
     // function to get the actual display for the page
     private func eventLogsDisplay() -> some View {
-        let eventsByDay = splitByDay(results: userEventLogs)
-        //let sortedDays = eventsByDay.sorted( by: { $0.0.day < $1.0.day })
+        let sortedEvents = userEventLogs.sorted {
+            Calendar.current.date(from: Calendar.current.dateComponents([.day, .year, .month], from: $0.timestamp)
+            ) ?? Date.distantFuture <
+                Calendar.current.date(from: Calendar.current.dateComponents([.day, .year, .month], from: $1.timestamp)
+                ) ?? Date.distantFuture
+        }
+        let eventsByDay = splitByDay(results: sortedEvents)
         let days: [DateComponents] = Array(eventsByDay.keys)
+        
+
         
         return ScrollView {
             LazyVStack {
@@ -90,12 +97,16 @@ struct EventLogsView: View {
                             ForEach(eventsByDay[day]!, id: \.self) { eventLog in
                                 
                                 NavigationLink {
-                                    Text("\(eventLog.name!)")
-                                        .navigationTitle(Text("\(eventLog.name!)"))
-                                } label: { Text("\(eventLog.name!)") }
-                                
-                                
-                                
+                                    IndividualEventLogView(individualEvent: eventLog).navigationTitle(Text("Edit Entry"))
+                                } label: {
+                                    HStack {
+                                        displayTimeAgo(given_date: eventLog.timestamp)
+                                            .fontWeight(.light).font(.system(size: 16))
+                                            .frame(width: 65)
+                                        Text("\(eventLog.name)")
+                                    }
+                                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                                }
                                 
                             }
                         }
@@ -106,6 +117,8 @@ struct EventLogsView: View {
             }
         }
     }
+    
+    
     
     
     

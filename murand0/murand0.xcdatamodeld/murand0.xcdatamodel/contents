@@ -10,8 +10,8 @@
         <attribute name="type" optional="YES" attributeType="String"/>
         <attribute name="units" optional="YES" attributeType="String"/>
         <relationship name="parent_preset" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GroupPreset" inverseName="entries" inverseEntity="GroupPreset"/>
-        <fetchedProperty name="fetchedProperty" optional="YES">
-            <fetchRequest name="fetchedPropertyFetchRequest" entity="IndividualPreset"/>
+        <fetchedProperty name="logs" optional="YES">
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="IndividualPreset" predicateString="type LIKE [c] &quot;UserEvent&quot; AND name == $FETCH_SOURCE.name AND quantity == $FETCH_SOURCE.quantity"/>
         </fetchedProperty>
     </entity>
     <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
