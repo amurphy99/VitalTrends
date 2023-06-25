@@ -109,6 +109,7 @@ struct IndividualPresetInfoView: View {
                         deletePreset()
                     } label: { Text("Delete Preset").font(.title3).padding(.horizontal) }
                     .buttonStyle(.borderedProminent)
+                    .tint(.pink)
                     .disabled(!canDelete)
                 }
                 .padding(.horizontal)

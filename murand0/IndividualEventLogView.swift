@@ -75,12 +75,12 @@ struct IndividualEventLogView: View {
                     
                     // Delete Button
                     Button {
-                        
+                        deleteEntry()
                     } label: {
                        Text("Delete Entry").font(.title3).padding(.horizontal)
                     }
                     .buttonStyle(.borderedProminent)
-                    
+                    .tint(.pink)
                     
                     Spacer()
                 } // end VStack

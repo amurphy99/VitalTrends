@@ -71,9 +71,10 @@ struct GroupPresetInfoView: View {
                     Divider()
                     
                     Button {
-                        
+                        deletePreset()
                     } label: { Text("Delete Preset").font(.title3).padding(.horizontal) }
                     .buttonStyle(.borderedProminent)
+                    .tint(.pink)
                 }
                 .padding(.horizontal)
                 
