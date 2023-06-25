@@ -75,7 +75,8 @@ struct CreateNewLogFromPresetsView: View {
                                     List(selection: $selectedIndividualPresets) {
                                         Section (
                                             header: Text("Select presets to include:")
-                                                .foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil),
+                                                .foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
+                                                .listRowInsets(SECTION_EDGE_INSETS),
                                             footer:
                                                 Text("\(userIndividualPresets.count) items, \(selectedIndividualPresets.count) selected")
                                         ){
@@ -95,7 +96,7 @@ struct CreateNewLogFromPresetsView: View {
                                     //test()
                                     VStack {
                                         HStack {
-                                            Text("Select a group preset:").font(.title3).fontWeight(.semibold)
+                                            Text("Select a preset:").font(.title3).fontWeight(.semibold)
                                             
                                             // Picker
                                             Picker("Multiple Preset Picker", selection: $selectedPreset) {
@@ -103,6 +104,7 @@ struct CreateNewLogFromPresetsView: View {
                                                 // Other options
                                                 ForEach(userGroupPresets, id: \.self) { preset_event in
                                                     Text("\(preset_event.name) (\(preset_event.entries.count))")
+                                                        //.truncationMode(.tail).lineLimit(1)
                                                         .tag( GroupPreset?.some(preset_event) )
                                                 }
           
