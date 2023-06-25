@@ -11,6 +11,7 @@ struct IndividualEventLogView: View {
     
     // CoreData
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.presentationMode) var presentation
     @State var individualEvent: UserEvent
     
     private let gradient = LinearGradient(colors: [.orange, .green],
@@ -90,6 +91,31 @@ struct IndividualEventLogView: View {
             tempUnits = individualEvent.units ?? ""
         }
     } // end View body
+    
+    
+    
+    // function for deleting entry
+    // ===================================================
+    private func deleteEntry() {
+        // delete
+        viewContext.delete(individualEvent)
+        
+        // save
+        do { try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+        
+        // close View
+        self.presentation.wrappedValue.dismiss()
+    }
+    
+    
+    
+    
+    
+    
 }
 
 struct IndividualEventLogView_Previews: PreviewProvider {
