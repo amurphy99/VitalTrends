@@ -29,14 +29,14 @@ struct IndividualEventLogView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                gradient.opacity(0.25).ignoresSafeArea()
+                gradient.opacity(GRADIENT_OPACITY).ignoresSafeArea()
                 VStack {
                     // Form
                     Form {
                         Section { // (header: Text("Edit Entry Details")) 
                             HStack {
                                 Text("Date").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
-                                DatePicker("", selection: $new_date, displayedComponents: [.date, .hourAndMinute])
+                                DatePicker("", selection: $individualEvent.timestamp, displayedComponents: [.date, .hourAndMinute])
                             }
                             .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                             HStack {

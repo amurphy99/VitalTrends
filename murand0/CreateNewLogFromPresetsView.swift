@@ -7,13 +7,12 @@
 
 import SwiftUI
 
-struct CreateNewLogFromPresets: View {
+struct CreateNewLogFromPresetsView: View {
     
     // CoreData
     @Environment(\.managedObjectContext) private var viewContext
     @State var userIndividualPresets = [IndividualPreset]()
     @State var userGroupPresets = [GroupPreset]()
-    
     
     @Binding var isPresented: Bool
     
@@ -23,29 +22,47 @@ struct CreateNewLogFromPresets: View {
     
     private let listHeight: CGFloat = UIScreen.main.bounds.height*0.42
     
+    
     @State var selectedType: Int = 0
     @State var editMode = EditMode.active
     
+    
+    @State var new_date = Date()
+    
     @State var selectedIndividualPresets: Set<IndividualPreset> = []
     @State var selectedGroupPresets: Set<IndividualPreset> = [] // not actually using atm
+    
     @State var selectedPreset: GroupPreset?
     @State var selectedPresetEntries: [IndividualPreset] = []
+    
     
     var body: some View {
         NavigationView {
             ZStack {
-                gradient.opacity(0.25).ignoresSafeArea()
+                gradient.opacity(GRADIENT_OPACITY).ignoresSafeArea()
                 VStack {
-                    // Picker
+                    // Picker and Date
                     // ======================================================
-                    Spacer().frame(height: 10)
-                    Picker("Select Event Type", selection: $selectedType) {
-                        Text("Individual").tag(0)
-                        Text("Group"     ).tag(1)
+                    VStack {
+                        Spacer().frame(height: 10)
+                        Picker("Select Event Type", selection: $selectedType) {
+                            Text("Individual").tag(0)
+                            Text("Group"     ).tag(1)
+                        }
+                        .pickerStyle(.segmented)
+                        
+                        
+                        HStack {
+                            HStack {
+                                Spacer()
+                                Text("Select Date").fontWeight(.semibold)
+                            }
+                            DatePicker("", selection: $new_date, displayedComponents: [.date, .hourAndMinute])
+                        }
+                        
+                        Divider()
                     }
-                    .pickerStyle(.segmented)
                     .padding(.horizontal)
-                    Divider().padding(.horizontal)
                     
                     // Forms
                     // ======================================================
@@ -78,7 +95,7 @@ struct CreateNewLogFromPresets: View {
                                     //test()
                                     VStack {
                                         HStack {
-                                            Text("Select a preset:").font(.title3).fontWeight(.semibold)
+                                            Text("Select a group preset:").font(.title3).fontWeight(.semibold)
                                             
                                             // Picker
                                             Picker("Multiple Preset Picker", selection: $selectedPreset) {
@@ -132,9 +149,8 @@ struct CreateNewLogFromPresets: View {
                         Text("\(selectedIndividualPresets.count + selectedPresetEntries.count) total items selected")
                             .fontWeight(.light)
                             .foregroundColor(.gray)
-                        
                         Button {
-                            
+                            saveData()
                         } label: { Text("Save New Entry").font(.title3).padding(.horizontal) }
                         .buttonStyle(.borderedProminent)
                     }
@@ -192,12 +208,42 @@ struct CreateNewLogFromPresets: View {
     // functions to load in data for the page
     // ======================================================
     private func saveData() {
+        // check validity
+        if (selectedIndividualPresets.count + selectedPresetEntries.count) < 1 { return }
         
+        // from Individual
+        for preset_entry in selectedIndividualPresets {
+            let newEvent = UserEvent(context: viewContext)
+            newEvent.timestamp = new_date
+            newEvent.type      = preset_entry.type
+            newEvent.name      = preset_entry.name
+            newEvent.quantity  = preset_entry.quantity
+            newEvent.units     = preset_entry.units
+        }
+        // from Group
+        for preset_entry in selectedPresetEntries {
+            let newEvent = UserEvent(context: viewContext)
+            newEvent.timestamp = new_date
+            newEvent.type      = preset_entry.type
+            newEvent.name      = preset_entry.name
+            newEvent.quantity  = preset_entry.quantity
+            newEvent.units     = preset_entry.units
+        }
+        
+        // save them all
+        do { try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+        
+        // dismiss view
+        isPresented = false
     }
     
     
     
-    
+    // was for the list of group entries, couldnt get it working to have two edit mode lists a the same time
     private func test() -> some View {
         return NavigationView {
             List(selection: $selectedGroupPresets) {
@@ -227,9 +273,9 @@ struct CreateNewLogFromPresets: View {
 
 
 
-struct CreateNewLogFromPresets_Previews: PreviewProvider {
+struct CreateNewLogFromPresetsView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateNewLogFromPresets(isPresented: .constant(true))
+        CreateNewLogFromPresetsView(isPresented: .constant(true))
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

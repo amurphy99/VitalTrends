@@ -39,7 +39,7 @@ struct CreateNewPresetView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                gradient.opacity(0.25).ignoresSafeArea()
+                gradient.opacity(GRADIENT_OPACITY).ignoresSafeArea()
                 VStack {
                     // Picker and Name
                     // ======================================================

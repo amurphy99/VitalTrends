@@ -12,6 +12,7 @@ struct EventLogsView: View {
     // CoreData
     @Environment(\.managedObjectContext) private var viewContext
     @State var userEventLogs = [UserEvent]()
+    @State var showingNewEntry: Bool = false
     
     let gradient = LinearGradient(colors: [.orange, .green],
                                   startPoint: .topLeading,
@@ -20,18 +21,19 @@ struct EventLogsView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                gradient.opacity(0.25).ignoresSafeArea()
+                gradient.opacity(GRADIENT_OPACITY).ignoresSafeArea()
                 VStack {
-                
                     eventLogsDisplay()
-                    
                 }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading){ Text("All Events").font(.title).fontWeight(.semibold) }
                     ToolbarItem(placement: .navigationBarTrailing){
-                        Button(action: {  }) { Label("Add Item", systemImage: "plus") }
+                        Button(action: { showingNewEntry = true }) { Label("Add Item", systemImage: "plus") }
                     }
                 }
+            }
+            .sheet(isPresented: $showingNewEntry) {
+                CreateNewLogFromPresetsView(isPresented: $showingNewEntry)
             }
         } // end NavigationView
         .onAppear {

@@ -22,10 +22,10 @@ struct MainView: View {
                 .tabItem { Label("Log View", systemImage: "chart.xyaxis.line") }
             
             EventLogsView()
-                .tabItem { Label("Logs", systemImage: "chart.xyaxis.line") }
+                .tabItem { Label("Logs", systemImage: "list.bullet.clipboard.fill") }
             
             PresetInfoView()
-                .tabItem { Label("Presets", systemImage: "chart.xyaxis.line") }
+                .tabItem { Label("Presets", systemImage: "folder.fill") }
             
             
         }

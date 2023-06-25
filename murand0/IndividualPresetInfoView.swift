@@ -30,7 +30,7 @@ struct IndividualPresetInfoView: View {
     
     var body: some View {
         ZStack {
-            gradient.opacity(0.25).ignoresSafeArea()
+            gradient.opacity(GRADIENT_OPACITY).ignoresSafeArea()
             VStack {
                 // add or update a total amount in stock
                 // ===================================================
