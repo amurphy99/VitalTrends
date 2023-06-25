@@ -16,10 +16,11 @@ extension PresetEntry {
         return NSFetchRequest<PresetEntry>(entityName: "PresetEntry")
     }
 
-    @NSManaged public var name: String?
+    @NSManaged public var name: String
     @NSManaged public var quantity: Float
-    @NSManaged public var type: String?
-    @NSManaged public var units: String?
+    @NSManaged public var type: String
+    @NSManaged public var units: String
+    
     @NSManaged public var parent_preset: NSSet?
 
 }

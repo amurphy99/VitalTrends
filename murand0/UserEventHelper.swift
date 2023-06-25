@@ -54,11 +54,11 @@ func entry_row(entry: PresetEntry)-> some View {
         GeometryReader { geo in
             HStack(spacing: geo.size.width * 0.01) {
                 // Type
-                Text("\(entry.type!)").frame(width: geo.size.width * 0.33, alignment: .leading)
+                Text("\(entry.type)").frame(width: geo.size.width * 0.33, alignment: .leading)
                 // Name
-                Text("\(entry.name!)").frame(width: geo.size.width * 0.42, alignment: .leading)
+                Text("\(entry.name)").frame(width: geo.size.width * 0.42, alignment: .leading)
                 // Quantity
-                Text("\(myNumberFormatter.string(for: entry.quantity)!) \(entry.units!)").frame(width: geo.size.width * 0.23, alignment: .trailing)
+                Text("\(myNumberFormatter.string(for: entry.quantity)!) \(entry.units)").frame(width: geo.size.width * 0.23, alignment: .trailing)
             }
             .font(.system(size: 14))
             .truncationMode(.tail).lineLimit(1)

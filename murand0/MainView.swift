@@ -21,6 +21,9 @@ struct MainView: View {
             ContentView()
                 .tabItem { Label("Log View", systemImage: "chart.xyaxis.line") }
             
+            EventLogsView()
+                .tabItem { Label("Logs", systemImage: "chart.xyaxis.line") }
+            
             PresetInfoView()
                 .tabItem { Label("Presets", systemImage: "chart.xyaxis.line") }
             

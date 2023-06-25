@@ -110,7 +110,7 @@ struct MultiplePresetView: View {
             let newEvent = UserEvent(context: viewContext)
             newEvent.timestamp = new_date
             newEvent.type      = preset_entry.type!
-            newEvent.name      = preset_entry.name!
+            newEvent.name      = preset_entry.name
             newEvent.quantity  = preset_entry.quantity
             newEvent.units     = preset_entry.units!
         }

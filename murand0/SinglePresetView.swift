@@ -22,80 +22,66 @@ struct SinglePresetView: View {
     
     
     var body: some View {
-    
-        GeometryReader { geo in
-            VStack(alignment: .center, spacing: 10) {
+        VStack {
+            // Picker Section
+            // ===================================================================
+            HStack {
+                Text("Select a Preset:").bold().frame(alignment: .leading)
                 
-
-                // Picker Section
-                // ===================================================================
-                HStack {
-                    Text("Select a Preset:").bold().frame(alignment: .leading)
-                    
-                    // Picker
-                    Picker("Multiple Preset Picker", selection: $selectedPreset) {
-                        // None option
-                        Text("None").tag(PresetEntry?.none)
-                        // Other options
-                        ForEach(preset_entries, id: \.self) { preset_entry in
-                            Text("\(preset_entry.name!)").tag( PresetEntry?.some(preset_entry) )
-                        }
-                    }
-                    .pickerStyle(MenuPickerStyle())
-                    .onChange(of: selectedPreset) { _ in
-                        if selectedPreset != nil {
-                            selectedPresetEntries = [selectedPreset] as! [PresetEntry]
-                        } else { selectedPresetEntries = [] }
+                // Picker
+                Picker("Multiple Preset Picker", selection: $selectedPreset) {
+                    // None option
+                    Text("None").tag(PresetEntry?.none)
+                    // Other options
+                    ForEach(preset_entries, id: \.self) { preset_entry in
+                        Text("\(preset_entry.name)").tag( PresetEntry?.some(preset_entry) )
                     }
                 }
-                .frame(width: geo.size.width, alignment: .leading)
-                                
-            
-                // Selected Items
-                // ===================================================================
-                NavigationView { ScrollView { LazyVStack {
-                    List {
-                        Section ( header: entry_header().frame(width: .infinity),
-                                  footer: Text("\(selectedPresetEntries.count) items").frame(width: geo.size.width * 0.85, alignment: .leading)
-                        ) {
-                            ForEach(selectedPresetEntries) { preset_entry in entry_row(entry: preset_entry) }
-                        }
-                    }
-                    .scrollContentBackground(.hidden)
-                    .frame(width: geo.size.width, height: geo.size.height * 0.5)
-                    .frame(width: geo.size.width, height: geo.size.height * 0.5)
-                    
-                }}}//.frame(height: geo.size.height * 0.5)
-                
-                Divider()//.frame(width: geo.size.width * 0.9)
-                
-                
-                // Submit Button
-                // --------------
-                Button {
-                    if selectedPresetEntries.count > 0 {
-                        // save entries
-                        save_single_preset()
-                        // clear form data
-                        //selectedPresetEntries = []
-                    }
-                } label: {
-                    Text("Save Entry")
-                        .font(.title3)
-                        .padding(.horizontal)
+                .pickerStyle(MenuPickerStyle())
+                .onChange(of: selectedPreset) { _ in
+                    if selectedPreset != nil {
+                        selectedPresetEntries = [selectedPreset] as! [PresetEntry]
+                    } else { selectedPresetEntries = [] }
                 }
-                .buttonStyle(.borderedProminent)
-                
-                
-                //Spacer()
-                
-                
-            // end of VStack
+                Spacer()
             }
-            .padding(.horizontal)
-            //.frame(width: geo.size.width)
-        // end of geo
+
+            // Selected Items
+            // ===================================================================
+            NavigationView {
+                ScrollView {
+                    LazyVStack {
+                        List {
+                            Section ( header: entry_header(),
+                                      footer: Text("\(selectedPresetEntries.count) items")
+                            ) {
+                                ForEach(selectedPresetEntries) { preset_entry in entry_row(entry: preset_entry) }
+                            }
+                        }
+                        .frame(height: UIScreen.main.bounds.height*0.13)
+                        .scrollContentBackground(.hidden)
+                    }
+                }
+            }
+            .frame(height: UIScreen.main.bounds.height*0.13)
+            
+            // Submit Button
+            // ===================================================================
+            Button {
+                if selectedPresetEntries.count > 0 { save_single_preset() }
+            } label: {
+                Text("Save Entry").font(.title3).padding(.horizontal)
+            }
+            .buttonStyle(.borderedProminent)
+            
+            
+            Spacer()
+            
+            
+        // end of VStack
         }
+        .padding(.horizontal)
+
     // end of body
     }
     
@@ -110,10 +96,10 @@ struct SinglePresetView: View {
         // ---------------------
         let newEvent = UserEvent(context: viewContext)
         newEvent.timestamp = new_date
-        newEvent.type      = selectedPresetEntries[0].type!
-        newEvent.name      = selectedPresetEntries[0].name!
+        newEvent.type      = selectedPresetEntries[0].type
+        newEvent.name      = selectedPresetEntries[0].name
         newEvent.quantity  = selectedPresetEntries[0].quantity
-        newEvent.units     = selectedPresetEntries[0].units!
+        newEvent.units     = selectedPresetEntries[0].units
         
         // save it when done
         // ------------------

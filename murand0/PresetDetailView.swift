@@ -58,10 +58,10 @@ struct PresetDetailView: View {
                     Divider().frame(width: geo.size.width * 0.9)
                 }
                 .onAppear {
-                    new_type     = entry.type!
-                    new_name     = entry.name!
+                    new_type     = entry.type
+                    new_name     = entry.name
                     new_quantity = entry.quantity
-                    new_units    = entry.units!
+                    new_units    = entry.units
                 }
                 
                 

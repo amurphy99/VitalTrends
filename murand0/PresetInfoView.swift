@@ -16,89 +16,85 @@ struct PresetInfoView: View {
     @State var user_GroupPresets  = [GroupPreset]()
     
 
-
-    
     // background color
     let gradient = LinearGradient(colors: [.orange, .cyan],
                                   startPoint: .topLeading,
                                   endPoint: .bottomTrailing)
-    
-    
+    @State var showingCreateNewPreset = false
     
     
     var body: some View {
-        ZStack {
-            gradient
-                .opacity(0.25)
-                .ignoresSafeArea()
-            VStack {
-                
-                
-                // Navigation View with list of events
-                // ======================================================
-                NavigationView {
-                    ZStack {
-                        gradient // gradient background
-                            .opacity(0.25)
-                            .ignoresSafeArea()
-                    
-                        
-                        // list of presets
-                        ScrollView{
-                            LazyVStack {
+        NavigationView {
+            ZStack {
+                gradient.opacity(0.25).ignoresSafeArea()
+            
+                // list of presets
+                ScrollView{
+                    LazyVStack {
+                        List{
+                            // Single Presets
+                            // --------------------------------------------------
+                            Section (
+                                header: Text("Individual Presets"),
+                                footer: Text("\(user_SinglePresets.count) items")
+                            ) {
+                                ForEach(user_SinglePresets, id: \.self) { preset in
+                                    NavigationLink {
+                                        IndividualPresetInfoView(individualPreset: preset)
+                                            .navigationTitle(Text("\(preset.name)"))
+                                    } label: { Text("\(preset.name)") }
+                                }
+                            }
+                            // Multiple Presets
+                            // --------------------------------------------------
+                            Section (
+                                header: Text("Group Presets"),
+                                footer: Text("\(user_GroupPresets.count) items")
+                            ) {
+                                ForEach(user_GroupPresets, id: \.self) { preset in
                                 
-                                List{
-                                    // Single Presets
-                                    Section {
-                                        ForEach(user_SinglePresets, id: \.self) { preset in
-                                            Text("\(preset.name ?? " ")")
-                                        }
-                                    }
-                                    // Multiple Presets
-                                    Section {
-                                        ForEach(user_GroupPresets, id: \.self) { preset in
-                                            Text("\(preset.name ?? " ")")
-                                        }
-                                    }
-
-                                    
+                                    Text("\(preset.name ?? " ")")
                                     
                                 }
-                                .scrollContentBackground(.hidden)
-                                .frame(height: UIScreen.main.bounds.height)
-                                
-                                
-                                    .toolbar {
-                                        ToolbarItem(placement: .navigationBarLeading){
-                                            Text("User Presets").font(.title).fontWeight(.semibold)
-                                        }
-                                    }
                             }
                         }
-                        
-                        
+                        .scrollContentBackground(.hidden)
+                        .frame(height: UIScreen.main.bounds.height)
+                        .toolbar {
+                            ToolbarItem(placement: .navigationBarLeading){
+                                Text("User Presets").font(.title).fontWeight(.semibold)
+                            }
+                            ToolbarItem(placement: .navigationBarTrailing){
+                                Button(action: { showingCreateNewPreset = true }) { Label("Add Item", systemImage: "plus") }
+                            }
+                        }
                     }
+                } // end ScrollView
+                .sheet(isPresented: $showingCreateNewPreset) {
+                    CreateNewPresetView(isPresented: $showingCreateNewPreset)
                 }
-                .onAppear {
-                    let appearance = UINavigationBarAppearance()
-                    appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
-                    //appearance.backgroundColor = UIColor(Color.orange.opacity(0.1))
-                    
-                    UINavigationBar.appearance().standardAppearance = appearance // Inline appearance (standard height appearance)
-                    UINavigationBar.appearance().scrollEdgeAppearance = appearance // Large Title appearance
-                }
-            } // end parent VStack
+            }
         }
-        .onAppear { load_data() }
+        .onAppear {
+            load_data()
+            
+            let appearance = UINavigationBarAppearance()
+            appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+            //appearance.backgroundColor = UIColor(Color.orange.opacity(0.1))
+            
+            UINavigationBar.appearance().standardAppearance = appearance // Inline appearance (standard height appearance)
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance // Large Title appearance
+        }
+ 
     }
     
-    // function to load in data for the page
+    // functions to load in data for the page
     // ======================================================
-    func load_data() {
+    private func load_data() {
         load_PresetEntries()
         load_GroupPresets()
     }
-    func load_PresetEntries() {
+    private func load_PresetEntries() {
         let request = PresetEntry.fetchRequest()
         let sort = NSSortDescriptor(key: "name", ascending: false)
         request.sortDescriptors = [sort]
@@ -108,7 +104,7 @@ struct PresetInfoView: View {
             print("Got \(user_SinglePresets.count) commits")
         } catch { print("Fetch failed") }
     }
-    func load_GroupPresets() {
+    private func load_GroupPresets() {
         let request = GroupPreset.fetchRequest()
         let sort = NSSortDescriptor(key: "name", ascending: false)
         request.sortDescriptors = [sort]
