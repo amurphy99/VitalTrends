@@ -68,21 +68,21 @@ struct EventLogsView: View {
     private func eventLogsDisplay(dataConfig: modifyDataConfig) -> some View {
         let userEventLogs = loadEventLogs(viewContext: viewContext) // reload the logs
         
-        let sortedEvents = userEventLogs.sorted {
-            Calendar.current.date(from: Calendar.current.dateComponents([.day, .year, .month], from: $0.timestamp)
-            ) ?? Date.distantFuture <
-                Calendar.current.date(from: Calendar.current.dateComponents([.day, .year, .month], from: $1.timestamp)
-                ) ?? Date.distantFuture
-        }
-        let eventsByDay = splitByDay(results: sortedEvents)
+        let eventsByDay = splitByDay(results: userEventLogs)
+        
         let days: [DateComponents] = Array(eventsByDay.keys)
+        let sortedDays: [DateComponents] = days.sorted {
+            Calendar.current.date(from: $0) ?? Date.distantFuture >
+                Calendar.current.date(from: $1) ?? Date.distantFuture
+        }
         
         return ScrollView {
             LazyVStack {
                 List {
-                    ForEach(days, id: \.self) { day in
+                    ForEach(sortedDays, id: \.self) { day in
                         Section (header: header_display_date(given_components: day)) {
-                            ForEach(eventsByDay[day]!, id: \.self) { eventLog in
+                            
+                            ForEach(eventsByDay[day]!.sorted{$0.timestamp > $1.timestamp}, id: \.self) { eventLog in
                                 NavigationLink {
                                     IndividualEventLogView(individualEvent: eventLog, dataConfig: $dataConfig)
                                         .navigationTitle(Text("Edit Entry"))

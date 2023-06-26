@@ -19,12 +19,11 @@ struct MainView: View {
                 .tabItem { Label("Presets", systemImage: "folder.fill") }
             
             
-            UserEventsView()
-                //.frame(alignment: .top)
-                .tabItem { Label("Entries", systemImage: "iphone.radiowaves.left.and.right") }
+            //UserEventsView()
+                //.tabItem { Label("Entries", systemImage: "iphone.radiowaves.left.and.right") }
             
-            ContentView()
-                .tabItem { Label("Log View", systemImage: "chart.xyaxis.line") }
+            //ContentView()
+                //.tabItem { Label("Log View", systemImage: "chart.xyaxis.line") }
             
         }
         .onAppear {
