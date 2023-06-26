@@ -50,8 +50,8 @@ struct PersistenceController {
         let newEvent2 = UserEvent(context: viewContext)
         newEvent2.timestamp = sample_date0
         newEvent2.type      = "Supplement"
-        newEvent2.name      = "Phenibut"
-        newEvent2.quantity  = 200
+        newEvent2.name      = "Magnesium"
+        newEvent2.quantity  = 150
         newEvent2.units     = "mg"
         
         let newEvent3 = UserEvent(context: viewContext)
