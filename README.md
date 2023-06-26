@@ -3,10 +3,11 @@
 VitalTrends is a comprehensive health tracking application developed specifically for iOS devices. Developed with Swift using Xcode and CoreData for database management, the application provides an efficient and user-friendly interface for logging, tracking, and analyzing health-related data.
 
 <!-- Main Screen Images -->
-<p align="center">
-<img src="https://github.com/amurphy99/VitalTrends/assets/62905265/a2e4e8bf-2c72-499a-bcc0-7096f820f379" caption="Log data view. "     width="30%">
-<img src="https://github.com/amurphy99/VitalTrends/assets/62905265/05c91879-2420-4a13-acf8-9b343f3f01c2" caption="User presets view. " width="30%">
-</p>
+<div align="center">
+  <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/a2e4e8bf-2c72-499a-bcc0-7096f820f379" caption="Log data view. "     width="25%">
+  <img width="2%">
+  <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/05c91879-2420-4a13-acf8-9b343f3f01c2" caption="User presets view. " width="25%">
+</div>
 
 <!-- Images
 ![Data Log Screen](https://github.com/amurphy99/VitalTrends/assets/62905265/a2e4e8bf-2c72-499a-bcc0-7096f820f379)
@@ -26,28 +27,40 @@ VitalTrends' primary goal is to provide users with a simple, yet effective way t
 
 ## Features
 
-<details>
-  <summary> <strong>Health Data Logging:</strong> Log health parameters such as medication and supplement intake, blood pressure, mood, energy levels, etc.</summary>
+<details open>
+  <summary> <strong> Health Data Logging: </strong> Log health parameters such as medication and supplement intake, blood pressure, mood, energy levels, etc. </summary>
+  <br>
   <div align="center">
-    <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/a0ef686a-b468-4572-b462-b2783fccb2b7" caption="individual event detailed view" width="25%">
-    <div width="5%"></div>
-    <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/f47fdbb4-6b41-4a35-9363-01d28394961f" caption="log from invividual presets view" width="25%">
-    <div width="5%"></div>
-    <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/a28a2a6b-9e97-4ccb-9c9b-f55d1f418e79" caption="log from group presets view" width="25%">
+    <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/a0ef686a-b468-4572-b462-b2783fccb2b7" caption="individual event detailed view" width="20%">
+    <img width="2%">
+    <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/f47fdbb4-6b41-4a35-9363-01d28394961f" caption="log from invividual presets view" width="20%">
+    <img width="2%">
+    <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/a28a2a6b-9e97-4ccb-9c9b-f55d1f418e79" caption="log from group presets view" width="20%">
   </div>
+  <br>
 </details>
 
+<details open>
+  <summary> <strong> Presets: </strong> Create presets for recurrent entries, like "morning pills", for a quicker logging experience. </summary>
+  <br>
+  <div align="center">
+    <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/afc54331-a9b6-4058-820f-94b622c4d1a1" caption="user preset detailed view" width="20%">
+    <img width="2%">
+    <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/d3b5bd3e-3188-4d99-82c0-7f90229de929" caption="create new individual preset" width="20%">
+    <img width="2%">
+    <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/fa8fd54b-cc9a-422c-b91a-b3836f4d365c" caption="create new group preset" width="20%">
+  </div>
+  <br>
+</details>
 
+<details>
+  <summary> <strong> Data Analysis and Export: </strong> Review your logged data in a digestible format, identify trends, and export data for further analysis or to share with your healthcare provider. </summary>
+</details>
 
+<details>
+  <summary> <strong> Notifications: </strong> Set up personalized notifications for medication reminders. Notifications adapt based on when you log certain events, ensuring timely reminders. </summary>
+</details>
 
-- **Presets:** Create presets for recurrent entries, like "morning pills", for a quicker logging experience.
-<p align="center">
-  <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/afc54331-a9b6-4058-820f-94b622c4d1a1" caption="user preset detailed view" width="15%">
-  <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/d3b5bd3e-3188-4d99-82c0-7f90229de929" caption="create new individual preset" width="15%">
-  <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/fa8fd54b-cc9a-422c-b91a-b3836f4d365c" caption="create new group preset" width="15%">
-</p>
-- **Data Analysis and Export:** Review your logged data in a digestible format, identify trends, and export data for further analysis or to share with your healthcare provider.
-- **Notifications:** Set up personalized notifications for medication reminders. Notifications adapt based on when you log certain events, ensuring timely reminders.
 
 ## How to Use
 
@@ -65,6 +78,8 @@ The application is under active development. Expect additional features like foo
 
 Your feedback helps shape the future of VitalTrends. Please reach out via email at amurphy62299@gmail.com with any suggestions or questions. Your input is always appreciated and directly impacts the improvement and expansion of VitalTrends.
 
+<!--
 ## License
 
 VitalTrends is free to use. It is developed and maintained with the goal of promoting healthier lifestyles and empowering users to take control of their health. Thank you for using VitalTrends, and here's to your good health!
+-->
