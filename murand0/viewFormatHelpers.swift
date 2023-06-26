@@ -16,6 +16,10 @@ let GRADIENT_OPACITY: Double = 0.30 // original was 0.25
 let EVENTS_GRADIENT = LinearGradient(colors: [.orange, .green],
                                      startPoint: .topLeading,
                                      endPoint: .bottomTrailing)
+let PRESETS_GRADIENT = LinearGradient(colors: [.orange, .cyan],
+                                      startPoint: .topLeading,
+                                      endPoint: .bottomTrailing)
+
 
 
 

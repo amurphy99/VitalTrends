@@ -17,18 +17,12 @@ struct PresetInfoView: View {
     @State var dataConfig: modifyDataConfig = modifyDataConfig()
     @State private var showAnimation: Bool = false
 
-    // background color
-    let gradient = LinearGradient(colors: [.orange, .cyan],
-                                  startPoint: .topLeading,
-                                  endPoint: .bottomTrailing)
     @State var showingCreateNewPreset = false
-    
     
     var body: some View {
         NavigationView {
             ZStack {
-                gradient.opacity(GRADIENT_OPACITY).ignoresSafeArea()
-            
+                PRESETS_GRADIENT.opacity(GRADIENT_OPACITY).ignoresSafeArea()
                 // list of presets
                 ScrollView{
                     LazyVStack {

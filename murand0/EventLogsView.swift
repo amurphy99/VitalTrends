@@ -15,7 +15,7 @@ struct EventLogsView: View {
     @State var showingNewEntry: Bool = false
     @State var dataConfig: modifyDataConfig = modifyDataConfig()
     
-    
+
     var body: some View {
         NavigationView {
             ZStack {

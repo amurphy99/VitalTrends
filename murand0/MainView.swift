@@ -9,8 +9,6 @@ import SwiftUI
 
 struct MainView: View {
     
-    // view body
-    // ==============================================================
     var body: some View {
         TabView {
             
