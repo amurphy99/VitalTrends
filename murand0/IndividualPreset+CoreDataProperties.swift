@@ -2,7 +2,7 @@
 //  IndividualPreset+CoreDataProperties.swift
 //  murand0
 //
-//  Created by Andrew Murphy on 6/24/23.
+//  Created by Andrew Murphy on 6/25/23.
 //
 //
 
@@ -20,7 +20,9 @@ extension IndividualPreset {
     @NSManaged public var quantity: Float
     @NSManaged public var type: String
     @NSManaged public var units: String
-    @NSManaged public var parent_preset: Set<GroupPreset>?  //NSSet?
+    @NSManaged public var numberOfUnits: Int16
+    @NSManaged public var perWeek: Float
+    @NSManaged public var parent_preset: Set<GroupPreset>? // NSSet?
 
 }
 

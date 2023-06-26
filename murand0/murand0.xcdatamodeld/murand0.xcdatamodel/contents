@@ -6,6 +6,8 @@
     </entity>
     <entity name="IndividualPreset" representedClassName="IndividualPreset" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="numberOfUnits" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="perWeek" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="quantity" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="type" optional="YES" attributeType="String"/>
         <attribute name="units" optional="YES" attributeType="String"/>

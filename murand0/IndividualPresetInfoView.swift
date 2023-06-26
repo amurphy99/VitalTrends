@@ -39,35 +39,13 @@ struct IndividualPresetInfoView: View {
             gradient.opacity(GRADIENT_OPACITY).ignoresSafeArea()
             VStack {
                 List {
-                    // add or update a total amount in stock
-                    // ===================================================
-                    Section (header:
-                                Text("Track Stock")
-                        .foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
-                        .listRowInsets(SECTION_EDGE_INSETS)
-                        .padding(.top)
-                    ) {
-                        HStack {
-                            Text("Current Stock").fontWeight(.semibold).frame(width: StockLabelWidth, alignment: .trailing)
-                            TextField(value: $numberOfUnits, format: .number) { Text("Current Stock") }
-                        }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                        HStack {
-                            Text("Taken Per Week").fontWeight(.semibold).frame(width: StockLabelWidth, alignment: .trailing)
-                            TextField(value: $takenPerWeek, format: .number) { Text("Taken Per Week") }
-                        }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                        
-                        HStack {
-                            Text("Days Left").fontWeight(.semibold).frame(width: StockLabelWidth, alignment: .trailing)
-                            if takenPerWeek > 0 { Text("\( Int((Float(numberOfUnits) / takenPerWeek)*7) )") }
-                            else                { Text("--")                                                }
-                        }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                    }
                     // modify the Info on the preset, or delete
                     // ===================================================
                     Section (header:
                                 Text("Edit Preset Info")
                         .foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
                         .listRowInsets(SECTION_EDGE_INSETS)
+                        .padding(.top)
                     ) {
                         HStack {
                             Text("Name").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
@@ -84,6 +62,30 @@ struct IndividualPresetInfoView: View {
                         HStack {
                             Text("Units").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
                             TextField(text: $individualPreset.units) { Text("Units") }
+                        }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                    }
+                    // add or update a total amount in stock
+                    // ===================================================
+                    Section (header:
+                                Text("Track Stock")
+                        .foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
+                        .listRowInsets(SECTION_EDGE_INSETS)
+                    ) {
+                        HStack {
+                            Text("Current Stock").fontWeight(.semibold).frame(width: StockLabelWidth, alignment: .trailing)
+                            TextField(value: $individualPreset.numberOfUnits, format: .number) { Text("Current Stock") }
+                        }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                        HStack {
+                            Text("Taken Per Week").fontWeight(.semibold).frame(width: StockLabelWidth, alignment: .trailing)
+                            TextField(value: $individualPreset.perWeek, format: .number) { Text("Taken Per Week") }
+                        }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                        
+                        HStack {
+                            Text("Days Left").fontWeight(.semibold).frame(width: StockLabelWidth, alignment: .trailing)
+                            if individualPreset.perWeek > 0 {
+                                Text("\( Int((Float(individualPreset.numberOfUnits) / individualPreset.perWeek)*7) )")
+                            }
+                            else { Text("--") }
                         }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                     }
                     // Member of groups

@@ -33,7 +33,7 @@ struct CreateNewPresetView: View {
     @State var quantity: Float = 0
     @State var units: String = ""
     @State var numberOfUnits: Int = 0
-    @State var takenPerWeek: Float = 0
+    @State var perWeek: Float = 0
     
     
     var body: some View {
@@ -98,13 +98,13 @@ struct CreateNewPresetView: View {
                                     .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                                     HStack {
                                         Text("Taken Per Week").fontWeight(.semibold).frame(width: StockLabelWidth, alignment: .trailing)
-                                        TextField(value: $takenPerWeek, format: .number) { Text("Taken Per Week") }
+                                        TextField(value: $perWeek, format: .number) { Text("Taken Per Week") }
                                     }
                                     .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                                     
                                     HStack {
                                         Text("Days Left").fontWeight(.semibold).frame(width: StockLabelWidth, alignment: .trailing)
-                                        if takenPerWeek > 0 { Text("\( Int((Float(numberOfUnits) / takenPerWeek)*7) )") }
+                                        if perWeek > 0 { Text("\( Int((Float(numberOfUnits) / perWeek)*7) )") }
                                         else                { Text("--")                                                }
                                     }
                                     .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
@@ -203,8 +203,8 @@ struct CreateNewPresetView: View {
         newInidividualPreset.name     = name
         newInidividualPreset.quantity = quantity
         newInidividualPreset.units    = units
-        //newInidividualPreset.numberOfUnits = numberOfUnits
-        //newInidividualPreset.takenPerWeek  = takenPerWeek
+        newInidividualPreset.numberOfUnits  = Int16(numberOfUnits)
+        newInidividualPreset.perWeek        = perWeek
         
         do { try viewContext.save()
         } catch {

@@ -190,6 +190,8 @@ struct CreateNewLogFromPresetsView: View {
         
         // from Individual
         for preset_entry in selectedIndividualPresets {
+            if preset_entry.numberOfUnits > 0 { preset_entry.numberOfUnits -= 1 }
+            
             let newEvent = UserEvent(context: viewContext)
             newEvent.timestamp = new_date
             newEvent.type      = preset_entry.type
@@ -199,6 +201,8 @@ struct CreateNewLogFromPresetsView: View {
         }
         // from Group
         for preset_entry in selectedPresetEntries {
+            if preset_entry.numberOfUnits > 0 { preset_entry.numberOfUnits -= 1 }
+            
             let newEvent = UserEvent(context: viewContext)
             newEvent.timestamp = new_date
             newEvent.type      = preset_entry.type
