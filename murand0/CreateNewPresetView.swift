@@ -56,7 +56,7 @@ struct CreateNewPresetView: View {
                         TextField(text: $name) { Text("Name") }
                         Divider().padding(.top, 10)
                     }
-                    .textFieldStyle(.roundedBorder)
+                    .textFieldStyle(.roundedBorder).disableAutocorrection(true).autocapitalization(.none)
                     .padding(.horizontal)
                     
                     
@@ -111,7 +111,7 @@ struct CreateNewPresetView: View {
                                 }
                             }
                             .frame(height: UIScreen.main.bounds.height*0.46)
-                            .textFieldStyle(.roundedBorder)
+                            .textFieldStyle(.roundedBorder).disableAutocorrection(true).autocapitalization(.none)
                             .scrollContentBackground(.hidden)
                         }
                         else if selectedType == 1 {

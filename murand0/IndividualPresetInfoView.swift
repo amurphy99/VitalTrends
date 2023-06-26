@@ -101,7 +101,7 @@ struct IndividualPresetInfoView: View {
                     }
                 }
                 .frame(height: UIScreen.main.bounds.height*0.65) // 185 + 240
-                .textFieldStyle(.roundedBorder)
+                .textFieldStyle(.roundedBorder).disableAutocorrection(true).autocapitalization(.none)
                 .scrollContentBackground(.hidden)
                 
                 

@@ -40,7 +40,7 @@ struct GroupPresetInfoView: View {
                     TextField(text: $groupPreset.name) { Text("Name") }
                     Divider().padding(.top, 10)
                 }
-                .textFieldStyle(.roundedBorder)
+                .textFieldStyle(.roundedBorder).disableAutocorrection(true).autocapitalization(.none)
                 .padding(.horizontal)
                 .padding(.top)
                 
