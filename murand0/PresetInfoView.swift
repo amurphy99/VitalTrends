@@ -14,7 +14,8 @@ struct PresetInfoView: View {
     
     @State var user_SinglePresets = [IndividualPreset]()
     @State var user_GroupPresets  = [GroupPreset]()
-    
+    @State var dataConfig: modifyDataConfig = modifyDataConfig()
+    @State private var showAnimation: Bool = false
 
     // background color
     let gradient = LinearGradient(colors: [.orange, .cyan],
@@ -40,12 +41,12 @@ struct PresetInfoView: View {
                             ) {
                                 ForEach(user_SinglePresets, id: \.self) { preset in
                                     NavigationLink {
-                                        IndividualPresetInfoView(individualPreset: preset)
+                                        IndividualPresetInfoView(individualPreset: preset, dataConfig: $dataConfig)
                                             .navigationTitle(Text("\(preset.name)"))
                                     } label: {
                                         HStack {
                                             Text("\(preset.name)")
-                                            Text("(\(myNumberFormatter.string(for: preset.quantity)!) \(preset.units))")
+                                            Text("\(myNumberFormatter.string(for: preset.quantity)!) \(preset.units)")
                                                 .fontWeight(.light)
                                                 .foregroundColor(.gray)
                                         }
@@ -61,9 +62,17 @@ struct PresetInfoView: View {
                             ) {
                                 ForEach(user_GroupPresets, id: \.self) { preset in
                                     NavigationLink {
-                                        GroupPresetInfoView(groupPreset: preset)
+                                        GroupPresetInfoView(groupPreset: preset, dataConfig: $dataConfig)
                                             .navigationTitle(Text("\(preset.name)"))
-                                    } label: { Text("\(preset.name)").truncationMode(.tail).lineLimit(1) }
+                                    } label: {
+                                        HStack {
+                                            Text("\(preset.name)")
+                                            Text("(\(preset.entries.count))")
+                                                .fontWeight(.light)
+                                                .foregroundColor(.gray)
+                                        }
+                                        .truncationMode(.tail).lineLimit(1)
+                                    }
                                 }
                             }
                         }
@@ -80,7 +89,7 @@ struct PresetInfoView: View {
                     }
                 } // end ScrollView
                 .sheet(isPresented: $showingCreateNewPreset) {
-                    CreateNewPresetView(isPresented: $showingCreateNewPreset)
+                    CreateNewPresetView(isPresented: $showingCreateNewPreset, dataConfig: $dataConfig)
                 }
             }
         }
@@ -95,7 +104,12 @@ struct PresetInfoView: View {
             UINavigationBar.appearance().standardAppearance = appearance // Inline appearance (standard height appearance)
             UINavigationBar.appearance().scrollEdgeAppearance = appearance // Large Title appearance
         }
- 
+        .onChange(of: dataConfig) { _ in
+            user_SinglePresets = loadIndividualPresets(viewContext: viewContext)
+            user_GroupPresets = loadGroupPresets(viewContext: viewContext)
+            showAnimation.toggle()
+        }
+        .animation(.easeIn, value: showAnimation)
     }
     
         

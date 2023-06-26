@@ -11,8 +11,10 @@ struct IndividualPresetInfoView: View {
     
     // CoreData
     @Environment(\.managedObjectContext) private var viewContext
+    
     @Environment(\.presentationMode) var presentation
     @State var individualPreset: IndividualPreset
+    @Binding var dataConfig: modifyDataConfig
     
     // background color
     let gradient = LinearGradient(colors: [.orange, .cyan],
@@ -128,9 +130,8 @@ struct IndividualPresetInfoView: View {
                 
                 Spacer()
             } // end of VStack
-            .onAppear {
-                canDelete = (Array(individualPreset.parent_preset ?? []).count == 0)
-            }
+            .onAppear { canDelete = (Array(individualPreset.parent_preset ?? []).count == 0) }
+            .onDisappear { dataConfig.notifyChanges() }
             
         } // end of ZStack
     } // end of View body
@@ -169,7 +170,9 @@ struct IndividualPresetInfoView_Previews: PreviewProvider {
     static var previews: some View {
         @State var previewPreset: IndividualPreset = PersistenceController.preview.container.viewContext.registeredObjects.first(where: { $0 is IndividualPreset }) as! IndividualPreset
         
-        IndividualPresetInfoView(individualPreset: previewPreset)
+        @State var dataConfig: modifyDataConfig = modifyDataConfig()
+        
+        IndividualPresetInfoView(individualPreset: previewPreset, dataConfig: $dataConfig)
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

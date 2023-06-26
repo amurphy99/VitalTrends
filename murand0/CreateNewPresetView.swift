@@ -14,7 +14,7 @@ struct CreateNewPresetView: View {
     @State var userSinglePresets = [IndividualPreset]()
     
     @Binding var isPresented: Bool
-    
+    @Binding var dataConfig: modifyDataConfig
     
     let gradient = LinearGradient(colors: [.orange, .cyan],
                                   startPoint: .topLeading,
@@ -211,6 +211,8 @@ struct CreateNewPresetView: View {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
+        
+        dataConfig.notifyChanges()
     }
     
     // Group
@@ -241,7 +243,10 @@ struct CreateNewPresetView: View {
 
 struct CreateNewPresetView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateNewPresetView(isPresented: .constant(true))
+        
+        @State var dataConfig: modifyDataConfig = modifyDataConfig()
+        
+        CreateNewPresetView(isPresented: .constant(true), dataConfig: $dataConfig)
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

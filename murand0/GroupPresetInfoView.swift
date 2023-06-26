@@ -14,6 +14,7 @@ struct GroupPresetInfoView: View {
     @Environment(\.presentationMode) var presentation
     @State var userIndividualPresets = [IndividualPreset]()
     @State var groupPreset: GroupPreset
+    @Binding var dataConfig: modifyDataConfig
     
     // background color
     let gradient = LinearGradient(colors: [.orange, .cyan],
@@ -94,10 +95,8 @@ struct GroupPresetInfoView: View {
                 Spacer()
             } // end main VStack
         }
-        .onAppear {
-            userIndividualPresets = loadIndividualPresets(viewContext: viewContext)
-            
-        }
+        .onAppear    { userIndividualPresets = loadIndividualPresets(viewContext: viewContext) }
+        .onDisappear { dataConfig.notifyChanges() }
         
     } // end of View body
     
@@ -132,8 +131,9 @@ struct GroupPresetInfoView: View {
 struct GroupPresetInfoView_Previews: PreviewProvider {
     static var previews: some View {
         @State var previewPreset: GroupPreset = PersistenceController.preview.container.viewContext.registeredObjects.first(where: { $0 is GroupPreset }) as! GroupPreset
+        @State var dataConfig: modifyDataConfig = modifyDataConfig()
         
-        GroupPresetInfoView(groupPreset: previewPreset)
+        GroupPresetInfoView(groupPreset: previewPreset, dataConfig: $dataConfig)
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
