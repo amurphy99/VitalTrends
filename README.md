@@ -26,12 +26,21 @@ VitalTrends' primary goal is to provide users with a simple, yet effective way t
 
 ## Features
 
-- **Health Data Logging:** Log health parameters such as medication and supplement intake, blood pressure, mood, energy levels, etc.
-<p align="center">
-  <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/a0ef686a-b468-4572-b462-b2783fccb2b7" caption="individual event detailed view" width="15%">
-  <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/f47fdbb4-6b41-4a35-9363-01d28394961f" caption="log from invividual presets view" width="15%">
-  <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/a28a2a6b-9e97-4ccb-9c9b-f55d1f418e79" caption="log from group presets view" width="15%">
-</p>
+<details>
+  <summary>**Health Data Logging:** Log health parameters such as medication and supplement intake, blood pressure, mood, energy levels, etc.</summary>
+  
+  ### You can add a header
+  
+  <p align="center">
+    <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/a0ef686a-b468-4572-b462-b2783fccb2b7" caption="individual event detailed view" width="25%">
+    <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/f47fdbb4-6b41-4a35-9363-01d28394961f" caption="log from invividual presets view" width="25%">
+    <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/a28a2a6b-9e97-4ccb-9c9b-f55d1f418e79" caption="log from group presets view" width="25%">
+  </p>
+</details>
+
+
+
+
 - **Presets:** Create presets for recurrent entries, like "morning pills", for a quicker logging experience.
 <p align="center">
   <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/afc54331-a9b6-4058-820f-94b622c4d1a1" caption="user preset detailed view" width="15%">
