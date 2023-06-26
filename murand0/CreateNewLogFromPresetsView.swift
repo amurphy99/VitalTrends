@@ -15,6 +15,7 @@ struct CreateNewLogFromPresetsView: View {
     @State var userGroupPresets = [GroupPreset]()
     
     @Binding var isPresented: Bool
+    @Binding var dataConfig: modifyDataConfig
     
     let gradient = LinearGradient(colors: [.orange, .green],
                                   startPoint: .topLeading,
@@ -214,6 +215,7 @@ struct CreateNewLogFromPresetsView: View {
         }
         
         // dismiss view
+        dataConfig.notifyChanges()
         isPresented = false
     }
     
@@ -251,7 +253,10 @@ struct CreateNewLogFromPresetsView: View {
 
 struct CreateNewLogFromPresetsView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateNewLogFromPresetsView(isPresented: .constant(true))
+        
+        @State var dataConfig: modifyDataConfig = modifyDataConfig()
+        
+        CreateNewLogFromPresetsView(isPresented: .constant(true), dataConfig: $dataConfig)
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

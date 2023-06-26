@@ -11,19 +11,18 @@ struct EventLogsView: View {
     
     // CoreData
     @Environment(\.managedObjectContext) private var viewContext
-    @State var userEventLogs = [UserEvent]()
-    @State var showingNewEntry: Bool = false
     
-    let gradient = LinearGradient(colors: [.orange, .green],
-                                  startPoint: .topLeading,
-                                  endPoint: .bottomTrailing)
+    @State var showingNewEntry: Bool = false
+    @State var dataConfig: modifyDataConfig = modifyDataConfig()
+    
     
     var body: some View {
         NavigationView {
             ZStack {
-                gradient.opacity(GRADIENT_OPACITY).ignoresSafeArea()
+                EVENTS_GRADIENT.opacity(GRADIENT_OPACITY).ignoresSafeArea()
                 VStack {
-                    eventLogsDisplay()
+                    eventLogsDisplay(dataConfig: dataConfig)
+                        .animation(.easeIn, value: dataConfig)
                 }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading){ Text("All Events").font(.title).fontWeight(.semibold) }
@@ -33,12 +32,10 @@ struct EventLogsView: View {
                 }
             }
             .sheet(isPresented: $showingNewEntry) {
-                CreateNewLogFromPresetsView(isPresented: $showingNewEntry)
+                CreateNewLogFromPresetsView(isPresented: $showingNewEntry, dataConfig: $dataConfig)
             }
         } // end NavigationView
         .onAppear {
-            userEventLogs = loadEventLogs(viewContext: viewContext)
-            
             let appearance = UINavigationBarAppearance()
             appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
             //appearance.backgroundColor = UIColor(Color.orange.opacity(0.1))
@@ -68,7 +65,9 @@ struct EventLogsView: View {
     }
     
     // function to get the actual display for the page
-    private func eventLogsDisplay() -> some View {
+    private func eventLogsDisplay(dataConfig: modifyDataConfig) -> some View {
+        let userEventLogs = loadEventLogs(viewContext: viewContext) // reload the logs
+        
         let sortedEvents = userEventLogs.sorted {
             Calendar.current.date(from: Calendar.current.dateComponents([.day, .year, .month], from: $0.timestamp)
             ) ?? Date.distantFuture <
@@ -78,17 +77,15 @@ struct EventLogsView: View {
         let eventsByDay = splitByDay(results: sortedEvents)
         let days: [DateComponents] = Array(eventsByDay.keys)
         
-
-        
         return ScrollView {
             LazyVStack {
                 List {
                     ForEach(days, id: \.self) { day in
                         Section (header: header_display_date(given_components: day)) {
                             ForEach(eventsByDay[day]!, id: \.self) { eventLog in
-                                
                                 NavigationLink {
-                                    IndividualEventLogView(individualEvent: eventLog).navigationTitle(Text("Edit Entry"))
+                                    IndividualEventLogView(individualEvent: eventLog, dataConfig: $dataConfig)
+                                        .navigationTitle(Text("Edit Entry"))
                                 } label: {
                                     HStack {
                                         displayTimeAgo(given_date: eventLog.timestamp)
@@ -102,7 +99,6 @@ struct EventLogsView: View {
                                     .truncationMode(.tail).lineLimit(1)
                                     .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                                 }
-                                
                             }
                         }
                     }

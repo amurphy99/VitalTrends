@@ -14,6 +14,9 @@ struct IndividualEventLogView: View {
     @Environment(\.presentationMode) var presentation
     @State var individualEvent: UserEvent
     
+    @Binding var dataConfig: modifyDataConfig
+
+    
     private let gradient = LinearGradient(colors: [.orange, .green],
                                   startPoint: .topLeading,
                                   endPoint: .bottomTrailing)
@@ -33,68 +36,75 @@ struct IndividualEventLogView: View {
         NavigationView {
             ZStack {
                 gradient.opacity(GRADIENT_OPACITY).ignoresSafeArea()
-                VStack {
-                    // Form
-                    // ===================================================
-                    Form {
-                        Section { // (header: Text("Edit Entry Details")) 
-                            HStack {
-                                Text("Date").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
-                                DatePicker("", selection: $individualEvent.timestamp, displayedComponents: [.date, .hourAndMinute])
-                            }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                            HStack {
-                                Text("Name").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
-                                TextField(text: $individualEvent.name) { Text("Name") }
-                                    .foregroundColor(.gray).disabled(disabled)
-                            }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                            HStack {
-                                Text("Type").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
-                                TextField(text: $tempType) { Text("Type") }
-                                    .foregroundColor(.gray)
-                                    .disabled(disabled)
-                            }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                            HStack {
-                                Text("Quantity").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
-                                TextField(value: $individualEvent.quantity, format: .number) { Text("Quantity") }
+                if individualEvent.isFault { EmptyView() }
+                else {
+                    VStack {
+                        // Form
+                        // ===================================================
+                        Form {
+                            Section { // (header: Text("Edit Entry Details"))
+                                HStack {
+                                    Text("Date").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
+                                    DatePicker("", selection: $individualEvent.timestamp, displayedComponents: [.date, .hourAndMinute])
+                                }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                                HStack {
+                                    Text("Name").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
+                                    TextField(text: $individualEvent.name) { Text("Name") }
+                                        .foregroundColor(.gray).disabled(disabled)
+                                }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                                HStack {
+                                    Text("Type").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
+                                    TextField(text: $tempType) { Text("Type") }
+                                        .foregroundColor(.gray)
+                                        .disabled(disabled)
+                                }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                                HStack {
+                                    Text("Quantity").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
+                                    TextField(value: $individualEvent.quantity, format: .number) { Text("Quantity") }
+                                }
+                                .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                                HStack {
+                                    Text("Units").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
+                                    TextField(text: $tempUnits) { Text("Units") }
+                                        .foregroundColor(.gray).disabled(disabled)
+                                }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                             }
-                            .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                            HStack {
-                                Text("Units").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
-                                TextField(text: $tempUnits) { Text("Units") }
-                                    .foregroundColor(.gray).disabled(disabled)
-                            }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                         }
-                    }
-                    .frame(height: UIScreen.main.bounds.height*0.33)
-                    .textFieldStyle(.roundedBorder)
-                    .scrollContentBackground(.hidden)
-                    
-                    
-                    // Delete Button
-                    // ===================================================
-                    Button {
-                        isConfirming = true
-                        dialogDetail = "Delete entry for \(individualEvent.name) (\(myNumberFormatter.string(for: individualEvent.quantity)!) \(tempUnits))?"
-                    } label: {
-                       Text("Delete Entry").font(.title3).padding(.horizontal)
-                    }
-                    .buttonStyle(.borderedProminent).tint(.pink)
-                    .confirmationDialog(
-                        "Are you sure you want to delete this preset?",
-                        isPresented: $isConfirming, presenting: dialogDetail
-                    ) { detail in
-                        Button{ deleteEntry() } label: { Text("\(detail)") }
-                        Button("Cancel", role: .cancel) { dialogDetail = nil }
-                    }
-                    
-                    
-                    Spacer()
-                } // end VStack
+                        .frame(height: UIScreen.main.bounds.height*0.33)
+                        .textFieldStyle(.roundedBorder)
+                        .scrollContentBackground(.hidden)
+                        
+                        
+                        // Delete Button
+                        // ===================================================
+                        Button {
+                            isConfirming = true
+                            dialogDetail = "Delete entry for \(individualEvent.name) (\(myNumberFormatter.string(for: individualEvent.quantity)!) \(tempUnits))?"
+                        } label: {
+                            Text("Delete Entry").font(.title3).padding(.horizontal)
+                        }
+                        .buttonStyle(.borderedProminent).tint(.pink)
+                        .confirmationDialog(
+                            "Are you sure you want to delete this preset?",
+                            isPresented: $isConfirming, presenting: dialogDetail
+                        ) { detail in
+                            Button{ deleteEntry() } label: { Text("\(detail)") }
+                            Button("Cancel", role: .cancel) { dialogDetail = nil }
+                        }
+                        
+                        
+                        Spacer()
+                    } // end VStack
+                }
+                
             }
         } // end NavigationView
         .onAppear{
             tempType = individualEvent.type ?? ""
             tempUnits = individualEvent.units ?? ""
+        }
+        .onDisappear{
+            dataConfig.notifyChanges()
         }
     } // end View body
     
@@ -103,18 +113,17 @@ struct IndividualEventLogView: View {
     // function for deleting entry
     // ===================================================
     private func deleteEntry() {
-        // delete
-        viewContext.delete(individualEvent)
+        // close View
+        self.presentation.wrappedValue.dismiss()
         
-        // save
+        // delete and save changes        
+        viewContext.delete(individualEvent)
         do { try viewContext.save()
         } catch {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
         
-        // close View
-        self.presentation.wrappedValue.dismiss()
     }
     
     
@@ -136,7 +145,9 @@ struct IndividualEventLogView_Previews: PreviewProvider {
         preview.quantity  = 200
         preview.units     = "mg"
         
-        return IndividualEventLogView(individualEvent: preview)
+        @State var dataConfig: modifyDataConfig = modifyDataConfig()
+        
+        return IndividualEventLogView(individualEvent: preview, dataConfig: $dataConfig)
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

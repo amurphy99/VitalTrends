@@ -9,8 +9,15 @@ import Foundation
 import SwiftUI
 
 
-let GRADIENT_OPACITY: Double = 0.30 // original was 0.25
+
 let SECTION_EDGE_INSETS: EdgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+
+let GRADIENT_OPACITY: Double = 0.30 // original was 0.25
+let EVENTS_GRADIENT = LinearGradient(colors: [.orange, .green],
+                                     startPoint: .topLeading,
+                                     endPoint: .bottomTrailing)
+
+
 
 extension View {
     func PDV_textfield(width: CGFloat)-> some View {
@@ -18,4 +25,18 @@ extension View {
     }
     
 }
+
+
+
+struct modifyDataConfig: Equatable {
+    
+    var wasChanged = false
+    
+    mutating func notifyChanges() {
+        wasChanged.toggle()
+    }
+    
+}
+
+
 
