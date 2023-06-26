@@ -172,7 +172,7 @@ struct CreateNewPresetView: View {
             }
         } // end Navigation View
         .onAppear {
-            loadData()
+            userSinglePresets = loadIndividualPresets(viewContext: viewContext)
             
             let appearance = UINavigationBarAppearance()
             appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
@@ -184,22 +184,6 @@ struct CreateNewPresetView: View {
     } // end main body
     
     
-    
-    // functions to load in data for the page
-    // ======================================================
-    private func loadData() {
-        loadSinglePresets()
-    }
-    private func loadSinglePresets() {
-        let request = IndividualPreset.fetchRequest()
-        let sort = NSSortDescriptor(key: "name", ascending: false)
-        request.sortDescriptors = [sort]
-        
-        do {
-            userSinglePresets = try viewContext.fetch(request)
-            print("Got \(userSinglePresets.count) commits")
-        } catch { print("Fetch failed") }
-    }
     
     // function to save newly created presets
     // ======================================================

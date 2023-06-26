@@ -167,7 +167,8 @@ struct CreateNewLogFromPresetsView: View {
             }
         } // end Navigation View
         .onAppear {
-            loadData()
+            userIndividualPresets = loadIndividualPresets(viewContext: viewContext)
+            userGroupPresets = loadGroupPresets(viewContext: viewContext)
             
             let appearance = UINavigationBarAppearance()
             appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
@@ -179,35 +180,8 @@ struct CreateNewLogFromPresetsView: View {
     } // end View body
     
     
-    // functions to load in data for the page
-    // ======================================================
-    private func loadData() {
-        loadPresetEntries()
-        loadGroupPresets()
-    }
-    private func loadPresetEntries() {
-        let request = IndividualPreset.fetchRequest()
-        let sort = NSSortDescriptor(key: "name", ascending: false)
-        request.sortDescriptors = [sort]
-        
-        do {
-            userIndividualPresets = try viewContext.fetch(request)
-            print("Got \(userIndividualPresets.count) commits")
-        } catch { print("Fetch failed") }
-    }
-    private func loadGroupPresets() {
-        let request = GroupPreset.fetchRequest()
-        let sort = NSSortDescriptor(key: "name", ascending: false)
-        request.sortDescriptors = [sort]
-        
-        do {
-            userGroupPresets = try viewContext.fetch(request)
-            print("Got \(userGroupPresets.count) commits")
-        } catch { print("Fetch failed") }
-    }
-    
-    
-    // functions to load in data for the page
+
+    // functions to save newly created entry
     // ======================================================
     private func saveData() {
         // check validity

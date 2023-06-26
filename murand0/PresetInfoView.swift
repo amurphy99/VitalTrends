@@ -42,7 +42,15 @@ struct PresetInfoView: View {
                                     NavigationLink {
                                         IndividualPresetInfoView(individualPreset: preset)
                                             .navigationTitle(Text("\(preset.name)"))
-                                    } label: { Text("\(preset.name)").truncationMode(.tail).lineLimit(1) }
+                                    } label: {
+                                        HStack {
+                                            Text("\(preset.name)")
+                                            Text("(\(myNumberFormatter.string(for: preset.quantity)!) \(preset.units))")
+                                                .fontWeight(.light)
+                                                .foregroundColor(.gray)
+                                        }
+                                        .truncationMode(.tail).lineLimit(1)
+                                    }
                                 }
                             }
                             // Multiple Presets
@@ -77,7 +85,8 @@ struct PresetInfoView: View {
             }
         }
         .onAppear {
-            load_data()
+            user_SinglePresets = loadIndividualPresets(viewContext: viewContext)
+            user_GroupPresets = loadGroupPresets(viewContext: viewContext)
             
             let appearance = UINavigationBarAppearance()
             appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
@@ -89,32 +98,6 @@ struct PresetInfoView: View {
  
     }
     
-    // functions to load in data for the page
-    // ======================================================
-    private func load_data() {
-        load_PresetEntries()
-        load_GroupPresets()
-    }
-    private func load_PresetEntries() {
-        let request = IndividualPreset.fetchRequest()
-        let sort = NSSortDescriptor(key: "name", ascending: false)
-        request.sortDescriptors = [sort]
-        
-        do {
-            user_SinglePresets = try viewContext.fetch(request)
-            print("Got \(user_SinglePresets.count) commits")
-        } catch { print("Fetch failed") }
-    }
-    private func load_GroupPresets() {
-        let request = GroupPreset.fetchRequest()
-        let sort = NSSortDescriptor(key: "name", ascending: false)
-        request.sortDescriptors = [sort]
-        
-        do {
-            user_GroupPresets = try viewContext.fetch(request)
-            print("Got \(user_GroupPresets.count) commits")
-        } catch { print("Fetch failed") }
-    }
         
         
         

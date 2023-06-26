@@ -127,7 +127,6 @@ struct IndividualPresetInfoView: View {
                 
                 
                 Spacer()
-                
             } // end of VStack
             .onAppear {
                 canDelete = (Array(individualPreset.parent_preset ?? []).count == 0)
@@ -160,7 +159,9 @@ struct IndividualPresetInfoView: View {
     
     
     
+    
 }
+
 
 
 

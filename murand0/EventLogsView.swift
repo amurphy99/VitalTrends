@@ -37,7 +37,7 @@ struct EventLogsView: View {
             }
         } // end NavigationView
         .onAppear {
-            loadData()
+            userEventLogs = loadEventLogs(viewContext: viewContext)
             
             let appearance = UINavigationBarAppearance()
             appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
@@ -49,21 +49,10 @@ struct EventLogsView: View {
     } // end View body
 
     
-    // functions to load in data for the page
+    
+    // functions to generate log view for page
     // ======================================================
-    private func loadData() {
-        loadEventLogs()
-    }
-    private func loadEventLogs() {
-        let request = UserEvent.fetchRequest()
-        let sort = NSSortDescriptor(key: "name", ascending: false)
-        request.sortDescriptors = [sort]
-        
-        do {
-            userEventLogs = try viewContext.fetch(request)
-            print("Got \(userEventLogs.count) commits")
-        } catch { print("Fetch failed") }
-    }
+
     // split event up by day
     private func splitByDay(results: [UserEvent]) -> [DateComponents : [UserEvent]] {
         var eventsByDay: [DateComponents : [UserEvent]] = [:]
@@ -104,9 +93,13 @@ struct EventLogsView: View {
                                     HStack {
                                         displayTimeAgo(given_date: eventLog.timestamp)
                                             .fontWeight(.light).font(.system(size: 16))
-                                            .frame(width: 65)
+                                            .frame(width: 65, alignment: .leading)
                                         Text("\(eventLog.name)")
+                                        Text("(\(myNumberFormatter.string(for: eventLog.quantity)!) \(eventLog.units ?? ""))")
+                                            .fontWeight(.light)
+                                            .foregroundColor(.gray)
                                     }
+                                    .truncationMode(.tail).lineLimit(1)
                                     .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                                 }
                                 

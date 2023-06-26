@@ -11,7 +11,7 @@ import CoreData
 
 
 
-
+/// Load list of  individual presets
 func loadIndividualPresets(viewContext: NSManagedObjectContext) -> [IndividualPreset] {
     let request = IndividualPreset.fetchRequest()
     let sort = NSSortDescriptor(key: "name", ascending: false)
@@ -26,6 +26,7 @@ func loadIndividualPresets(viewContext: NSManagedObjectContext) -> [IndividualPr
     
     return results
 }
+/// Load list of  group presets
 func loadGroupPresets(viewContext: NSManagedObjectContext) -> [GroupPreset] {
     let request = GroupPreset.fetchRequest()
     let sort = NSSortDescriptor(key: "name", ascending: false)
@@ -40,6 +41,18 @@ func loadGroupPresets(viewContext: NSManagedObjectContext) -> [GroupPreset] {
     
     return results
 }
-
-
-
+/// Load list of event logs
+func loadEventLogs(viewContext: NSManagedObjectContext) -> [UserEvent] {
+    let request = UserEvent.fetchRequest()
+    let sort = NSSortDescriptor(key: "name", ascending: false)
+    request.sortDescriptors = [sort]
+    
+    var results = [UserEvent]()
+    
+    do {
+        results = try viewContext.fetch(request)
+        print("Got \(results.count) commits")
+    } catch { print("Fetch failed") }
+    
+    return results
+}
