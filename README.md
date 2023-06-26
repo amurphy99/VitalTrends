@@ -2,8 +2,8 @@
 
 VitalTrends is a comprehensive health tracking application developed specifically for iOS devices. Developed with Swift using Xcode and CoreData for database management, the application provides an efficient and user-friendly interface for logging, tracking, and analyzing health-related data.
 
-<img src="https://github.com/amurphy99/VitalTrends/assets/62905265/a2e4e8bf-2c72-499a-bcc0-7096f820f379" width="100">
-<img src="https://github.com/amurphy99/VitalTrends/assets/62905265/05c91879-2420-4a13-acf8-9b343f3f01c2" width="100">
+<img src="https://github.com/amurphy99/VitalTrends/assets/62905265/a2e4e8bf-2c72-499a-bcc0-7096f820f379" width="40%">
+<img src="https://github.com/amurphy99/VitalTrends/assets/62905265/05c91879-2420-4a13-acf8-9b343f3f01c2" width="40%">
 
 <!--
 ![Data Log Screen](https://github.com/amurphy99/VitalTrends/assets/62905265/a2e4e8bf-2c72-499a-bcc0-7096f820f379)
