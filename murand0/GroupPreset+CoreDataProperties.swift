@@ -2,7 +2,7 @@
 //  GroupPreset+CoreDataProperties.swift
 //  murand0
 //
-//  Created by Andrew Murphy on 6/22/23.
+//  Created by Andrew Murphy on 6/26/23.
 //
 //
 
@@ -17,7 +17,7 @@ extension GroupPreset {
     }
 
     @NSManaged public var name: String
-    @NSManaged public var entries: Set<IndividualPreset>
+    @NSManaged public var entries: Set<IndividualPreset> //NSSet?
 
 }
 
