@@ -27,15 +27,15 @@ VitalTrends' primary goal is to provide users with a simple, yet effective way t
 ## Features
 
 <details>
-  <summary>**Health Data Logging:** Log health parameters such as medication and supplement intake, blood pressure, mood, energy levels, etc.</summary>
+  <summary> <span style="font-weight:bold;"> Health Data Logging: </span> Log health parameters such as medication and supplement intake, blood pressure, mood, energy levels, etc.</summary>
   
   ### You can add a header
   
-  <p align="center">
+  <div align="center" style="display:flex; justify-content:space-around;">
     <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/a0ef686a-b468-4572-b462-b2783fccb2b7" caption="individual event detailed view" width="25%">
     <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/f47fdbb4-6b41-4a35-9363-01d28394961f" caption="log from invividual presets view" width="25%">
     <img src="https://github.com/amurphy99/VitalTrends/assets/62905265/a28a2a6b-9e97-4ccb-9c9b-f55d1f418e79" caption="log from group presets view" width="25%">
-  </p>
+  </div>
 </details>
 
 
