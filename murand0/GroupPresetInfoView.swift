@@ -20,8 +20,12 @@ struct GroupPresetInfoView: View {
                                   startPoint: .topLeading,
                                   endPoint: .bottomTrailing)
     
-    @State private var editMode = EditMode.active
     private let listHeight: CGFloat = UIScreen.main.bounds.height*0.55
+    
+    @State private var editMode = EditMode.active
+    
+    @State private var isConfirming = false
+    @State private var dialogDetail: String?
     
 
     var body: some View {
@@ -71,10 +75,17 @@ struct GroupPresetInfoView: View {
                     Divider()
                     
                     Button {
-                        deletePreset()
+                        isConfirming = true
+                        dialogDetail = "Delete \(groupPreset.name)?"
                     } label: { Text("Delete Preset").font(.title3).padding(.horizontal) }
-                    .buttonStyle(.borderedProminent)
-                    .tint(.pink)
+                    .buttonStyle(.borderedProminent).tint(.pink)
+                    .confirmationDialog(
+                        "Are you sure you want to delete this preset?",
+                        isPresented: $isConfirming, presenting: dialogDetail
+                    ) { detail in
+                        Button{ deletePreset() } label: { Text("\(detail)") }
+                        Button("Cancel", role: .cancel) { dialogDetail = nil }
+                    }
                 }
                 .padding(.horizontal)
                 

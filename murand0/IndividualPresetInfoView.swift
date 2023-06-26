@@ -24,6 +24,9 @@ struct IndividualPresetInfoView: View {
     
     
     @State private var canDelete: Bool = false
+    @State private var isConfirming = false
+    @State private var dialogDetail: String?
+    
     
     @State var numberOfUnits: Int = 30
     @State var takenPerWeek: Float = 7
@@ -106,11 +109,19 @@ struct IndividualPresetInfoView: View {
                     if !canDelete { Text("remove from all groups to delete").fontWeight(.light).foregroundColor(.gray) }
                 
                     Button {
-                        deletePreset()
+                        isConfirming = true
+                        dialogDetail = "Delete \(individualPreset.name) (\(myNumberFormatter.string(for: individualPreset.quantity)!) \(individualPreset.units))?"
                     } label: { Text("Delete Preset").font(.title3).padding(.horizontal) }
                     .buttonStyle(.borderedProminent)
                     .tint(.pink)
                     .disabled(!canDelete)
+                    .confirmationDialog(
+                        "Are you sure you want to delete this preset?",
+                        isPresented: $isConfirming, presenting: dialogDetail
+                    ) { detail in
+                        Button{ deletePreset() } label: { Text("\(detail)") }
+                        Button("Cancel", role: .cancel) { dialogDetail = nil }
+                    }
                 }
                 .padding(.horizontal)
                 
