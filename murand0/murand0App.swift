@@ -13,7 +13,7 @@ struct murand0App: App {
 
     var body: some Scene {
         WindowGroup {
-            UserEventsView()
+            MainView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
 
         }
