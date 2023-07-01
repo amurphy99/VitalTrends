@@ -15,6 +15,9 @@ struct MainView: View {
             EventLogsView()
                 .tabItem { Label("Logs", systemImage: "list.bullet.clipboard.fill") }
             
+            NotificationsView()
+                .tabItem { Label("Notifications", systemImage: "bell.badge.fill") }
+            
             PresetInfoView()
                 .tabItem { Label("Presets", systemImage: "folder.fill") }
             

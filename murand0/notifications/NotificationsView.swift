@@ -9,10 +9,16 @@ import SwiftUI
 
 struct NotificationsView: View {
     
-    
+
+
     var body: some View {
         ZStack {
+            //NOTIFICATIONS_GRADIENT.opacity(GRADIENT_OPACITY).ignoresSafeArea()
+            gradientBackgrounds().notificationsGradient().opacity(GRADIENT_OPACITY).ignoresSafeArea()
             VStack {
+            
+                
+                
                 
 
                 

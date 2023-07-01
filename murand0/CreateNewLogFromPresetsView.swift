@@ -190,30 +190,17 @@ struct CreateNewLogFromPresetsView: View {
         
         // from Individual
         for preset_entry in selectedIndividualPresets {
-            if preset_entry.numberOfUnits > 0 { preset_entry.numberOfUnits -= 1 }
-            
-            let newEvent = UserEvent(context: viewContext)
-            newEvent.timestamp = new_date
-            newEvent.type      = preset_entry.type
-            newEvent.name      = preset_entry.name
-            newEvent.quantity  = preset_entry.quantity
-            newEvent.units     = preset_entry.units
-        }
-        // from Group
-        for preset_entry in selectedPresetEntries {
-            if preset_entry.numberOfUnits > 0 { preset_entry.numberOfUnits -= 1 }
-            
-            let newEvent = UserEvent(context: viewContext)
-            newEvent.timestamp = new_date
-            newEvent.type      = preset_entry.type
-            newEvent.name      = preset_entry.name
-            newEvent.quantity  = preset_entry.quantity
-            newEvent.units     = preset_entry.units
+            logFromIndividualPreset(preset_entry, new_date, viewContext, saveOption: false)
         }
         
-        // save them all
-        do { try viewContext.save()
-        } catch {
+        // from Group
+        if selectedPreset != nil {
+            logFromGroupPreset(selectedPreset!, new_date, viewContext, saveOption: false)
+        }
+        
+        // save everything
+        do    { try viewContext.save() }
+        catch {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
@@ -222,6 +209,9 @@ struct CreateNewLogFromPresetsView: View {
         dataConfig.notifyChanges()
         isPresented = false
     }
+    
+    
+    
     
     
     

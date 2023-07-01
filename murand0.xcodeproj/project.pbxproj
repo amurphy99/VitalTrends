@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A11DB632948007B00E9A73B /* UserEventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11DB622948007B00E9A73B /* UserEventHelper.swift */; };
 		0A46D8152A423F6F0035646E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A46D8142A423F6F0035646E /* MainView.swift */; };
+		0A8646822A50BB6500C871DB /* loggingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8646812A50BB6500C871DB /* loggingHelper.swift */; };
 		0A8AC0C5298C508B00C0AD9F /* PresetDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8AC0C4298C508B00C0AD9F /* PresetDetailView.swift */; };
 		0A8AC0C7298C5F6A00C0AD9F /* viewFormatHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8AC0C6298C5F6A00C0AD9F /* viewFormatHelpers.swift */; };
 		0A9E13BC2A4766DB00C733FB /* IndividualPresetInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9E13BB2A4766DB00C733FB /* IndividualPresetInfoView.swift */; };
@@ -43,6 +44,7 @@
 /* Begin PBXFileReference section */
 		0A11DB622948007B00E9A73B /* UserEventHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEventHelper.swift; sourceTree = "<group>"; };
 		0A46D8142A423F6F0035646E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		0A8646812A50BB6500C871DB /* loggingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loggingHelper.swift; sourceTree = "<group>"; };
 		0A8AC0C4298C508B00C0AD9F /* PresetDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetDetailView.swift; sourceTree = "<group>"; };
 		0A8AC0C6298C5F6A00C0AD9F /* viewFormatHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viewFormatHelpers.swift; sourceTree = "<group>"; };
 		0A9E13BB2A4766DB00C733FB /* IndividualPresetInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualPresetInfoView.swift; sourceTree = "<group>"; };
@@ -98,6 +100,15 @@
 			name = addEvents;
 			sourceTree = "<group>";
 		};
+		0A8646832A50C12100C871DB /* dataHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				0A8646812A50BB6500C871DB /* loggingHelper.swift */,
+				0A9E13CD2A48EF0E00C733FB /* dataLoadingHelper.swift */,
+			);
+			path = dataHelpers;
+			sourceTree = "<group>";
+		};
 		0A9E13BA2A47662E00C733FB /* presetInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -130,7 +141,6 @@
 		0A9E13D72A4A054A00C733FB /* helpers */ = {
 			isa = PBXGroup;
 			children = (
-				0A9E13CD2A48EF0E00C733FB /* dataLoadingHelper.swift */,
 				0A8AC0C6298C5F6A00C0AD9F /* viewFormatHelpers.swift */,
 			);
 			name = helpers;
@@ -161,6 +171,7 @@
 		0AA644C9294653C400904668 /* murand0 */ = {
 			isa = PBXGroup;
 			children = (
+				0A8646832A50C12100C871DB /* dataHelpers */,
 				0A9E13D72A4A054A00C733FB /* helpers */,
 				0A9E13D42A493C8200C733FB /* notifications */,
 				0A9E13C22A47BCAF00C733FB /* eventLogs */,
@@ -277,6 +288,7 @@
 				0A9E13D22A49348400C733FB /* IndividualPreset+CoreDataProperties.swift in Sources */,
 				0A9E13BC2A4766DB00C733FB /* IndividualPresetInfoView.swift in Sources */,
 				0AA644E8294670F500904668 /* AddUserEventView.swift in Sources */,
+				0A8646822A50BB6500C871DB /* loggingHelper.swift in Sources */,
 				0A9E13CC2A48EB4000C733FB /* GroupPresetInfoView.swift in Sources */,
 				0A9E8576295F7C0800D47378 /* MultiplePresetView.swift in Sources */,
 				0AD7EC33295E56AC007FBFCA /* NewEventView.swift in Sources */,
