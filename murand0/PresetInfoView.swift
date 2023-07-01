@@ -91,12 +91,10 @@ struct PresetInfoView: View {
             user_SinglePresets = loadIndividualPresets(viewContext: viewContext)
             user_GroupPresets = loadGroupPresets(viewContext: viewContext)
             
-            let appearance = UINavigationBarAppearance()
-            appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
-            //appearance.backgroundColor = UIColor(Color.orange.opacity(0.1))
+            // only need this if previewing
+            //UINavigationBar.appearance().standardAppearance   = navBarStyle()
+            //UINavigationBar.appearance().scrollEdgeAppearance = navBarStyle()
             
-            UINavigationBar.appearance().standardAppearance = appearance // Inline appearance (standard height appearance)
-            UINavigationBar.appearance().scrollEdgeAppearance = appearance // Large Title appearance
         }
         .onChange(of: dataConfig) { _ in
             user_SinglePresets = loadIndividualPresets(viewContext: viewContext)

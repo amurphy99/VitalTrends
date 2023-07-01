@@ -34,6 +34,19 @@ class gradientBackgrounds {
     
 }
 
+// Navigation Bar
+// ===============================================================================
+
+//UINavigationBar.appearance().standardAppearance   = navBarStyle() // Inline appearance (standard height appearance)
+//UINavigationBar.appearance().scrollEdgeAppearance = navBarStyle() // Large Title appearance
+
+func navBarStyle() -> UINavigationBarAppearance {
+    let NAV_BAR = UINavigationBarAppearance()
+    NAV_BAR.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+    //NAV_BAR.backgroundColor = UIColor(Color.orange.opacity(0.1))
+    
+    return NAV_BAR
+}
 
 
 

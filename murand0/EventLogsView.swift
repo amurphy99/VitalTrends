@@ -36,12 +36,10 @@ struct EventLogsView: View {
             }
         } // end NavigationView
         .onAppear {
-            let appearance = UINavigationBarAppearance()
-            appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
-            //appearance.backgroundColor = UIColor(Color.orange.opacity(0.1))
             
-            UINavigationBar.appearance().standardAppearance = appearance // Inline appearance (standard height appearance)
-            UINavigationBar.appearance().scrollEdgeAppearance = appearance // Large Title appearance
+            // only need this if previewing
+            //UINavigationBar.appearance().standardAppearance   = navBarStyle()
+            //UINavigationBar.appearance().scrollEdgeAppearance = navBarStyle()
         }
     } // end View body
 

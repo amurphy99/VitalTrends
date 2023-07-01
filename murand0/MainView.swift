@@ -30,6 +30,10 @@ struct MainView: View {
             
         }
         .onAppear {
+            
+            UINavigationBar.appearance().standardAppearance   = navBarStyle()
+            UINavigationBar.appearance().scrollEdgeAppearance = navBarStyle()
+            
             let appearance = UITabBarAppearance()
             appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
             //appearance.backgroundColor = UIColor(Color.orange.opacity(0.2))
