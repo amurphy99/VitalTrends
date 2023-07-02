@@ -86,12 +86,15 @@ func createIndividualPreset(_ presetInfo:           (String, String, Float, Stri
     
 }
 
+let preset1 = ("Magnesium", "Supplement", 150, "mg")
+let preset2 = ("Caffiene", "Supplement", 100, "mg")
+let preset3 = ("Melatonin", "Supplement", 10, "mg")
+let preset4 = ("Concerta", "Medication", 54, "mg")
+let preset5 = ("Whiskey", "(self) Medication", 2, "fingers")
 
+let notif1 = (false, false, "", 0, 0, 0, 0)
+let notif2 = (true, false, "", 7, 0, 7, 30)
+let notif3 = (false, true, "Take next dose of ....", 0, 10800, 0, 0)
+let notif4 = (true, true, "Take next dose of ....", 3.5, 7200, 7, 40)
 
-
-
-
-
-
-
-
+//createIndividualPreset

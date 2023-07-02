@@ -17,10 +17,6 @@ struct IndividualPresetInfoView: View {
     @Binding var dataConfig: modifyDataConfig
     
 
-    // styling variables
-    private let InfoLabelWidth: CGFloat = 70
-    
-    
     @State private var canDelete: Bool = false
     @State private var isConfirming = false
     @State private var dialogDetail: String?

@@ -18,8 +18,6 @@ struct CreateNewPresetView: View {
     
 
     // Styling variables
-    private let InfoLabelWidth:     CGFloat = 70
-    private let StockLabelWidth:    CGFloat = 125
     private let listHeight:         CGFloat = UIScreen.main.bounds.height*0.60
     private let buttonWidth:        CGFloat = UIScreen.main.bounds.width*0.75
     
