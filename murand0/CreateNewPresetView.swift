@@ -27,8 +27,6 @@ struct CreateNewPresetView: View {
     // -----------------------
     @State var selectedType: Int = 0
     @State var name: String = ""
-    @State var flags: [Bool] = [false, false]
-    @State var stockSection: Bool = false
     
     // Group
     @State var editMode = EditMode.active
@@ -47,8 +45,8 @@ struct CreateNewPresetView: View {
     // Individual Triggered Reminder
     @State var triggerNotification: Bool = false
     @State var triggerMessage: String = ""
-    @State var triggerDelaySeconds: Int = 0
-    
+    @State var triggerHours: Int = 0
+    @State var triggerMinutes: Int = 0
     
     
  
@@ -148,21 +146,37 @@ struct CreateNewPresetView: View {
                                         Text("(optional)").textCase(nil)
                                     }.listRowInsets(SECTION_EDGE_INSETS)
                                 ) {
+                                    // toggle on/off
                                     HStack { Spacer()
                                         Toggle("Trigger Notification?", isOn: $triggerNotification).frame(width: 250, alignment: .center)
                                         Spacer()
                                     }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                                    
-                                    HStack {
-                                        Text("Message").newPresetTextField(InfoLabelWidth)
-                                        TextField(text: $triggerMessage) { Text("Notification Text") }
+                                    // message
+                                    VStack(spacing: 5) {
+                                        HStack {
+                                            Text("Message").newPresetTextField(InfoLabelWidth)
+                                            Spacer()
+                                        }
+                                        TextField(text: $triggerMessage, axis: .vertical) { Text("Notification Text") }
                                             .disabled(!triggerNotification)
+                                            .lineLimit(2, reservesSpace: true)
                                     }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                                    
-                                    HStack {
-                                        Text("Delay").newPresetTextField(InfoLabelWidth)
-                                        TextField(value: $notifyBelow, format: .number) { Text("Time Delay Until Notification") }
-                                            .disabled(!triggerNotification)
+                                    // time delay
+                                    VStack(spacing: 0) {
+                                        HStack { Text("Time Delay"); Spacer() }
+                                        HStack(spacing: 0) {
+                                            Spacer()
+                                            Picker("Hours", selection: $triggerHours) {ForEach(0...24, id: \.self) { Text("\($0)") }}
+                                            .pickerStyle(.wheel).frame(width: 60, height: 100)
+                                            Text("Hours")
+                                            
+                                            Spacer().frame(width: 10)
+                                            
+                                            Picker("Minutes", selection: $triggerMinutes) {ForEach(0...59, id: \.self) { Text("\($0)") }}
+                                            .pickerStyle(.wheel).frame(width: 60, height: 100)
+                                            Text("Minutes")
+                                            Spacer()
+                                        }
                                     }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                                 }
                                 
@@ -247,7 +261,6 @@ struct CreateNewPresetView: View {
         if name.count > 1 { saveNewIndividualPreset(); return false }
         return true
     }
-    
     private func saveNewIndividualPreset() {
         let newInidividualPreset = IndividualPreset(context: viewContext)
         newInidividualPreset.type     = type
@@ -265,6 +278,19 @@ struct CreateNewPresetView: View {
         
         dataConfig.notifyChanges()
     }
+    
+    private func createNewIndividualPreset() {
+        // create args
+        let presetInfo = (name, type, quantity, units)
+        let triggerDelaySeconds = ((triggerHours*60)+triggerMinutes)*60
+        let notificationsInfo = (notifyWhenLow, triggerNotification, triggerMessage, perWeek, triggerDelaySeconds, notifyBelow, numberOfUnits)
+        // create new preset using info
+        createIndividualPreset(presetInfo, notificationsInfo, viewContext)
+    }
+    
+    
+    
+    
     
     // Group
     private func validateGroupForm() -> Bool {
