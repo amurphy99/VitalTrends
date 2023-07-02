@@ -66,7 +66,7 @@ struct CreateNewPresetView: View {
                     .padding(.horizontal)
                     
                     VStack (alignment: .leading, spacing: 5) {
-                        Text("New Preset Name:").fontWeight(.semibold)
+                        Text("New Preset Name:").listSectionHeader()
                         TextField(text: $name) { Text("Name") }
                         Divider().padding(.top, 10)
                     }
@@ -82,24 +82,11 @@ struct CreateNewPresetView: View {
                             Form {
                                 // Basic Info
                                 // ------------------------------------------------------
-                                Section ( header:
-                                            Text("Preset Info").listSectionHeader().listRowInsets(SECTION_EDGE_INSETS)
-                                ) {
-                                    HStack {
-                                        Text("Type").newPresetTextField(InfoLabelWidth)
-                                        TextField(text: $type) { Text("Type") }
-                                    }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                                    
-                                    HStack {
-                                        Text("Quantity").newPresetTextField(InfoLabelWidth)
-                                        TextField(value: $quantity, format: .number) { Text("Quantity") }
-                                    }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                                    
-                                    HStack {
-                                        Text("Units").newPresetTextField(InfoLabelWidth)
-                                        TextField(text: $units) { Text("Units") }
-                                    }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                                }
+                                presetMainInfoSection(
+                                    ($type, $quantity, $units),
+                                    header: Text("Preset Info").listSectionHeader().listRowInsets(SECTION_EDGE_INSETS)
+                                )
+                                
                                 // Stock Info
                                 // ------------------------------------------------------
                                 presetStockSection(
@@ -123,8 +110,7 @@ struct CreateNewPresetView: View {
                                         }.listRowInsets(SECTION_EDGE_INSETS),
                                     hasFooter: true
                                 )
-                                
-                                
+
                             }
                             .frame(height: listHeight)
                             .textFieldStyle(.roundedBorder).disableAutocorrection(true).autocapitalization(.none)
@@ -138,9 +124,7 @@ struct CreateNewPresetView: View {
                                     LazyVStack {
                                         List(selection: $selectedPresets) {
                                             Section (
-                                                header: Text("Select presets to include:")
-                                                    .foregroundColor(.black)
-                                                    .font(.title3).fontWeight(.semibold).textCase(nil),
+                                                header: Text("Select presets to include:").listSectionHeader().listRowInsets(SECTION_EDGE_INSETS),
                                                 footer: Text("\(userSinglePresets.count) items, \(selectedPresets.count) selected")
                                             ){
                                                 ForEach(userSinglePresets, id: \.self) { preset in

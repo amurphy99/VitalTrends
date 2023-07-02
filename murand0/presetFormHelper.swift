@@ -11,13 +11,40 @@ import SwiftUI
 
 
 
-
-
-
-
 // Main Info Section
-func presetMainInfoSection() {
+func presetMainInfoSection(_ formData: (Binding<String>, Binding<Float>, Binding<String>), header: some View, hasName: Bool = false, name: Binding<String> = .constant("")) -> some View {
     
+    let infoLabelWidth: CGFloat = 70
+    
+    return Section ( header: header ) {
+        
+        // Name (optional)
+        if hasName {
+            HStack {
+                Text("Name").newPresetTextField(infoLabelWidth)
+                TextField(text: name) { Text("Name") }
+            }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+        }
+        
+        // Type
+        HStack {
+            Text("Type").newPresetTextField(infoLabelWidth)
+            TextField(text: formData.0) { Text("Type") }
+        }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+        
+        // Quantity
+        HStack {
+            Text("Quantity").newPresetTextField(infoLabelWidth)
+            TextField(value: formData.1, format: .number) { Text("Quantity") }
+        }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+        
+        // Units
+        HStack {
+            Text("Units").newPresetTextField(infoLabelWidth)
+            TextField(text: formData.2) { Text("Units") }
+        }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+        
+    }
     
     
     
@@ -37,33 +64,42 @@ func presetStockSection(_ formData: (Binding<Int16>, Binding<Float>, Binding<Boo
     }
     
     return Section (header: header, footer: Text("\(footerText)")) {
-                HStack {
-                    Text("Current Stock").newPresetTextField(stockLabelWidth)
-                    TextField(value: formData.0, format: .number) { Text("Current Stock") }
-                }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                
-                HStack {
-                    Text("Taken Per Week").newPresetTextField(stockLabelWidth)
-                    TextField(value: formData.1, format: .number) { Text("Taken Per Week") }
-                }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                
-                HStack {
-                    Text("Days Left:").newPresetTextField(stockLabelWidth)
-                    if formData.1.wrappedValue > 0  {
-                        Text("\( Int((Float(formData.0.wrappedValue) / formData.1.wrappedValue)*7) )")
-                    }
-                    else { Text("--") }
-                }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                
-                HStack { Toggle("Notify When Low?", isOn: formData.2) }
-                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                
-                HStack {
-                    Text("Notify Below").newPresetTextField(stockLabelWidth)
-                    TextField(value: formData.3, format: .number) { Text("Notify Below Days Left") }
-                        .disabled(!formData.2.wrappedValue)
-                }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+        // Current Stock
+        HStack {
+            Text("Current Stock").newPresetTextField(stockLabelWidth)
+            TextField(value: formData.0, format: .number) { Text("Current Stock") }
         }
+        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+        
+        // Taken Per Week
+        HStack {
+            Text("Taken Per Week").newPresetTextField(stockLabelWidth)
+            TextField(value: formData.1, format: .number) { Text("Taken Per Week") }
+        }
+        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+        
+        // Days Left (calculated value)
+        HStack {
+            Text("Days Left:").newPresetTextField(stockLabelWidth)
+            if formData.1.wrappedValue > 0  {
+                Text("\( Int((Float(formData.0.wrappedValue) / formData.1.wrappedValue)*7) )")
+            }
+            else { Text("--") }
+        }
+        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+        
+        // Notify When Low (on/off)
+        HStack { Toggle("Notify When Low?", isOn: formData.2) }
+            .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+        
+        // Notify Below (threshold)
+        HStack {
+            Text("Notify Below").newPresetTextField(stockLabelWidth)
+            TextField(value: formData.3, format: .number) { Text("Notify Below Days Left") }
+                .disabled(!formData.2.wrappedValue)
+        }
+        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+    }
 }
 
 

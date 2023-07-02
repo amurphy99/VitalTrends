@@ -46,28 +46,12 @@ struct IndividualPresetInfoView: View {
                 List {
                     // modify the Info on the preset, or delete
                     // ------------------------------------------------------
-                    Section (header:
-                                Text("Edit Preset Info").listSectionHeader()
-                        .listRowInsets(SECTION_EDGE_INSETS)
-                        .padding(.top)
-                    ) {
-                        HStack {
-                            Text("Name").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
-                            TextField(text: $individualPreset.name) { Text("Name") }
-                        }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                        HStack {
-                            Text("Type").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
-                            TextField(text: $individualPreset.type) { Text("Type") }
-                        }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                        HStack {
-                            Text("Quantity").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
-                            TextField(value: $individualPreset.quantity, format: .number) { Text("Quantity") }
-                        }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                        HStack {
-                            Text("Units").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
-                            TextField(text: $individualPreset.units) { Text("Units") }
-                        }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                    }
+                    presetMainInfoSection(
+                        ($individualPreset.type, $individualPreset.quantity, $individualPreset.units),
+                        header: Text("Edit Preset Info").listSectionHeader().listRowInsets(SECTION_EDGE_INSETS),
+                        hasName: true,
+                        name: $individualPreset.name
+                    )
                     
                     // Member of groups
                     // ------------------------------------------------------
@@ -99,10 +83,6 @@ struct IndividualPresetInfoView: View {
                             }.listRowInsets(SECTION_EDGE_INSETS),
                         hasFooter: true
                     )
-                    
-
-                    
-
                 }
                 .frame(height: UIScreen.main.bounds.height*0.65) // 185 + 240
                 .textFieldStyle(.roundedBorder).disableAutocorrection(true).autocapitalization(.none)
