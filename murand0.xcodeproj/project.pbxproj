@@ -119,6 +119,12 @@
 		0A8646882A50F29100C871DB /* dataTypes */ = {
 			isa = PBXGroup;
 			children = (
+				0AD3F5DE2A4A11D30033D94F /* GroupPreset+CoreDataClass.swift */,
+				0AD3F5DF2A4A11D30033D94F /* GroupPreset+CoreDataProperties.swift */,
+				0AA275462A44D2730067051E /* UserEvent+CoreDataClass.swift */,
+				0AA275472A44D2730067051E /* UserEvent+CoreDataProperties.swift */,
+				0A9E13CF2A49348400C733FB /* IndividualPreset+CoreDataClass.swift */,
+				0A9E13D02A49348400C733FB /* IndividualPreset+CoreDataProperties.swift */,
 				0A8646842A50F28900C871DB /* IndividualPresetNotifications+CoreDataClass.swift */,
 				0A8646852A50F28900C871DB /* IndividualPresetNotifications+CoreDataProperties.swift */,
 			);
@@ -166,12 +172,6 @@
 			isa = PBXGroup;
 			children = (
 				0A8646882A50F29100C871DB /* dataTypes */,
-				0AD3F5DE2A4A11D30033D94F /* GroupPreset+CoreDataClass.swift */,
-				0AD3F5DF2A4A11D30033D94F /* GroupPreset+CoreDataProperties.swift */,
-				0A9E13CF2A49348400C733FB /* IndividualPreset+CoreDataClass.swift */,
-				0A9E13D02A49348400C733FB /* IndividualPreset+CoreDataProperties.swift */,
-				0AA275462A44D2730067051E /* UserEvent+CoreDataClass.swift */,
-				0AA275472A44D2730067051E /* UserEvent+CoreDataProperties.swift */,
 				0AA644C9294653C400904668 /* murand0 */,
 				0AA644C8294653C400904668 /* Products */,
 			);

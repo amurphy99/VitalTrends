@@ -61,6 +61,11 @@ extension View {
         self.frame(width: width * 0.7, alignment: .leading).padding(3).border(Color.gray, width: 1)
     }
     
+    func newPresetTextField(_ width: CGFloat) -> some View {
+        //self.fontWeight(.semibold).frame(width: width, alignment: .trailing)
+        self.frame(width: width, alignment: .trailing)
+    }
+    
 }
 
 

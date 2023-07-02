@@ -19,7 +19,7 @@ struct CreateNewPresetView: View {
 
     // Styling variables
     private let InfoLabelWidth:     CGFloat = 70
-    private let StockLabelWidth:    CGFloat = 130
+    private let StockLabelWidth:    CGFloat = 125
     private let listHeight:         CGFloat = UIScreen.main.bounds.height*0.60
     private let buttonWidth:        CGFloat = UIScreen.main.bounds.width*0.75
     
@@ -27,6 +27,8 @@ struct CreateNewPresetView: View {
     // -----------------------
     @State var selectedType: Int = 0
     @State var name: String = ""
+    @State var flags: [Bool] = [false, false]
+    @State var stockSection: Bool = false
     
     // Group
     @State var editMode = EditMode.active
@@ -43,7 +45,9 @@ struct CreateNewPresetView: View {
     @State var notifyWhenLow: Bool = false
     @State var notifyBelow: Int = 0
     // Individual Triggered Reminder
-    
+    @State var triggerNotification: Bool = false
+    @State var triggerMessage: String = ""
+    @State var triggerDelaySeconds: Int = 0
     
     
     
@@ -73,59 +77,95 @@ struct CreateNewPresetView: View {
                     
                     
                     // Forms
-                    // ======================================================
                     VStack(alignment: .center) {
                         if selectedType == 0 {
                             // Individual
                             // ================================================================================
                             Form {
                                 // Basic Info
+                                // ------------------------------------------------------
                                 Section ( header:
                                             Text("Preset Info")
                                     .foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
                                     .listRowInsets(SECTION_EDGE_INSETS)
                                 ) {
                                     HStack {
-                                        Text("Type").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
+                                        Text("Type").newPresetTextField(InfoLabelWidth)
                                         TextField(text: $type) { Text("Type") }
                                     }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                                     
                                     HStack {
-                                        Text("Quantity").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
+                                        Text("Quantity").newPresetTextField(InfoLabelWidth)
                                         TextField(value: $quantity, format: .number) { Text("Quantity") }
                                     }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                                     
                                     HStack {
-                                        Text("Units").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
+                                        Text("Units").newPresetTextField(InfoLabelWidth)
                                         TextField(text: $units) { Text("Units") }
                                     }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                                 }
                                 // Stock Info
-                                Section (header: HStack {
-                                    Text("Stock Info")
-                                        .foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
-                                    Text("(optional)").textCase(nil)
-                                }.listRowInsets(SECTION_EDGE_INSETS)
+                                // ------------------------------------------------------
+                                Section (header:
+                                    HStack {
+                                        Text("Stock Info").foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
+                                        Text("(optional)").textCase(nil)
+                                    }.listRowInsets(SECTION_EDGE_INSETS)
                                 ) {
                                     HStack {
-                                        Text("Current Stock").fontWeight(.semibold).frame(width: StockLabelWidth, alignment: .trailing)
+                                        Text("Current Stock").newPresetTextField(StockLabelWidth)
                                         TextField(value: $numberOfUnits, format: .number) { Text("Current Stock") }
                                     }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                                     
                                     HStack {
-                                        Text("Taken Per Week").fontWeight(.semibold).frame(width: StockLabelWidth, alignment: .trailing)
+                                        Text("Taken Per Week").newPresetTextField(StockLabelWidth)
                                         TextField(value: $perWeek, format: .number) { Text("Taken Per Week") }
                                     }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                                     
                                     HStack {
-                                        Text("Days Left").fontWeight(.semibold).frame(width: StockLabelWidth, alignment: .trailing)
+                                        Text("Days Left:").newPresetTextField(StockLabelWidth)
                                         if perWeek > 0 { Text("\( Int((Float(numberOfUnits) / perWeek)*7) )") }
                                         else           { Text("--")                                           }
                                     }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                                     
+                                    HStack { Spacer()
+                                        Toggle("Notify When Low?", isOn: $notifyWhenLow).frame(width: 250, alignment: .center)
+                                        Spacer()
+                                    }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                                     
-                                    
+                                    HStack {
+                                        Text("Notify Below").newPresetTextField(StockLabelWidth)
+                                        TextField(value: $notifyBelow, format: .number) { Text("Notify Below Days Left") }
+                                            .disabled(!notifyWhenLow)
+                                    }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                                 }
+                                
+                                // Trigger Notification Info
+                                // ------------------------------------------------------
+                                Section (header:
+                                    HStack {
+                                        Text("Notification Info").foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
+                                        Text("(optional)").textCase(nil)
+                                    }.listRowInsets(SECTION_EDGE_INSETS)
+                                ) {
+                                    HStack { Spacer()
+                                        Toggle("Trigger Notification?", isOn: $triggerNotification).frame(width: 250, alignment: .center)
+                                        Spacer()
+                                    }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                                    
+                                    HStack {
+                                        Text("Message").newPresetTextField(InfoLabelWidth)
+                                        TextField(text: $triggerMessage) { Text("Notification Text") }
+                                            .disabled(!triggerNotification)
+                                    }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                                    
+                                    HStack {
+                                        Text("Delay").newPresetTextField(InfoLabelWidth)
+                                        TextField(value: $notifyBelow, format: .number) { Text("Time Delay Until Notification") }
+                                            .disabled(!triggerNotification)
+                                    }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                                }
+                                
                             }
                             .frame(height: listHeight)
                             .textFieldStyle(.roundedBorder).disableAutocorrection(true).autocapitalization(.none)
