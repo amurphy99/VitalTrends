@@ -18,6 +18,7 @@
         </fetchedProperty>
     </entity>
     <entity name="IndividualPresetNotifications" representedClassName="IndividualPresetNotifications" syncable="YES">
+        <attribute name="isSet" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="notifyBelow" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="notifyWhenLow" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="numberOfUnits" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>

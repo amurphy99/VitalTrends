@@ -10,9 +10,10 @@
 		0A11DB632948007B00E9A73B /* UserEventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11DB622948007B00E9A73B /* UserEventHelper.swift */; };
 		0A46D8152A423F6F0035646E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A46D8142A423F6F0035646E /* MainView.swift */; };
 		0A8646822A50BB6500C871DB /* loggingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8646812A50BB6500C871DB /* loggingHelper.swift */; };
-		0A8646862A50F28900C871DB /* IndividualPresetNotifications+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8646842A50F28900C871DB /* IndividualPresetNotifications+CoreDataClass.swift */; };
-		0A8646872A50F28900C871DB /* IndividualPresetNotifications+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8646852A50F28900C871DB /* IndividualPresetNotifications+CoreDataProperties.swift */; };
 		0A86468A2A50F40F00C871DB /* dataInitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8646892A50F40F00C871DB /* dataInitHelper.swift */; };
+		0A86468C2A52057300C871DB /* presetFormHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A86468B2A52057300C871DB /* presetFormHelper.swift */; };
+		0A86468F2A52117A00C871DB /* IndividualPresetNotifications+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A86468D2A52117A00C871DB /* IndividualPresetNotifications+CoreDataClass.swift */; };
+		0A8646902A52117A00C871DB /* IndividualPresetNotifications+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A86468E2A52117A00C871DB /* IndividualPresetNotifications+CoreDataProperties.swift */; };
 		0A8AC0C5298C508B00C0AD9F /* PresetDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8AC0C4298C508B00C0AD9F /* PresetDetailView.swift */; };
 		0A8AC0C7298C5F6A00C0AD9F /* viewFormatHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8AC0C6298C5F6A00C0AD9F /* viewFormatHelpers.swift */; };
 		0A9E13BC2A4766DB00C733FB /* IndividualPresetInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9E13BB2A4766DB00C733FB /* IndividualPresetInfoView.swift */; };
@@ -48,9 +49,10 @@
 		0A11DB622948007B00E9A73B /* UserEventHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEventHelper.swift; sourceTree = "<group>"; };
 		0A46D8142A423F6F0035646E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		0A8646812A50BB6500C871DB /* loggingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loggingHelper.swift; sourceTree = "<group>"; };
-		0A8646842A50F28900C871DB /* IndividualPresetNotifications+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "IndividualPresetNotifications+CoreDataClass.swift"; path = "murand0/IndividualPresetNotifications+CoreDataClass.swift"; sourceTree = "<group>"; };
-		0A8646852A50F28900C871DB /* IndividualPresetNotifications+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "IndividualPresetNotifications+CoreDataProperties.swift"; path = "murand0/IndividualPresetNotifications+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0A8646892A50F40F00C871DB /* dataInitHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataInitHelper.swift; sourceTree = "<group>"; };
+		0A86468B2A52057300C871DB /* presetFormHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = presetFormHelper.swift; sourceTree = "<group>"; };
+		0A86468D2A52117A00C871DB /* IndividualPresetNotifications+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "IndividualPresetNotifications+CoreDataClass.swift"; path = "murand0/IndividualPresetNotifications+CoreDataClass.swift"; sourceTree = "<group>"; };
+		0A86468E2A52117A00C871DB /* IndividualPresetNotifications+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "IndividualPresetNotifications+CoreDataProperties.swift"; path = "murand0/IndividualPresetNotifications+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0A8AC0C4298C508B00C0AD9F /* PresetDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetDetailView.swift; sourceTree = "<group>"; };
 		0A8AC0C6298C5F6A00C0AD9F /* viewFormatHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viewFormatHelpers.swift; sourceTree = "<group>"; };
 		0A9E13BB2A4766DB00C733FB /* IndividualPresetInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualPresetInfoView.swift; sourceTree = "<group>"; };
@@ -119,14 +121,14 @@
 		0A8646882A50F29100C871DB /* dataTypes */ = {
 			isa = PBXGroup;
 			children = (
+				0A86468D2A52117A00C871DB /* IndividualPresetNotifications+CoreDataClass.swift */,
+				0A86468E2A52117A00C871DB /* IndividualPresetNotifications+CoreDataProperties.swift */,
 				0AD3F5DE2A4A11D30033D94F /* GroupPreset+CoreDataClass.swift */,
 				0AD3F5DF2A4A11D30033D94F /* GroupPreset+CoreDataProperties.swift */,
 				0AA275462A44D2730067051E /* UserEvent+CoreDataClass.swift */,
 				0AA275472A44D2730067051E /* UserEvent+CoreDataProperties.swift */,
 				0A9E13CF2A49348400C733FB /* IndividualPreset+CoreDataClass.swift */,
 				0A9E13D02A49348400C733FB /* IndividualPreset+CoreDataProperties.swift */,
-				0A8646842A50F28900C871DB /* IndividualPresetNotifications+CoreDataClass.swift */,
-				0A8646852A50F28900C871DB /* IndividualPresetNotifications+CoreDataProperties.swift */,
 			);
 			name = dataTypes;
 			sourceTree = "<group>";
@@ -164,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				0A8AC0C6298C5F6A00C0AD9F /* viewFormatHelpers.swift */,
+				0A86468B2A52057300C871DB /* presetFormHelper.swift */,
 			);
 			name = helpers;
 			sourceTree = "<group>";
@@ -288,17 +291,17 @@
 			files = (
 				0AD3F5E12A4A11D30033D94F /* GroupPreset+CoreDataProperties.swift in Sources */,
 				0AA644D4294653C600904668 /* Persistence.swift in Sources */,
-				0A8646872A50F28900C871DB /* IndividualPresetNotifications+CoreDataProperties.swift in Sources */,
 				0AA275342A44B6E30067051E /* PresetInfoView.swift in Sources */,
 				0AD3F5E02A4A11D30033D94F /* GroupPreset+CoreDataClass.swift in Sources */,
 				0A11DB632948007B00E9A73B /* UserEventHelper.swift in Sources */,
 				0A8AC0C5298C508B00C0AD9F /* PresetDetailView.swift in Sources */,
-				0A8646862A50F28900C871DB /* IndividualPresetNotifications+CoreDataClass.swift in Sources */,
 				0A9E85782960D76000D47378 /* NewMultiplePresetView.swift in Sources */,
 				0A8AC0C7298C5F6A00C0AD9F /* viewFormatHelpers.swift in Sources */,
 				0AA644E629466BEA00904668 /* UserEventsView.swift in Sources */,
 				0A9E13BE2A47940A00C733FB /* CreateNewPresetView.swift in Sources */,
+				0A86468C2A52057300C871DB /* presetFormHelper.swift in Sources */,
 				0AA644CD294653C400904668 /* ContentView.swift in Sources */,
+				0A8646902A52117A00C871DB /* IndividualPresetNotifications+CoreDataProperties.swift in Sources */,
 				0A46D8152A423F6F0035646E /* MainView.swift in Sources */,
 				0A9E13D62A493CA000C733FB /* NotificationsView.swift in Sources */,
 				0AA644CB294653C400904668 /* murand0App.swift in Sources */,
@@ -316,6 +319,7 @@
 				0A9E13D12A49348400C733FB /* IndividualPreset+CoreDataClass.swift in Sources */,
 				0A9E13C82A47C2A900C733FB /* IndividualEventLogView.swift in Sources */,
 				0AA275482A44D2730067051E /* UserEvent+CoreDataClass.swift in Sources */,
+				0A86468F2A52117A00C871DB /* IndividualPresetNotifications+CoreDataClass.swift in Sources */,
 				0A86468A2A50F40F00C871DB /* dataInitHelper.swift in Sources */,
 				0A9E13CA2A47D66C00C733FB /* CreateNewLogFromPresetsView.swift in Sources */,
 				0AA275492A44D2730067051E /* UserEvent+CoreDataProperties.swift in Sources */,

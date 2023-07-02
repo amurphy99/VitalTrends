@@ -66,6 +66,10 @@ extension View {
         self.frame(width: width, alignment: .trailing)
     }
     
+    func listSectionHeader() -> some View {
+        return self.foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
+    }
+    
 }
 
 

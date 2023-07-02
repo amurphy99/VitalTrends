@@ -2,7 +2,7 @@
 //  IndividualPresetNotifications+CoreDataProperties.swift
 //  murand0
 //
-//  Created by Andrew Murphy on 7/1/23.
+//  Created by Andrew Murphy on 7/2/23.
 //
 //
 
@@ -23,6 +23,7 @@ extension IndividualPresetNotifications {
     @NSManaged public var triggerNotification: Bool
     @NSManaged public var triggerMessage: String?
     @NSManaged public var triggerDelaySeconds: Int32
+    @NSManaged public var isSet: Bool
     @NSManaged public var preset: IndividualPreset?
 
 }

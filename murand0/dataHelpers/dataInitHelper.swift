@@ -69,6 +69,9 @@ func createIndividualPreset(_ presetInfo:           (String, String, Float, Stri
     newIndividualPresetNotifications.notifyBelow            = Int16(notificationsInfo.5)
     newIndividualPresetNotifications.numberOfUnits          = Int16(notificationsInfo.6)
     
+    // if any of the values are non-default values, then change isSet to true (this is for querying later)
+    newIndividualPresetNotifications.isSet = true
+    
     // Creating Relationship
     newIndividualPresetNotifications.preset = newInidividualPreset
     
