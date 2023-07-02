@@ -20,7 +20,6 @@ func logFromIndividualPreset(_ preset: IndividualPreset, _ timestamp: Date, _ vi
     // if they have a follow-up reminder, trigger it (3 hours from now send notification to do X)
     
     
-    
     // Create the UserEvent from this preset
     // --------------------------------------
     let newEvent = UserEvent(context: viewContext)
@@ -42,6 +41,14 @@ func logFromIndividualPreset(_ preset: IndividualPreset, _ timestamp: Date, _ vi
     }
     
 }
+
+
+
+func checkNotifications() {
+    
+    
+}
+
 
 
 

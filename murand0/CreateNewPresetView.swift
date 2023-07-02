@@ -16,30 +16,42 @@ struct CreateNewPresetView: View {
     @Binding var isPresented: Bool
     @Binding var dataConfig: modifyDataConfig
     
-    let gradient = LinearGradient(colors: [.orange, .cyan],
-                                  startPoint: .topLeading,
-                                  endPoint: .bottomTrailing)
 
-    private let InfoLabelWidth: CGFloat = 70
-    private let StockLabelWidth: CGFloat = 130
+    // Styling variables
+    private let InfoLabelWidth:     CGFloat = 70
+    private let StockLabelWidth:    CGFloat = 130
+    private let listHeight:         CGFloat = UIScreen.main.bounds.height*0.60
+    private let buttonWidth:        CGFloat = UIScreen.main.bounds.width*0.75
     
+    // Page Control Variables
+    // -----------------------
     @State var selectedType: Int = 0
+    @State var name: String = ""
+    
+    // Group
     @State var editMode = EditMode.active
     @State var selectedPresets: Set<IndividualPreset> = []
     
-    
-    @State var name: String = ""
+    // Individual Info
     @State var type: String = ""
     @State var quantity: Float = 0
     @State var units: String = ""
+    
+    // Individual Stock
     @State var numberOfUnits: Int = 0
     @State var perWeek: Float = 0
+    @State var notifyWhenLow: Bool = false
+    @State var notifyBelow: Int = 0
+    // Individual Triggered Reminder
     
     
+    
+    
+ 
     var body: some View {
         NavigationView {
             ZStack {
-                gradient.opacity(GRADIENT_OPACITY).ignoresSafeArea()
+                PRESETS_GRADIENT.opacity(GRADIENT_OPACITY).ignoresSafeArea()
                 VStack {
                     // Picker and Name
                     // ======================================================
@@ -65,57 +77,63 @@ struct CreateNewPresetView: View {
                     VStack(alignment: .center) {
                         if selectedType == 0 {
                             // Individual
+                            // ================================================================================
                             Form {
+                                // Basic Info
                                 Section ( header:
-                                            Text("Edit Preset Info")
-                                    .foregroundColor(.black)
-                                    .font(.title3)
-                                    .fontWeight(.semibold)
-                                    .textCase(nil)
+                                            Text("Preset Info")
+                                    .foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
+                                    .listRowInsets(SECTION_EDGE_INSETS)
                                 ) {
                                     HStack {
                                         Text("Type").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
                                         TextField(text: $type) { Text("Type") }
-                                    }
-                                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                                    }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                                    
                                     HStack {
                                         Text("Quantity").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
                                         TextField(value: $quantity, format: .number) { Text("Quantity") }
-                                    }
-                                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                                    }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                                    
                                     HStack {
                                         Text("Units").fontWeight(.semibold).frame(width: InfoLabelWidth, alignment: .trailing)
                                         TextField(text: $units) { Text("Units") }
-                                    }
-                                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                                    }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                                 }
-                                
-                                Section (header: Text("Optional")) {
+                                // Stock Info
+                                Section (header: HStack {
+                                    Text("Stock Info")
+                                        .foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
+                                    Text("(optional)").textCase(nil)
+                                }.listRowInsets(SECTION_EDGE_INSETS)
+                                ) {
                                     HStack {
                                         Text("Current Stock").fontWeight(.semibold).frame(width: StockLabelWidth, alignment: .trailing)
                                         TextField(value: $numberOfUnits, format: .number) { Text("Current Stock") }
-                                    }
-                                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                                    }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                                    
                                     HStack {
                                         Text("Taken Per Week").fontWeight(.semibold).frame(width: StockLabelWidth, alignment: .trailing)
                                         TextField(value: $perWeek, format: .number) { Text("Taken Per Week") }
-                                    }
-                                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                                    }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                                     
                                     HStack {
                                         Text("Days Left").fontWeight(.semibold).frame(width: StockLabelWidth, alignment: .trailing)
                                         if perWeek > 0 { Text("\( Int((Float(numberOfUnits) / perWeek)*7) )") }
-                                        else                { Text("--")                                                }
-                                    }
-                                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                                        else           { Text("--")                                           }
+                                    }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                                    
+                                    
+                                    
                                 }
                             }
-                            .frame(height: UIScreen.main.bounds.height*0.46)
+                            .frame(height: listHeight)
                             .textFieldStyle(.roundedBorder).disableAutocorrection(true).autocapitalization(.none)
                             .scrollContentBackground(.hidden)
                         }
+                        // Group
+                        // ================================================================================
                         else if selectedType == 1 {
-                            // Group
                             VStack {
                                 ScrollView {
                                     LazyVStack {
@@ -123,9 +141,7 @@ struct CreateNewPresetView: View {
                                             Section (
                                                 header: Text("Select presets to include:")
                                                     .foregroundColor(.black)
-                                                    .font(.title3)
-                                                    .fontWeight(.semibold)
-                                                    .textCase(nil),
+                                                    .font(.title3).fontWeight(.semibold).textCase(nil),
                                                 footer: Text("\(userSinglePresets.count) items, \(selectedPresets.count) selected")
                                             ){
                                                 ForEach(userSinglePresets, id: \.self) { preset in
@@ -135,10 +151,10 @@ struct CreateNewPresetView: View {
                                         }
                                         .environment(\.editMode, $editMode)
                                         .scrollContentBackground(.hidden)
-                                        .frame(height: UIScreen.main.bounds.height*0.46)
+                                        .frame(height: listHeight)
                                     }
                                 }
-                                .frame(height: UIScreen.main.bounds.height*0.46)
+                                .frame(height: listHeight)
                             }
                         }
                     }
@@ -147,16 +163,13 @@ struct CreateNewPresetView: View {
                     
                     // Submit Button
                     // ======================================================
-                    Button {
-                        formSubmitted()
+                    Button { formSubmitted()
                     } label: {
                         if selectedType == 0 {
-                            Text("Create New Individual Preset").font(.title3).padding(.horizontal)
-                                .frame(width: UIScreen.main.bounds.width*0.75)
+                            Text("Create New Individual Preset").font(.title3).padding(.horizontal).frame(width: buttonWidth)
                         }
                         else if selectedType == 1 {
-                            Text("Create New Group Preset").font(.title3).padding(.horizontal)
-                                .frame(width: UIScreen.main.bounds.width*0.75)
+                            Text("Create New Group Preset").font(.title3).padding(.horizontal).frame(width: buttonWidth)
                         }
                     }
                     .buttonStyle(.borderedProminent)
@@ -167,19 +180,16 @@ struct CreateNewPresetView: View {
 
             }
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading){ Text("Create New Preset").font(.title).fontWeight(.semibold) }
-                ToolbarItem(placement: .confirmationAction)  { Button("Cancel") { isPresented = false } }
+                ToolbarItem(placement: .navigationBarLeading) { Text("Create New Preset").font(.title).fontWeight(.semibold) }
+                ToolbarItem(placement: .confirmationAction)   { Button("Cancel") { isPresented = false } }
             }
         } // end Navigation View
         .onAppear {
             userSinglePresets = loadIndividualPresets(viewContext: viewContext)
             
-            let appearance = UINavigationBarAppearance()
-            appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
-            //appearance.backgroundColor = UIColor(Color.orange.opacity(0.1))
-            
-            UINavigationBar.appearance().standardAppearance = appearance // Inline appearance (standard height appearance)
-            UINavigationBar.appearance().scrollEdgeAppearance = appearance // Large Title appearance
+            // only need this if previewing
+            UINavigationBar.appearance().standardAppearance   = navBarStyle()
+            UINavigationBar.appearance().scrollEdgeAppearance = navBarStyle()
         }
     } // end main body
     
@@ -197,6 +207,7 @@ struct CreateNewPresetView: View {
         if name.count > 1 { saveNewIndividualPreset(); return false }
         return true
     }
+    
     private func saveNewIndividualPreset() {
         let newInidividualPreset = IndividualPreset(context: viewContext)
         newInidividualPreset.type     = type

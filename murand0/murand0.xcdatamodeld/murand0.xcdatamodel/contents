@@ -11,10 +11,21 @@
         <attribute name="quantity" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="type" optional="YES" attributeType="String"/>
         <attribute name="units" optional="YES" attributeType="String"/>
+        <relationship name="notifications" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="IndividualPresetNotifications" inverseName="preset" inverseEntity="IndividualPresetNotifications"/>
         <relationship name="parent_preset" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GroupPreset" inverseName="entries" inverseEntity="GroupPreset"/>
         <fetchedProperty name="logs" optional="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="IndividualPreset" predicateString="type LIKE [c] &quot;UserEvent&quot; AND name == $FETCH_SOURCE.name AND quantity == $FETCH_SOURCE.quantity"/>
         </fetchedProperty>
+    </entity>
+    <entity name="IndividualPresetNotifications" representedClassName="IndividualPresetNotifications" syncable="YES">
+        <attribute name="notifyBelow" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="notifyWhenLow" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="numberOfUnits" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="perWeek" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="triggerDelaySeconds" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="triggerMessage" optional="YES" attributeType="String"/>
+        <attribute name="triggerNotification" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="preset" maxCount="1" deletionRule="Nullify" destinationEntity="IndividualPreset" inverseName="notifications" inverseEntity="IndividualPreset"/>
     </entity>
     <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
