@@ -38,7 +38,7 @@ struct CreateNewPresetView: View {
     @State var units: String = ""
     
     // Individual Stock
-    @State var numberOfUnits: Int = 0
+    @State var numberOfUnits: Int16 = 0
     @State var perWeek: Float = 0
     @State var notifyWhenLow: Bool = false
     @State var notifyBelow: Int = 0
@@ -83,9 +83,7 @@ struct CreateNewPresetView: View {
                                 // Basic Info
                                 // ------------------------------------------------------
                                 Section ( header:
-                                            Text("Preset Info")
-                                    .foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
-                                    .listRowInsets(SECTION_EDGE_INSETS)
+                                            Text("Preset Info").listSectionHeader().listRowInsets(SECTION_EDGE_INSETS)
                                 ) {
                                     HStack {
                                         Text("Type").newPresetTextField(InfoLabelWidth)
@@ -110,7 +108,8 @@ struct CreateNewPresetView: View {
                                         HStack {
                                             Text("Stock Info").listSectionHeader()
                                             Text("(optional)").textCase(nil)
-                                        }.listRowInsets(SECTION_EDGE_INSETS)
+                                        }.listRowInsets(SECTION_EDGE_INSETS),
+                                    hasFooter: true
                                 )
                                 
                                 // Trigger Notification Info
@@ -121,7 +120,8 @@ struct CreateNewPresetView: View {
                                         HStack {
                                             Text("Notification Info").listSectionHeader()
                                             Text("(optional)").textCase(nil)
-                                        }.listRowInsets(SECTION_EDGE_INSETS)
+                                        }.listRowInsets(SECTION_EDGE_INSETS),
+                                    hasFooter: true
                                 )
                                 
                                 
@@ -229,8 +229,10 @@ struct CreateNewPresetView: View {
         let presetInfo = (name, type, quantity, units)
         let triggerDelaySeconds = ((triggerHours*60)+triggerMinutes)*60
         let notificationsInfo = (notifyWhenLow, triggerNotification, triggerMessage, perWeek, triggerDelaySeconds, notifyBelow, numberOfUnits)
+        
         // create new preset using info
         createIndividualPreset(presetInfo, notificationsInfo, viewContext)
+        
         // for other views
         dataConfig.notifyChanges()
     }

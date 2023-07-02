@@ -49,7 +49,7 @@ private func saveNewIndividualPreset() {
  
 */
 func createIndividualPreset(_ presetInfo:           (String, String, Float, String),
-                            _ notificationsInfo:    (Bool, Bool, String, Float, Int, Int, Int),
+                            _ notificationsInfo:    (Bool, Bool, String, Float, Int, Int, Int16),
                             _ viewContext:          NSManagedObjectContext,
                             saveOption: Bool = true) {
     // IndividualPreset

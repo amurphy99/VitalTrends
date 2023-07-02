@@ -16,12 +16,8 @@ struct IndividualPresetInfoView: View {
     @State var individualPreset: IndividualPreset
     @Binding var dataConfig: modifyDataConfig
     
-    // background color
-    let gradient = LinearGradient(colors: [.orange, .cyan],
-                                  startPoint: .topLeading,
-                                  endPoint: .bottomTrailing)
+
     // styling variables
-    private let StockLabelWidth: CGFloat = 130
     private let InfoLabelWidth: CGFloat = 70
     
     
@@ -29,21 +25,29 @@ struct IndividualPresetInfoView: View {
     @State private var isConfirming = false
     @State private var dialogDetail: String?
     
-    
+    // Notifications
+    // Stock
     @State var numberOfUnits: Int = 30
-    @State var takenPerWeek: Float = 7
+    @State var perWeek: Float = 7
+    @State var notifyWhenLow: Bool = false
+    @State var notifyBelow: Int = 0
+    // Triggered Reminder
+    @State var triggerNotification: Bool = false
+    @State var triggerMessage: String = ""
+    @State var triggerHours: Int = 0
+    @State var triggerMinutes: Int = 0
+    
     
     
     var body: some View {
         ZStack {
-            gradient.opacity(GRADIENT_OPACITY).ignoresSafeArea()
+            PRESETS_GRADIENT.opacity(GRADIENT_OPACITY).ignoresSafeArea()
             VStack {
                 List {
                     // modify the Info on the preset, or delete
-                    // ===================================================
+                    // ------------------------------------------------------
                     Section (header:
-                                Text("Edit Preset Info")
-                        .foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
+                                Text("Edit Preset Info").listSectionHeader()
                         .listRowInsets(SECTION_EDGE_INSETS)
                         .padding(.top)
                     ) {
@@ -64,41 +68,41 @@ struct IndividualPresetInfoView: View {
                             TextField(text: $individualPreset.units) { Text("Units") }
                         }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                     }
-                    // add or update a total amount in stock
-                    // ===================================================
-                    Section (header:
-                                Text("Track Stock")
-                        .foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
-                        .listRowInsets(SECTION_EDGE_INSETS)
-                    ) {
-                        HStack {
-                            Text("Current Stock").fontWeight(.semibold).frame(width: StockLabelWidth, alignment: .trailing)
-                            TextField(value: $individualPreset.numberOfUnits, format: .number) { Text("Current Stock") }
-                        }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                        HStack {
-                            Text("Taken Per Week").fontWeight(.semibold).frame(width: StockLabelWidth, alignment: .trailing)
-                            TextField(value: $individualPreset.perWeek, format: .number) { Text("Taken Per Week") }
-                        }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                        
-                        HStack {
-                            Text("Days Left").fontWeight(.semibold).frame(width: StockLabelWidth, alignment: .trailing)
-                            if individualPreset.perWeek > 0 {
-                                Text("\( Int((Float(individualPreset.numberOfUnits) / individualPreset.perWeek)*7) )")
-                            }
-                            else { Text("--") }
-                        }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-                    }
+                    
                     // Member of groups
-                    // ===================================================
+                    // ------------------------------------------------------
                     Section (header:
-                                Text("Included In (\(Array(individualPreset.parent_preset ?? []).count)) Groups")
-                        .foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
-                        .listRowInsets(SECTION_EDGE_INSETS)
-                    ) {
-                        ForEach(Array(individualPreset.parent_preset ?? []), id: \.self) { group in
-                            Text("\(group.name)")
-                        }
-                    }
+                                Text("Included In (\(Array(individualPreset.parent_preset ?? []).count)) Groups").listSectionHeader()
+                                    .listRowInsets(SECTION_EDGE_INSETS)
+                    ) { ForEach(Array(individualPreset.parent_preset ?? []), id: \.self) { group in Text("\(group.name)") } }
+                    
+                    // add or update a total amount in stock
+                    // ------------------------------------------------------
+                    presetStockSection(
+                        ($individualPreset.numberOfUnits, $individualPreset.perWeek, $notifyWhenLow, $notifyBelow),
+                        header:
+                            HStack {
+                                Text("Edit Stock Info").listSectionHeader()
+                                Text("(optional)").textCase(nil)
+                            }.listRowInsets(SECTION_EDGE_INSETS),
+                        hasFooter: true
+                    )
+                    
+                    // Trigger Notification Info
+                    // ------------------------------------------------------
+                    presetTriggerNotificationSection(
+                        ($triggerNotification, $triggerMessage, $triggerHours, $triggerMinutes),
+                        header:
+                            HStack {
+                                Text("Notification Info").listSectionHeader()
+                                Text("(optional)").textCase(nil)
+                            }.listRowInsets(SECTION_EDGE_INSETS),
+                        hasFooter: true
+                    )
+                    
+
+                    
+
                 }
                 .frame(height: UIScreen.main.bounds.height*0.65) // 185 + 240
                 .textFieldStyle(.roundedBorder).disableAutocorrection(true).autocapitalization(.none)

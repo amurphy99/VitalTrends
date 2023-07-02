@@ -13,48 +13,30 @@ import SwiftUI
 
 
 
-/*
- Section (header:
-     HStack {
-         Text("Stock Info").foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
-         Text("(optional)").textCase(nil)
-     }.listRowInsets(SECTION_EDGE_INSETS)
- ) {
-     HStack {
-         Text("Current Stock").newPresetTextField(StockLabelWidth)
-         TextField(value: $numberOfUnits, format: .number) { Text("Current Stock") }
-     }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-     
-     HStack {
-         Text("Taken Per Week").newPresetTextField(StockLabelWidth)
-         TextField(value: $perWeek, format: .number) { Text("Taken Per Week") }
-     }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-     
-     HStack {
-         Text("Days Left:").newPresetTextField(StockLabelWidth)
-         if perWeek > 0 { Text("\( Int((Float(numberOfUnits) / perWeek)*7) )") }
-         else           { Text("--")                                           }
-     }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-     
-     HStack { Spacer()
-         Toggle("Notify When Low?", isOn: $notifyWhenLow).frame(width: 250, alignment: .center)
-         Spacer()
-     }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
-     
-     HStack {
-         Text("Notify Below").newPresetTextField(StockLabelWidth)
-         TextField(value: $notifyBelow, format: .number) { Text("Notify Below Days Left") }
-             .disabled(!notifyWhenLow)
-     }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
- }
- private let StockLabelWidth:    CGFloat = 125
- 
- */
-func presetStockSection(_ formData: (Binding<Int>, Binding<Float>, Binding<Bool>, Binding<Int>), header: some View) -> some View {
+
+
+// Main Info Section
+func presetMainInfoSection() {
+    
+    
+    
+    
+    
+}
+
+
+
+
+// Stock Section
+func presetStockSection(_ formData: (Binding<Int16>, Binding<Float>, Binding<Bool>, Binding<Int>), header: some View, hasFooter: Bool = false) -> some View {
     
     let stockLabelWidth: CGFloat = 125
+    var footerText: String = ""
+    if hasFooter {
+        footerText = "When enabled, every time you use this preset it will deduct one unit of 'stock' from your total. If notifications are on, you will be shown an alert once your stock goes below a set number."
+    }
     
-    return Section (header: header) {
+    return Section (header: header, footer: Text("\(footerText)")) {
                 HStack {
                     Text("Current Stock").newPresetTextField(stockLabelWidth)
                     TextField(value: formData.0, format: .number) { Text("Current Stock") }
@@ -73,10 +55,8 @@ func presetStockSection(_ formData: (Binding<Int>, Binding<Float>, Binding<Bool>
                     else { Text("--") }
                 }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                 
-                HStack { Spacer()
-                    Toggle("Notify When Low?", isOn: formData.2).frame(width: 250, alignment: .center)
-                    Spacer()
-                }.alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+                HStack { Toggle("Notify When Low?", isOn: formData.2) }
+                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
                 
                 HStack {
                     Text("Notify Below").newPresetTextField(stockLabelWidth)
@@ -87,25 +67,24 @@ func presetStockSection(_ formData: (Binding<Int>, Binding<Float>, Binding<Bool>
 }
 
 
-
-func presetTriggerNotificationSection(_ formData: (Binding<Bool>, Binding<String>, Binding<Int>, Binding<Int>), header: some View) -> some View {
+// Triggered Notification Section
+func presetTriggerNotificationSection(_ formData: (Binding<Bool>, Binding<String>, Binding<Int>, Binding<Int>), header: some View, hasFooter: Bool = false) -> some View {
     
-    let InfoLabelWidth: CGFloat = 70
+    var footerText: String = ""
+    if hasFooter {
+        footerText = "When enabled, every time you use this preset, after the set time period your phone will trigger a notification to send you."
+    }
     
-    return Section (header: header) {
+    return Section (header: header, footer: Text("\(footerText)")) {
         
         // toggle on/off
-        HStack {
-            Spacer()
-            Toggle("Trigger Notification?", isOn: formData.0).frame(width: 250, alignment: .center)
-            Spacer()
-        }
-        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
+        HStack { Toggle("Trigger Notifications?", isOn: formData.0) }
+            .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in return 0 }
         
         // message
         VStack(spacing: 5) {
             HStack {
-                Text("Message").newPresetTextField(InfoLabelWidth)
+                Text("Notification Message")
                 Spacer()
             }
             TextField(text: formData.1, axis: .vertical) { Text("Notification Text") }
