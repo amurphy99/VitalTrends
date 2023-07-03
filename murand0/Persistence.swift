@@ -28,6 +28,85 @@ struct PersistenceController {
         }
         
         
+        // My Preview Data
+        // ========================================================================
+        
+        // Base Data
+        let preset1 = ("Magnesium", "Supplement", 150, "mg")
+        let preset2 = ("Caffiene", "Supplement", 100, "mg")
+        let preset3 = ("Melatonin", "Supplement", 10, "mg")
+        let preset4 = ("Concerta", "Medication", 54, "mg")
+        let preset5 = ("Whiskey", "(self) Medication", 2, "fingers")
+        let individualPresetData = [preset1, preset2, preset3, preset4, preset5]
+        
+        let notif1 = (false, false, "", 0.0, 0, 0, 0)
+        let notif2 = (true, false, "", 7.0, 0, 7, 30)
+        let notif3 = (false, true, "Take next dose of ....", 0.0, 10800, 0, 0)
+        let notif4 = (true, true, "Take next dose of ....", 3.5, 7200, 7, 40)
+        let notif5 = (false, false, "", 0.0, 0, 0, 0)
+        let individualNotifData: [(Bool, Bool, String, Double, Int, Int, Int)] = [notif1, notif2, notif3, notif4, notif5]
+        
+        // Individuals and their Notifications
+        var newIndividualPresets: [IndividualPreset] = []
+        for i in (0..<individualPresetData.count) {
+            // preset
+            let tempPreset = IndividualPreset(context: viewContext)
+            tempPreset.name     = individualPresetData[i].0
+            tempPreset.type     = individualPresetData[i].1
+            tempPreset.quantity = Float(individualPresetData[i].2)
+            tempPreset.units    = individualPresetData[i].3
+        
+            // notifications
+            let tempNotif = IndividualPresetNotifications(context: viewContext)
+            tempNotif.notifyWhenLow          = individualNotifData[i].0
+            tempNotif.triggerNotification    = individualNotifData[i].1
+            tempNotif.triggerMessage         = individualNotifData[i].2
+            tempNotif.perWeek                = Float(individualNotifData[i].3)
+            tempNotif.triggerDelaySeconds    = Int32(individualNotifData[i].4)
+            tempNotif.notifyBelow            = Int16(individualNotifData[i].5)
+            tempNotif.numberOfUnits          = Int16(individualNotifData[i].6)
+            
+            tempNotif.isSet = true
+            tempNotif.preset = tempPreset
+            
+            newIndividualPresets.append(tempPreset)
+        }
+        
+        // Groups
+        let group1 = GroupPreset(context: viewContext)
+        group1.name = "morning pills"
+        group1.addToEntries(newIndividualPresets[1])
+        group1.addToEntries(newIndividualPresets[3])
+        
+        let group2 = GroupPreset(context: viewContext)
+        group2.name = "before bed"
+        group2.addToEntries(newIndividualPresets[0])
+        group2.addToEntries(newIndividualPresets[2])
+        
+        
+        // Log some sample events
+        let hoursAgo:       Date = Calendar.current.date(byAdding: .hour,   value:  -5, to: Date())!
+        let yesterdayNight: Date = Calendar.current.date(byAdding: .hour,   value: -19, to: Date())!
+        let yesterdayPM:    Date = Calendar.current.date(byAdding: .hour,   value: -22, to: Date())!
+        let yesterdayMorn:  Date = Calendar.current.date(byAdding: .day,    value:  -1, to: hoursAgo)!
+        
+        logFromGroupPreset(group1, yesterdayMorn,   viewContext, saveOption: false) // last morning
+        logFromGroupPreset(group2, yesterdayNight,  viewContext, saveOption: false) // last night
+        logFromGroupPreset(group1, hoursAgo,        viewContext, saveOption: false) // this morning
+        
+        logFromIndividualPreset(newIndividualPresets[1], yesterdayPM,   viewContext, saveOption: false) // yesterday afternoon (caffiene)
+        logFromIndividualPreset(newIndividualPresets[4], Date(),        viewContext, saveOption: false) // just now (whiskey)
+        
+        // Save all
+        do { try viewContext.save() }
+        catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+        
+        
+        
+        /*
         
         // my data test
         // -------------
@@ -92,6 +171,8 @@ struct PersistenceController {
         newEvent7.name      = "Concerta"
         newEvent7.quantity  = 54
         newEvent7.units     = "mg"
+        */
+        
         
         // earlier day 2
         // --------------
@@ -127,6 +208,7 @@ struct PersistenceController {
         newEventb.units     = "mg"
          */
         
+        /*
         do { try viewContext.save()
         } catch {
             let nsError = error as NSError
@@ -189,9 +271,13 @@ struct PersistenceController {
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
         // end of sample presets
+        */
+        
+        
         
         
         return result
+        
     }()
 
     let container: NSPersistentContainer
