@@ -14,30 +14,40 @@ struct NotificationsView: View {
     @State var userIndividualPresetNotifications = [IndividualPresetNotifications]()
     
     @State var showingCreateNewNotification: Bool = false
+    
+    let test  = LinearGradient(colors: [.gray, .orange    ], startPoint: .topLeading, endPoint: .bottomTrailing)
 
     var body: some View {
         NavigationView {
             ZStack {
                 //NOTIFICATIONS_GRADIENT.opacity(GRADIENT_OPACITY).ignoresSafeArea()
-                gradientBackgrounds().notificationsGradient().opacity(GRADIENT_OPACITY).ignoresSafeArea()
+                //gradientBackgrounds().notificationsGradient().opacity(GRADIENT_OPACITY).ignoresSafeArea()
+                test.opacity(GRADIENT_OPACITY).ignoresSafeArea()
+                
                 ScrollView {
                     LazyVStack {
                         List {
                             
-                            Section (header:
-                                        Text("Stock Notifications")
-                                .listSectionHeader()
-                                .listRowInsets(SECTION_EDGE_INSETS)
+                            Section (header: Text("Triggered Notifications")
+                                .listSectionHeader().listRowInsets(SECTION_EDGE_INSETS)
                                 .padding(.top)
                             ) {
                                 ForEach(userIndividualPresetNotifications, id: \.self) { notif in
-                                    if notif.notifyWhenLow { Text("\(notif.preset.name)") }
+                                    if notif.triggerNotification {
+                                        Text("\(notif.preset.name)")
+                                        
+                                    }
                                 }
                             }
                             
-                            Section (header: Text("Triggered Notifications").listSectionHeader().listRowInsets(SECTION_EDGE_INSETS)) {
+                            Section (header: Text("Stock Notifications")
+                                .listSectionHeader().listRowInsets(SECTION_EDGE_INSETS)
+                            ) {
                                 ForEach(userIndividualPresetNotifications, id: \.self) { notif in
-                                    if notif.triggerNotification { Text("\(notif.preset.name)") }
+                                    if notif.notifyWhenLow {
+                                        Text("\(notif.preset.name)")
+                                        
+                                    }
                                 }
                             }
 

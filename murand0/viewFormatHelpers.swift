@@ -10,7 +10,7 @@ import SwiftUI
 
 
 
-let SECTION_EDGE_INSETS: EdgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+let SECTION_EDGE_INSETS: EdgeInsets = EdgeInsets(top: 0, leading: 2, bottom: 2, trailing: 0)
 
 // Gradients
 // ===============================================================================
@@ -67,10 +67,15 @@ extension View {
     }
     
     func listSectionHeader() -> some View {
-        return self.foregroundColor(.black).font(.title3).fontWeight(.semibold).textCase(nil)
+        return self
+            .foregroundColor(.black)
+            .font(.title3)
+            //.fontWeight(.semibold)
+            .textCase(nil)
     }
     
 }
+
 
 
 
