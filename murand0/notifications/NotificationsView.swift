@@ -9,6 +9,10 @@ import SwiftUI
 
 struct NotificationsView: View {
     
+    // CoreData
+    @Environment(\.managedObjectContext) private var viewContext
+    @State var userIndividualPresetNotifications = [IndividualPresetNotifications]()
+    
     @State var showingCreateNewNotification: Bool = false
 
     var body: some View {
@@ -20,14 +24,30 @@ struct NotificationsView: View {
                     LazyVStack {
                         List {
                             
+                            Section (header:
+                                        Text("Stock Notifications")
+                                .listSectionHeader()
+                                .listRowInsets(SECTION_EDGE_INSETS)
+                                .padding(.top)
+                            ) {
+                                ForEach(userIndividualPresetNotifications, id: \.self) { notif in
+                                    if notif.notifyWhenLow { Text("\(notif.preset.name)") }
+                                }
+                            }
                             
+                            Section (header: Text("Triggered Notifications").listSectionHeader().listRowInsets(SECTION_EDGE_INSETS)) {
+                                ForEach(userIndividualPresetNotifications, id: \.self) { notif in
+                                    if notif.triggerNotification { Text("\(notif.preset.name)") }
+                                }
+                            }
+
                             
                             
                             
                             
                             
                         }
-                        //.scrollContentBackground(.hidden)
+                        .scrollContentBackground(.hidden)
                         .frame(height: UIScreen.main.bounds.height)
                         .toolbar {
                             ToolbarItem(placement: .navigationBarLeading){
@@ -42,10 +62,11 @@ struct NotificationsView: View {
             } // end of parent ZStack
         } // end of NavigationView
         .onAppear {
- 
+            userIndividualPresetNotifications = loadIndividualPresetNotifications(viewContext: viewContext)
+            
             // only need this if previewing
-            //UINavigationBar.appearance().standardAppearance   = navBarStyle()
-            //UINavigationBar.appearance().scrollEdgeAppearance = navBarStyle()
+            UINavigationBar.appearance().standardAppearance   = navBarStyle()
+            UINavigationBar.appearance().scrollEdgeAppearance = navBarStyle()
         }
     } // end of View body
     
@@ -55,6 +76,6 @@ struct NotificationsView: View {
 
 struct NotificationsView_Previews: PreviewProvider {
     static var previews: some View {
-        NotificationsView()
+        NotificationsView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

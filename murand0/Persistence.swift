@@ -66,7 +66,7 @@ struct PersistenceController {
             tempNotif.notifyBelow            = Int16(individualNotifData[i].5)
             tempNotif.numberOfUnits          = Int16(individualNotifData[i].6)
             
-            tempNotif.isSet = true
+            tempNotif.isSet = (individualNotifData[i].0 || individualNotifData[i].1)
             tempNotif.preset = tempPreset
             
             newIndividualPresets.append(tempPreset)

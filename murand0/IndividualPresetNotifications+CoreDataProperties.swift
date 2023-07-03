@@ -24,7 +24,7 @@ extension IndividualPresetNotifications {
     @NSManaged public var triggerMessage: String?
     @NSManaged public var triggerDelaySeconds: Int32
     @NSManaged public var isSet: Bool
-    @NSManaged public var preset: IndividualPreset?
+    @NSManaged public var preset: IndividualPreset
 
 }
 
